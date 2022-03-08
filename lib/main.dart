@@ -9,6 +9,7 @@ import 'package:let_go_gb/routes.dart';
 import 'package:let_go_gb/utils/user_defaults.dart';
 
 import 'modules/drivers/screens/splash_screen.dart';
+import 'modules/root_bindings.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: () => GetMaterialApp(
+        initialBinding: RootBinding(),
         theme: ThemeData(
           textTheme: GoogleFonts.latoTextTheme(
             Theme.of(context).textTheme,

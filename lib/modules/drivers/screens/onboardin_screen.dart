@@ -31,10 +31,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       // freeze: true,
       controlsMargin: const EdgeInsets.all(10),
       onDone: () {
-        Get.off(() => const LoginDriverScreen());
+        Get.off(() => LoginDriverScreen());
       },
       onSkip: () {
-        Get.off(() => const LoginDriverScreen());
+        Get.off(() => LoginDriverScreen());
       },
       showSkipButton: true,
       skip: Text(
@@ -64,7 +64,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 }
 
 final rawPages = [
-  const OnBoardingOurCompanyInfo(),
-  const OnBoardingForClients(),
-  const OnBoardingForApplicant(),
+  const OnBoarding1(),
+  const OnBoarding2(),
+  const OnBoarding3(),
 ];

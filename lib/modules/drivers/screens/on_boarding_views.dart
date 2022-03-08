@@ -4,15 +4,14 @@ import 'package:lottie/lottie.dart';
 
 import '../../../utils/styles.dart';
 
-class OnBoardingOurCompanyInfo extends StatefulWidget {
-  const OnBoardingOurCompanyInfo({Key? key}) : super(key: key);
+class OnBoarding1 extends StatefulWidget {
+  const OnBoarding1({Key? key}) : super(key: key);
 
   @override
-  _OnBoardingOurCompanyInfoState createState() =>
-      _OnBoardingOurCompanyInfoState();
+  _OnBoarding1State createState() => _OnBoarding1State();
 }
 
-class _OnBoardingOurCompanyInfoState extends State<OnBoardingOurCompanyInfo> {
+class _OnBoarding1State extends State<OnBoarding1> {
   final space = SizedBox(height: 20.h);
 
   @override
@@ -60,16 +59,14 @@ class _OnBoardingOurCompanyInfoState extends State<OnBoardingOurCompanyInfo> {
   }
 }
 
-///////////////For Clients//////////
-
-class OnBoardingForClients extends StatefulWidget {
-  const OnBoardingForClients({Key? key}) : super(key: key);
+class OnBoarding2 extends StatefulWidget {
+  const OnBoarding2({Key? key}) : super(key: key);
 
   @override
-  _OnBoardingForClientsState createState() => _OnBoardingForClientsState();
+  _OnBoarding2State createState() => _OnBoarding2State();
 }
 
-class _OnBoardingForClientsState extends State<OnBoardingForClients> {
+class _OnBoarding2State extends State<OnBoarding2> {
   final space = SizedBox(height: 20.h);
 
   @override
@@ -112,16 +109,15 @@ class _OnBoardingForClientsState extends State<OnBoardingForClients> {
     );
   }
 }
-///////////////For Applicants//////////
 
-class OnBoardingForApplicant extends StatefulWidget {
-  const OnBoardingForApplicant({Key? key}) : super(key: key);
+class OnBoarding3 extends StatefulWidget {
+  const OnBoarding3({Key? key}) : super(key: key);
 
   @override
-  _OnBoardingForApplicantState createState() => _OnBoardingForApplicantState();
+  _OnBoarding3State createState() => _OnBoarding3State();
 }
 
-class _OnBoardingForApplicantState extends State<OnBoardingForApplicant> {
+class _OnBoarding3State extends State<OnBoarding3> {
   final space = SizedBox(height: 20.h);
 
   @override
