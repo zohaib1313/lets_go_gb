@@ -38,7 +38,7 @@ dependencies:
   get_storage:
   flutter_screenutil: ^5.0.0+2
     #GOOGLE FONTS & SVG
-  google_fonts: ^2.1.0
+  google_fonts: ^2.3.1
   flutter_svg: ^0.22.0
   permission_handler:
   dio: ^4.0.0
