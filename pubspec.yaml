@@ -54,6 +54,7 @@ dependencies:
   badges: ^2.0.2
   file_picker:
   lottie: ^1.2.2
+  carousel_slider:
 
 
 
