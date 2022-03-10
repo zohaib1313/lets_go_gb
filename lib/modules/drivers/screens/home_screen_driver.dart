@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/controllers/home_screen_driver_controller.dart';
+import 'package:let_go_gb/utils/custom_widgets/home_screen_card.dart';
 
 import '../../../utils/common_widgets.dart';
 import '../../../utils/styles.dart';
@@ -46,8 +48,8 @@ class HomeScreenDriver extends GetView<HomeScreenDriverController> {
           physics: BouncingScrollPhysics(),
           child: Container(
             padding: EdgeInsets.only(
-              left: 100.w,
-              right: 100.w,
+              left: 50.w,
+              right: 50.w,
             ),
             child: Column(
               children: [
@@ -89,46 +91,34 @@ class HomeScreenDriver extends GetView<HomeScreenDriverController> {
                     ),
                   ],
                 ),
-//explore widgets
+              //explore / homeScreenCard widgets
+
                 SizedBox(
                   height: 30.h,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 250.h,
-                  color: Colors.green,
-                  //column as child
-                  child: Column(
-                    children: [
-                      Container(
+                 HomeScreenCard(
+                   text: "Skardu Valley",
+                   btnText: "Explore",
+                   image:const AssetImage('assets/icons/sceneOne.png'),
 
-                        width: MediaQuery.of(context).size.width,
-                        height: 180.h,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/icons/sceneOne.png'),
-                            fit: BoxFit.fill,
-                          ),
-                          // shape: BoxShape.circle,
-                        ),
-
-
-
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Skardu Valley ",
-                              style: AppTextStyles
-                                  .textStyleBoldBodySmall,
-                            ),
-                         
-                          ]),
-                    ],
-                  ),
+                 ),
+                SizedBox(
+                  height: 10.h,
                 ),
+                 HomeScreenCard(
+                   text: "Hunza Valley",
+                   btnText: "Explore",
+                   image:const AssetImage('assets/images/hunza.png'),
+
+                 ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                 HomeScreenCard(
+                   text: "Sawat Valley",
+                   btnText: "Explore",
+                   image:const AssetImage('assets/icons/sceneOne.png'),
+                 ),
               ],
             ),
           ),

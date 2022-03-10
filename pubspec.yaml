@@ -55,6 +55,8 @@ dependencies:
   file_picker:
   lottie: ^1.2.2
   carousel_slider:
+  google_nav_bar:
+  flutter_rating_bar:
 
 
 

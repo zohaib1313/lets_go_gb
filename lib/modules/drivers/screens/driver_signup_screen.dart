@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/screens/driver_dashboard.dart';
 import 'package:let_go_gb/modules/drivers/screens/home_screen_driver.dart';
 
 import '../../../utils/common_widgets.dart';
@@ -119,7 +120,7 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                     buttonText: "Register",
                     textColor: AppColor.whiteColor,
                     onTap: (){
-                      Get.to(HomeScreenDriver());
+                      Get.to(const DriverDashBoard());
                     },
 
                     // onTap: () async {
