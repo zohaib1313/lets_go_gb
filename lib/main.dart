@@ -5,11 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/routes.dart';
-import 'package:let_go_gb/utils/user_defaults.dart';
 
-import 'modules/drivers/screens/splash_screen.dart';
-import 'modules/root_bindings.dart';
+import 'modules/drivers/app_pages.dart';
+import 'modules/drivers/root_bindings.dart';
+import 'modules/drivers/splash_screen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       designSize: const Size(1920, 1080),
       builder: () => GetMaterialApp(
         initialBinding: RootBinding(),
+        getPages: appPages(),
         theme: ThemeData(
           textTheme: GoogleFonts.latoTextTheme(
             Theme.of(context).textTheme,
