@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-import '../../home/pages/login_driver_screen.dart';
+import '../../sing_in/pages/login_driver_screen.dart';
 import '../../utils/styles.dart';
 import 'on_boarding_views.dart';
 
@@ -31,10 +31,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       // freeze: true,
       controlsMargin: const EdgeInsets.all(10),
       onDone: () {
-        Get.off(() => LoginDriverScreen());
+        Get.off(() => DriverSignInScreen());
       },
       onSkip: () {
-        Get.off(() => LoginDriverScreen());
+        Get.off(() => DriverSignInScreen());
       },
       showSkipButton: true,
       skip: Text(

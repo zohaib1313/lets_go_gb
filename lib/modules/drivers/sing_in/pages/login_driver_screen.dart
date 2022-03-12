@@ -4,16 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
 
+import '../../home/controllers/login_driver_controller.dart';
 import '../../sing_up/pages/driver_signup_screen.dart';
 import '../../utils/common_widgets.dart';
 import '../../utils/styles.dart';
 import '../../utils/utils.dart';
-import '../controllers/login_driver_controller.dart';
 
-class LoginDriverScreen extends GetView<LoginDriverControllerr> {
+class DriverSignInScreen extends GetView<LoginDriverControllerr> {
   final space = SizedBox(height: 20.h);
 
-  LoginDriverScreen({Key? key}) : super(key: key);
+  DriverSignInScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
