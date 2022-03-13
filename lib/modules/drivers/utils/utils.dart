@@ -24,7 +24,6 @@ myAppBar(
     bool goBack = true,
     onBacKTap}) {
   return AppBar(
-    centerTitle: true,
     elevation: 0,
     actions: actions ?? [],
     leading: goBack

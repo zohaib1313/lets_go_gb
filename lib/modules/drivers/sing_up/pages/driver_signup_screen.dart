@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_dashboard.dart';
 
 import '../../common_widgets/choose_image_widget.dart';
-import '../../dashboard/controllers/signup_driver_controller.dart';
 import '../../utils/common_widgets.dart';
 import '../../utils/styles.dart';
 import '../../utils/utils.dart';
+import '../controllers/signup_driver_controller.dart';
 
 class DriverSignUpScreen extends GetView<DriverSignUpController> {
   final space = SizedBox(height: 20.h);

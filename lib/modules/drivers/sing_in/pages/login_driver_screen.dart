@@ -3,13 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
 
-import '../../home/controllers/login_driver_controller.dart';
+import '../../../users/home/controllers/login_driver_controller.dart';
+import '../../dashboard/pages/driver_dashboard.dart';
 import '../../sing_up/pages/driver_signup_screen.dart';
 import '../../utils/common_widgets.dart';
 import '../../utils/styles.dart';
 import '../../utils/utils.dart';
 
-class DriverSignInScreen extends GetView<LoginDriverControllerr> {
+class DriverSignInScreen extends GetView<LoginUserController> {
   final space = SizedBox(height: 20.h);
 
   DriverSignInScreen({Key? key}) : super(key: key);
@@ -23,14 +24,9 @@ class DriverSignInScreen extends GetView<LoginDriverControllerr> {
       },
       child: SafeArea(
         child: Scaffold(
-          appBar: myAppBar(
-              title: "Sign in",
-              onBacKTap: () {
-                Navigator.of(context).pop();
-              }),
           backgroundColor: AppColor.alphaGrey,
           body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Container(
               padding: EdgeInsets.only(
                 left: 100.w,
@@ -157,7 +153,7 @@ class DriverSignInScreen extends GetView<LoginDriverControllerr> {
                                 textColor: AppColor.whiteColor,
                                 color: AppColor.primaryBlueDarkColor,
                                 onTap: () {
-                                  Get.toNamed(DriverSignUpScreen.id);
+                                  Get.to(const DriverDashBoard());
                                 },
                               ),
                               space,
@@ -170,7 +166,9 @@ class DriverSignInScreen extends GetView<LoginDriverControllerr> {
                                         AppTextStyles.textStyleNormalBodySmall,
                                   ),
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Get.toNamed(DriverSignUpScreen.id);
+                                    },
                                     child: Text(
                                       "Sign Up!",
                                       style: AppTextStyles

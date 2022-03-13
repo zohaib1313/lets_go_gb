@@ -134,7 +134,7 @@ class _OnBoarding3State extends State<OnBoarding3> {
                 children: [
                   space,
                   Lottie.asset(
-                    'assets/animations/car_rush.json',
+                    'assets/animations/travel_car_anim.json',
                   ),
                   space,
                   Padding(

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import '../../utils/styles.dart';
+import '../../../drivers/utils/styles.dart';
 
-class DriverDashBoard extends StatefulWidget {
-  const DriverDashBoard({Key? key}) : super(key: key);
+class UserDashBoard extends StatefulWidget {
+  const UserDashBoard({Key? key}) : super(key: key);
 
   @override
-  _DriverDashBoardState createState() => _DriverDashBoardState();
+  _UserDashBoardState createState() => _UserDashBoardState();
 }
 
-class _DriverDashBoardState extends State<DriverDashBoard> {
+class _UserDashBoardState extends State<UserDashBoard> {
   int _selectedIndex = 0;
 
   @override
