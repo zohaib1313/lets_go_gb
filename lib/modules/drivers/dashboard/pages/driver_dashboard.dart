@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../utils/styles.dart';
+import 'home_page.dart';
 
 class DriverDashBoard extends StatefulWidget {
   const DriverDashBoard({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.blackColor,
+        backgroundColor: AppColor.whiteColor,
         body: Stack(
           children: [
             Center(
@@ -48,7 +49,7 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
                       activeColor: AppColor.whiteColor,
                       iconSize: 24,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
+                          horizontal: 18, vertical: 12),
                       duration: const Duration(milliseconds: 400),
                       tabBackgroundColor:
                           AppColor.primaryBlueColor.withOpacity(0.5),
@@ -60,16 +61,16 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
                           text: 'Home',
                         ),
                         GButton(
-                          icon: Icons.favorite,
-                          text: 'Likes',
+                          icon: Icons.car_rental,
+                          text: 'Garage',
                         ),
                         GButton(
-                          icon: Icons.search,
-                          text: 'Search',
+                          icon: Icons.chat_bubble_outline_outlined,
+                          text: 'Chat',
                         ),
                         GButton(
-                          icon: Icons.person_outline,
-                          text: 'Profile',
+                          icon: Icons.more_horiz,
+                          text: 'More',
                         ),
                       ],
                       selectedIndex: _selectedIndex,
@@ -90,10 +91,7 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Profile',
-      style: AppTextStyles.textStyleBoldBodyMedium,
-    ),
+    DriverHomePage(),
     Text(
       'Profile',
       style: AppTextStyles.textStyleBoldBodyMedium,
