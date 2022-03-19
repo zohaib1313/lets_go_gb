@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_dashboard.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_dashboard_page.dart';
 
 import '../../common_widgets/choose_image_widget.dart';
 import '../../utils/common_widgets.dart';

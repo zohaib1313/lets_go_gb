@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
-class DriverDashBoardController extends GetxController
+class DriverDashBoardHomeController extends GetxController
     with GetTickerProviderStateMixin {
   AnimationController? motionController;
 

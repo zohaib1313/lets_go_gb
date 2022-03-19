@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_dashboard_controller.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_dashboard_home_controller.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
 // ignore: must_be_immutable
-class DriverHomePage extends GetView<DriverDashBoardController> {
+class DriverHomePage extends GetView<DriverDashBoardHomeController> {
   DriverHomePage({Key? key}) : super(key: key);
   static const id = '/DriverHomePage';
   static var vSpace = SizedBox(height: 20.h);
@@ -15,13 +15,13 @@ class DriverHomePage extends GetView<DriverDashBoardController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GetX<DriverDashBoardController>(
-          initState: (state) {},
-          builder: (_) {
-            controller.temp.value;
-            return Scaffold(
-              body: Stack(
+    return GetX<DriverDashBoardHomeController>(
+        initState: (state) {},
+        builder: (_) {
+          controller.temp.value;
+          return Scaffold(
+            body: SafeArea(
+              child: Stack(
                 children: [
                   animatedBackGround(),
                   Container(
@@ -193,9 +193,9 @@ class DriverHomePage extends GetView<DriverDashBoardController> {
                   ),
                 ],
               ),
-            );
-          }),
-    );
+            ),
+          );
+        });
   }
 
   animatedBackGround() {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../utils/styles.dart';
-import 'driver_garage.dart';
+import 'driver_garage_page.dart';
 import 'home_page.dart';
 
 class DriverDashBoard extends StatefulWidget {
@@ -17,10 +17,10 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColor.whiteColor,
-        body: Stack(
+    return Scaffold(
+      backgroundColor: AppColor.whiteColor,
+      body: SafeArea(
+        child: Stack(
           children: [
             Center(
               child: _widgetOptions.elementAt(_selectedIndex),

@@ -322,14 +322,14 @@ class _MyDropDownState extends State<MyDropDown> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: widget.leftPadding ?? 100.w,
-        right: widget.rightPadding ?? 100.w,
+        left: widget.leftPadding ?? 0.w,
+        right: widget.rightPadding ?? 0.w,
       ),
       child: DropdownButtonFormField(
         icon: SvgViewer(
             height: 12,
             width: 12,
-            svgPath: widget.suffixIcon ?? 'assets/icons/ic_arrow_down.svg'),
+            svgPath: widget.suffixIcon ?? 'assets/icons/drop_down_ic.svg'),
         isExpanded: true,
         validator: widget.validator,
         onTap: () {
@@ -339,7 +339,10 @@ class _MyDropDownState extends State<MyDropDown> {
         decoration: InputDecoration(
             labelText: widget.labelText,
             hintText: widget.hintText,
-            hintStyle: AppTextStyles.textStyleBoldBodySmall.copyWith(
+            labelStyle: AppTextStyles.textStyleBoldBodyMedium.copyWith(
+                fontStyle:
+                    widget.isItalicHint ? FontStyle.italic : FontStyle.normal),
+            hintStyle: AppTextStyles.textStyleNormalBodySmall.copyWith(
                 fontStyle:
                     widget.isItalicHint ? FontStyle.italic : FontStyle.normal),
             prefixIcon: (widget.prefixIcon != null)
@@ -359,12 +362,12 @@ class _MyDropDownState extends State<MyDropDown> {
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.r),
               borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColor.greenColor),
+                  BorderSide(color: widget.borderColor ?? AppColor.alphaGrey),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.r),
               borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColor.greenColor),
+                  BorderSide(color: widget.borderColor ?? AppColor.alphaGrey),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.r),
@@ -373,7 +376,7 @@ class _MyDropDownState extends State<MyDropDown> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.r),
               borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColor.greenColor),
+                  BorderSide(color: widget.borderColor ?? AppColor.alphaGrey),
             ),
             filled: true,
             fillColor: widget.fillColor ?? Colors.transparent),
@@ -381,7 +384,7 @@ class _MyDropDownState extends State<MyDropDown> {
         value: widget.value,
         isDense: widget.isDense,
         hint: Text(
-          widget.hintText ?? "",
+          "",
           style: AppTextStyles.textStyleBoldBodySmall.copyWith(
               color: widget.hintColor,
               fontStyle:
