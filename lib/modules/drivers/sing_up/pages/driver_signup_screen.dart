@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_dashboard.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 
 import '../../common_widgets/choose_image_widget.dart';
 import '../../utils/common_widgets.dart';
@@ -47,7 +47,7 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                         children: [
                           getTextField(
                               title: "Name",
-                              controller: controller.firstNameContoller),
+                              controller: controller.firstNameController),
                           space,
                           getTextField(
                               title: "Contact Number",
@@ -72,6 +72,10 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                                     ? Icons.remove_red_eye_rounded
                                     : Icons.visibility_off_outlined)),
                             fillColor: AppColor.alphaGrey,
+
+                            onChanged: (value){
+                              controller.password = value.toString();
+                            },
                             hintText: "Password",
                             obsecureText: controller.hidePasswordOne.value,
                             controller: controller.passwordController,
@@ -96,11 +100,15 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                             hintText: "Confirm Password",
                             obsecureText: controller.hideConfirmPassword.value,
                             controller: controller.confirmPasswordController,
-                            validator: (string) {
-                              if (string == null || string.isEmpty) {
-                                return 'Enter Confirm Password';
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Confirm Password Required";
+                              }
+                              if (value != controller.passwordController.text) {
+                                return "Password Not Match";
                               }
                               return null;
+
                             },
                           ),
                           space,
@@ -170,18 +178,29 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                   buttonText: "Register",
                   textColor: AppColor.whiteColor,
                   onTap: () {
-                    Get.to(const DriverDashBoard());
-                  },
+                    if (controller.formKey.currentState!.validate()) {
+                      if(controller.cnicFrontFile == null ){
+                        Get.showSnackbar(Ui.ErrorSnackBar(message: "please choose cnic front copy"));
 
-                  // onTap: () async {
-                  //   if (controller.formKey.currentState!.validate()) {}
-                  // },
+                      } else  if(controller.cnicBackFile == null ){
+                        Get.showSnackbar(Ui.ErrorSnackBar(message: "please choose cnic back copy"));
+
+                      }else  if(controller.drivingLicenceFile == null ){
+                        Get.showSnackbar(Ui.ErrorSnackBar(message: "please choose your driving licence"));
+
+                      }else {
+                        controller.saveUser();
+                      }
+
+                    }
+                  }
+
                 ),
               )
-            ],
-          ),
-        ),
-      ),
+    ],
+    ),
+    ),
+    )
     );
   }
 
@@ -201,3 +220,4 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
     );
   }
 }
+
