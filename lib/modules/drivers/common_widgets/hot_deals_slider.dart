@@ -10,6 +10,7 @@ class HotDealsSlider extends StatelessWidget {
 
   HotDealsSlider({this.carName, this.carImage, this.carModel});
 
+  ///
   @override
   Widget build(BuildContext context) {
     return Container(
