@@ -177,7 +177,7 @@ class DriverHomePage extends GetView<DriverHomeController> {
                                 Expanded(
                                   child: ListView.builder(
                                       itemCount: 10,
-                                      physics: BouncingScrollPhysics(),
+                                      physics: const BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         return const Card(
                                             child: ListTile(
