@@ -29,9 +29,10 @@ class DriverSignUpController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    super.onInit();
     _signupRepository = SignupRepository();
+    super.onInit();
   }
+
   void resetState() {
     firstNameController.clear();
     contactNumberController.clear();
@@ -45,8 +46,7 @@ class DriverSignUpController extends GetxController {
   }
 
   /// signup model
-  SignUpModel  _getUserModel() {
-
+  SignUpModel _getUserModel() {
     /// initialize login model with data
 
     return SignUpModel(
@@ -60,20 +60,37 @@ class DriverSignUpController extends GetxController {
         phone: contactNumberController.text.trim(),
         userRole: "driver",
         id: "",
-        cnicFrontImageUrl: cnicFrontFile!.path,
-        cnicBackImageUrl: cnicBackFile!.path,
-        driverLicenceImageUrl: drivingLicenceFile!.path,
-        adminId: ""
-    );
+        cnicFrontImageUrl: cnicFrontFile?.path ?? '',
+        cnicBackImageUrl: cnicBackFile?.path ?? "",
+        driverLicenceImageUrl: drivingLicenceFile?.path ?? '',
+        adminId: "");
   }
 
   /// save User
   Future<void> saveUser() async {
-
     loading.value = true;
 
     bool isSuccess = false;
 
+    _signupRepository!.saveUser(_getUserModel()).then((value) {
+      if (value == "Success") {
+        isSuccess = true;
+
+        Get.back();
+
+        // resetData(LoadingDriver.driverList);
+
+        Get.showSnackbar(
+            Ui.SuccessSnackBar(message: "User Added successfully"));
+      } else {
+        isSuccess = false;
+
+        Get.showSnackbar(Ui.ErrorSnackBar(message: value));
+      }
+    }).whenComplete(() {
+      if (!isSuccess) loading.value = false;
+    });
+    /*
     final  checkPhoneNoExistBefore = await  _signupRepository!.getUsersWithSamePhone(contactNumberController.text,"0");
 
     if(!checkPhoneNoExistBefore){
@@ -108,12 +125,6 @@ class DriverSignUpController extends GetxController {
     else{
       Get.showSnackbar(Ui.ErrorSnackBar(message: "Driver with same phone number already exist"));
       loading.value = false;
-    }
-
+    }*/
   }
-
-
-
-
-
 }

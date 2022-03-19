@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "854883463318",
-    "project_id": "lets-go-gb",
-    "storage_bucket": "lets-go-gb.appspot.com"
+    "project_number": "756450874654",
+    "project_id": "letsgogb-6eb5b",
+    "storage_bucket": "letsgogb-6eb5b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:854883463318:android:3777ef19a2d4bd33ab12b7",
+        "mobilesdk_app_id": "1:756450874654:android:817549eb2b88b6d70ee50f",
         "android_client_info": {
           "package_name": "com.bigbird.let_go_gb"
         }
       },
       "oauth_client": [
         {
-          "client_id": "854883463318-vo7htcul65167bkf66rps69ivflndh0n.apps.googleusercontent.com",
+          "client_id": "756450874654-iifa7niev0rlu7pddesq2tgtfcov0ot8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAjfX4H1cz5ifv4RfuLMVo6SYHRtjKyT9k"
+          "current_key": "AIzaSyAQAd5WGRbn3BbYPS0Q9caI6dUgXv6aHBk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "854883463318-vo7htcul65167bkf66rps69ivflndh0n.apps.googleusercontent.com",
+              "client_id": "756450874654-iifa7niev0rlu7pddesq2tgtfcov0ot8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
