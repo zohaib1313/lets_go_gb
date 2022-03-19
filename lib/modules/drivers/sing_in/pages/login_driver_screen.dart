@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/home_page.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
 
 import '../../../users/home/controllers/login_driver_controller.dart';
-import '../../dashboard/pages/driver_dashboard.dart';
 import '../../sing_up/pages/driver_signup_screen.dart';
 import '../../utils/common_widgets.dart';
 import '../../utils/styles.dart';
@@ -153,7 +153,7 @@ class DriverSignInScreen extends GetView<LoginUserController> {
                                 textColor: AppColor.whiteColor,
                                 color: AppColor.primaryBlueDarkColor,
                                 onTap: () {
-                                  Get.to(const DriverDashBoard());
+                                  Get.toNamed(DriverHomePage.id);
                                 },
                               ),
                               space,
