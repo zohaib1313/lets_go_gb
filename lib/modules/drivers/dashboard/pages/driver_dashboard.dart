@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../utils/styles.dart';
+import 'driver_garage.dart';
 import 'home_page.dart';
 
 class DriverDashBoard extends StatefulWidget {
@@ -92,10 +93,7 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     DriverHomePage(),
-    Text(
-      'Profile',
-      style: AppTextStyles.textStyleBoldBodyMedium,
-    ),
+    DriverGarage(),
     Text(
       'Profile',
       style: AppTextStyles.textStyleBoldBodyMedium,

@@ -1,16 +1,17 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
-class DriverHomeController extends GetxController
+class DriverDashBoardController extends GetxController
     with GetTickerProviderStateMixin {
   AnimationController? motionController;
 
   var scale;
   var temp = 0.obs;
+
   @override
   void onInit() {
-    super.onInit();
     motionController = AnimationController(
         duration: const Duration(seconds: 15),
         vsync: this,
@@ -24,11 +25,13 @@ class DriverHomeController extends GetxController
         motionController?.forward();
       }
     });
+    super.onInit();
   }
 
   @override
   void dispose() {
+    printWrapped("disposed called");
+    motionController!.dispose();
     super.dispose();
-    motionController?.dispose();
   }
 }
