@@ -5,8 +5,5 @@ class RootBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<DriverSignUpController>(() => DriverSignUpController());
-
-    //  Get.put(DriverDashBoardController());
-    //  Get.lazyPut<DriverDashBoardController>(() => DriverDashBoardController());
   }
 }

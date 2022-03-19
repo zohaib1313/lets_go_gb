@@ -1,11 +1,10 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_garage_controller.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
 class DriverDashBoardController extends GetxController
-    with GetTickerProviderStateMixin, DriverGarageControllerMixin {
+    with GetTickerProviderStateMixin {
   AnimationController? motionController;
 
   var scale;
