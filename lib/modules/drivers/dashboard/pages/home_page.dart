@@ -177,13 +177,10 @@ class DriverHomePage extends GetView<DriverHomeController> {
                                 Expanded(
                                   child: ListView.builder(
                                       itemCount: 10,
+                                      shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
-                                        return const Card(
-                                            child: ListTile(
-                                          isThreeLine: true,
-                                          subtitle: Text("as"),
-                                        ));
+                                        return getRowItem(index);
                                       }),
                                 )
                               ],
@@ -222,5 +219,115 @@ class DriverHomePage extends GetView<DriverHomeController> {
               );
             })
         : IgnorePointer();
+  }
+
+  Widget getRowItem(index) {
+    return InkWell(
+        onTap: () {
+          ///goto booking details
+        },
+        child: Row(
+          children: [
+            Expanded(
+              child: Card(
+                margin:
+                    const EdgeInsets.only(left: 0, right: 0, top: 3, bottom: 3),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 27,
+                        backgroundImage:
+                            Image.asset('assets/images/eclipse.jpg').image,
+                      ),
+                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'User Name',
+                            style: AppTextStyles.textStyleBoldBodyMedium,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 5.h),
+                              Row(
+                                children: [
+                                  const SvgViewer(
+                                    svgPath:
+                                        'assets/icons/ic_location_black.svg',
+                                    width: 12,
+                                    height: 12,
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      ///this will be the notes of booking , while placing booking user will add this
+                                      " Airport road",
+                                      maxLines: 2,
+
+                                      style: AppTextStyles
+                                          .textStyleNormalBodySmall,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5.h),
+                              Text(
+                                "From: 22 January 2022",
+                                maxLines: 2,
+                                style: AppTextStyles.textStyleNormalBodySmall,
+                              ),
+                              Text(
+                                "To: 25 January 2022",
+                                maxLines: 2,
+                                style: AppTextStyles.textStyleNormalBodySmall,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: 120.w,
+              height: 122.h,
+              decoration: BoxDecoration(
+                color:
+                    index % 2 == 0 ? Colors.green : AppColor.primaryBlueColor,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+              ),
+              child: RotatedBox(
+                quarterTurns: 1,
+                child: Center(
+                  child: Text(
+                    index % 2 == 0 ? 'Confirmed' : 'Pending',
+                    style: AppTextStyles.textStyleBoldBodyMedium
+                        .copyWith(color: AppColor.whiteColor),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
