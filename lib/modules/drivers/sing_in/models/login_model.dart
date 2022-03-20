@@ -1,52 +1,69 @@
 
-class SignUpModel {
+class SignInModel {
+  String? token;
+  UserModel? user;
+
+  SignInModel({this.token, this.user});
+
+  SignInModel.fromJson(Map<String, dynamic> json) {
+    token = json['token'];
+    user = json['user'] != null ? new UserModel.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['token'] = this.token;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    return data;
+  }
+
+  @override
+  String toString() {
+    return 'SignInModel{token: $token, user: $user}';
+  }
+}
+
+class UserModel {
 
   String? id;
   String? adminId;
   String? firstName;
+  String? lastName;
   String? userRole;
   String? emailAddress;
   String? phone;
-  String? address;
-  String? cnicFrontImageUrl;
-  String? cnicBackImageUrl;
-  String? driverLicenceImageUrl;
+  String? profileImageUrl;
   String? password;
-  bool? isActive;
   String? confirmPassword;
   bool? success;
   String? errorMessage;
 
-  SignUpModel({this.id,
+  UserModel({this.id,
     this.adminId,
     this.emailAddress,
     this.password,
-    this.address,
     this.confirmPassword,
-    this.isActive,
     this.firstName,
+    this.lastName,
     this.userRole,
     this.phone,
-    this.cnicBackImageUrl,
-    this.cnicFrontImageUrl,
-    this.driverLicenceImageUrl,
+    this.profileImageUrl,
     this.success,
     this.errorMessage
   });
 
-  SignUpModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     success = json['Success'];
     id = json['Id'];
     adminId = json['AdminId'];
-    isActive = json['IsActive'];
     emailAddress = json['EmailAddress'];
     firstName = json['FirstName'];
+    lastName = json['LastName'];
     userRole = json['UserRole'];
-    address = json['Address'];
     phone = json['Phone'];
-    cnicFrontImageUrl = json['CnicFrontImageUrl'];
-    cnicBackImageUrl = json['CnicBackImageUrl'];
-    driverLicenceImageUrl = json['DriverLicenceUrl'];
+    profileImageUrl = json['ProfileUrl'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,13 +73,12 @@ class SignUpModel {
     data['AdminId'] = adminId;
     data['EmailAddress'] = emailAddress;
     data['FirstName'] = firstName;
+    data['LastName'] = lastName;
     data['UserRole'] = userRole;
-    data['Address'] = address;
     data['Phone'] = phone;
-    data['IsActive'] = isActive;
-    data['CnicFrontImageUrl'] = cnicFrontImageUrl;
-    data['CnicBackImageUrl'] = cnicBackImageUrl;
-    data['DriverLicenceUrl'] = driverLicenceImageUrl;
+    data['ProfileUrl'] = profileImageUrl;
     return data;
   }
 }
+
+

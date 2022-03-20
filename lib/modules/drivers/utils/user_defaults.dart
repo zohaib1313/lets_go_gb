@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../sing_in/models/signin_model.dart';
+import '../sing_in/models/login_model.dart';
 
 class UserDefaults {
   static SharedPreferences? sharedPreferences;
@@ -63,7 +63,7 @@ class UserDefaults {
 
   //employer, applicant,tutor
 
-  static void saveUserSession(SignInModel signInModel, String type) async {
+  static void saveUserSession(UserModel signInModel, String type) async {
     String user = json.encode(signInModel.toJson());
     getPref().then((value) => value
       ..setString('userData', user)

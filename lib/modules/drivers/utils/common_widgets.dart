@@ -54,7 +54,7 @@ class MyTextField extends StatelessWidget {
   late FocusNode focusNode;
   final FieldValidator? validator;
   final TextInputType? keyboardType;
-  final bool isDigitsOnly;
+  final inputFormatters;
   final Color textColor;
   final bool? obsecureText;
   final Widget? suffixIconWidet;
@@ -71,13 +71,13 @@ class MyTextField extends StatelessWidget {
       this.hintColor,
       this.labelColor,
       this.prefixIcon,
+        this.inputFormatters,
       this.suffixIcon,
       this.focusBorderColor,
       this.unfocusBorderColor,
       this.onChanged,
       this.contentPadding,
       this.enable = true,
-      this.isDigitsOnly = false,
       this.text,
       this.sufixLabel,
       this.leftPadding,
@@ -111,8 +111,7 @@ class MyTextField extends StatelessWidget {
             AppTextStyles.textStyleNormalBodySmall.copyWith(color: textColor),
         controller: controller ?? TextEditingController(),
         initialValue: text,
-        inputFormatters:
-            isDigitsOnly ? [FilteringTextInputFormatter.digitsOnly] : [],
+        inputFormatters: inputFormatters,
         keyboardType: keyboardType ?? TextInputType.text,
         enabled: enable,
         //onFieldSubmitted: onChanged,
@@ -184,6 +183,7 @@ class MyTextField extends StatelessWidget {
             borderSide: BorderSide(
                 color: focusBorderColor ?? AppColor.primaryBlueColor),
           ),
+
         ),
       ),
     );

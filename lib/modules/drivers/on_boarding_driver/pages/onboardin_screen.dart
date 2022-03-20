@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-
 import '../../sing_in/pages/login_driver_screen.dart';
 import '../../utils/styles.dart';
 import 'on_boarding_views.dart';
@@ -28,10 +27,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       // freeze: true,
       controlsMargin: const EdgeInsets.all(10),
       onDone: () {
-        Get.off(() => DriverSignInScreen());
+        Get.toNamed(DriverSignInScreen.id);
+
       },
       onSkip: () {
-        Get.off(() => DriverSignInScreen());
+        Get.toNamed(DriverSignInScreen.id);
       },
       showSkipButton: true,
       skip: Text(

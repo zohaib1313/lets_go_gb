@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/dropdown.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
 import 'package:let_go_gb/repositories/signup_repository.dart';
@@ -16,7 +17,10 @@ class DriverSignUpController extends GetxController {
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  final loading = true.obs;
+  final loading = false.obs;
+
+  final statusDropDown = Dropdown().obs;
+  List<Dropdown> statusDropDownList = [];
   SignupRepository? _signupRepository;
 
   File? cnicFrontFile;
@@ -30,6 +34,7 @@ class DriverSignUpController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     _signupRepository = SignupRepository();
+    loadStatusDropdown();
     super.onInit();
   }
 
@@ -43,9 +48,42 @@ class DriverSignUpController extends GetxController {
     cnicFrontFile = null;
     cnicBackFile = null;
     drivingLicenceFile = null;
+    statusDropDown.value = statusDropDownList.first;
   }
 
-  /// signup model
+  /// map of status list
+  Map<String, int> _getStatusMap() {
+    return {
+      "Active" : 1,
+      "InActive" : 2,
+    };
+  }
+
+  /// load paid status list
+  Future<void> loadStatusDropdown() async {
+
+    List<Dropdown> _list = [];
+
+    _getStatusMap().forEach((key, value) {
+
+      _list.add(Dropdown(name: key, id: value));
+
+    });
+
+
+    if(_list.isNotEmpty) {
+
+      statusDropDownList = _list;
+
+      statusDropDown.value = _list.first;
+
+    }
+  }
+
+
+
+
+/// signup model
   SignUpModel _getUserModel() {
     /// initialize login model with data
 
@@ -60,6 +98,7 @@ class DriverSignUpController extends GetxController {
         phone: contactNumberController.text.trim(),
         userRole: "driver",
         id: "",
+        isActive: false,
         cnicFrontImageUrl: cnicFrontFile?.path ?? '',
         cnicBackImageUrl: cnicBackFile?.path ?? "",
         driverLicenceImageUrl: drivingLicenceFile?.path ?? '',
@@ -78,10 +117,7 @@ class DriverSignUpController extends GetxController {
 
         Get.back();
 
-        // resetData(LoadingDriver.driverList);
-
-        Get.showSnackbar(
-            Ui.SuccessSnackBar(message: "User Added successfully"));
+        Get.showSnackbar(Ui.SuccessSnackBar(message: "User Added successfully"));
       } else {
         isSuccess = false;
 
@@ -90,41 +126,6 @@ class DriverSignUpController extends GetxController {
     }).whenComplete(() {
       if (!isSuccess) loading.value = false;
     });
-    /*
-    final  checkPhoneNoExistBefore = await  _signupRepository!.getUsersWithSamePhone(contactNumberController.text,"0");
 
-    if(!checkPhoneNoExistBefore){
-
-      _signupRepository!.saveUser(_getUserModel())
-          .then((value){
-
-        if(value == "Success") {
-
-          isSuccess = true;
-
-          Get.back();
-
-         // resetData(LoadingDriver.driverList);
-
-          Get.showSnackbar(Ui.SuccessSnackBar(message: "User Added successfully"));
-
-        } else {
-
-          isSuccess = false;
-
-          Get.showSnackbar(Ui.ErrorSnackBar(message: value));
-
-        }
-
-      }).whenComplete((){
-
-        if(!isSuccess) loading.value = false;
-
-      });
     }
-    else{
-      Get.showSnackbar(Ui.ErrorSnackBar(message: "Driver with same phone number already exist"));
-      loading.value = false;
-    }*/
-  }
 }

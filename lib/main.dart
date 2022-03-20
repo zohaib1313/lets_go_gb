@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,12 +7,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/routes.dart';
-
 import 'modules/drivers/app_pages.dart';
 import 'modules/drivers/root_bindings.dart';
 import 'modules/drivers/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-/// me maham
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
