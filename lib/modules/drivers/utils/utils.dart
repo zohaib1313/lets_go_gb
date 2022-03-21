@@ -3,9 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
-import '../../../routes.dart';
-import 'common_widgets.dart';
-
 void printWrapped(String text) {
   final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
   pattern.allMatches(text).forEach(
@@ -25,16 +22,9 @@ myAppBar(
     onBacKTap}) {
   return AppBar(
     elevation: 0,
+    iconTheme: const IconThemeData(color: AppColor.blackColor),
     actions: actions ?? [],
-    leading: goBack
-        ? IconButton(
-            icon: const SvgViewer(
-              svgPath: "assets/icons/back_arrow_ic.svg",
-            ),
-            onPressed:
-                onBacKTap ?? () => Navigator.of(context ?? myContext!).pop(),
-          )
-        : null,
+    automaticallyImplyLeading: goBack,
     backgroundColor: backGroundColor,
     title: Text(
       title ?? "",
