@@ -6,8 +6,8 @@ import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
 import 'driver_add_new_vehicle_page.dart';
 
-class DriverGarage extends GetView<DriverGarageController> {
-  const DriverGarage({Key? key}) : super(key: key);
+class DriverGaragePage extends GetView<DriverGarageController> {
+  const DriverGaragePage({Key? key}) : super(key: key);
   static const id = '/DriverGarage';
 
   @override

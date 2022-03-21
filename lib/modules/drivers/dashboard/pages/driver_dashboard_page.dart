@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_more_page.dart';
 
 import '../../utils/styles.dart';
 import 'driver_garage_page.dart';
@@ -93,14 +94,11 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     DriverHomePage(),
-    DriverGarage(),
+    DriverGaragePage(),
     Text(
-      'Profile',
+      'Chat',
       style: AppTextStyles.textStyleBoldBodyMedium,
     ),
-    Text(
-      'Profile',
-      style: AppTextStyles.textStyleBoldBodyMedium,
-    ),
+    DriverMorePage(),
   ];
 }
