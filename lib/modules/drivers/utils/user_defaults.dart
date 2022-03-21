@@ -86,13 +86,13 @@ class UserDefaults {
     return sharedPreferences?.setString('ApiToken', value);
   }
 
-  static SignInModel? getUserSession() {
-    SignInModel? user;
+  static UserModel? getUserSession() {
+    UserModel? user;
     if (sharedPreferences!.getString('userData') != null) {
       Map<String, dynamic> json =
           jsonDecode(sharedPreferences!.getString('userData')!);
-      user = SignInModel.fromJson(json);
-      setApiToken(user.token ?? '');
+      user = UserModel.fromJson(json);
+
       printWrapped(user.toString());
     }
     return user;

@@ -16,191 +16,204 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<DriverDashBoardHomeController>(
-        initState: (state) {},
-        builder: (_) {
-          controller.temp.value;
-          return Stack(
-            children: [
-              Scaffold(
-                body: SafeArea(
-                  child: Stack(
-                    children: [
-                      animatedBackGround(),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 100.w, vertical: 50.h),
-                        child: Column(
-                          children: [
-                            ///headers
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    'Welcome , TestUser',
-                                    style: AppTextStyles.textStyleBoldSubTitleLarge,
+    return GetX<DriverDashBoardHomeController>(initState: (state) {
+      controller.loadUserInfo();
+    }, builder: (_) {
+      return Stack(
+        children: [
+          controller.loading.value
+              ? LoadingWidget()
+              : Scaffold(
+                  body: SafeArea(
+                    child: Stack(
+                      children: [
+                        animatedBackGround(),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 100.w, vertical: 50.h),
+                          child: Column(
+                            children: [
+                              ///headers
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Welcome , TestUser',
+                                      style: AppTextStyles
+                                          .textStyleBoldSubTitleLarge,
+                                    ),
+                                  ),
+                                  const CircleAvatar(
+                                    backgroundColor: AppColor.alphaGrey,
+                                    child: SvgViewer(
+                                        svgPath:
+                                            'assets/icons/ic_notifications.svg'),
+                                  )
+                                ],
+                              ),
+
+                              ///user information card
+                              vSpace,
+                              Card(
+                                elevation: 30,
+                                color: AppColor.blackColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Container(
+                                  padding: EdgeInsets.all(20.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 180.r,
+                                        backgroundImage: const AssetImage(
+                                            'assets/images/place_your_image.png'),
+                                      ),
+                                      Flexible(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              controller
+                                                  .loginModel.value.firstName!,
+                                              style: AppTextStyles
+                                                  .textStyleBoldBodyMedium
+                                                  .copyWith(
+                                                      color:
+                                                          AppColor.whiteColor),
+                                            ),
+                                            Text(
+                                              controller
+                                                  .loginModel.value.phone!,
+                                              style: AppTextStyles
+                                                  .textStyleBoldBodySmall
+                                                  .copyWith(
+                                                      color: AppColor.alphaGrey
+                                                          .withOpacity(0.9)),
+                                            ),
+                                            RatingBar.builder(
+                                              initialRating: 3,
+                                              minRating: 1,
+                                              itemSize: 20,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              unratedColor: AppColor.whiteColor,
+                                              itemCount: 5,
+                                              itemPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4.0),
+                                              itemBuilder: (context, _) =>
+                                                  const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              onRatingUpdate: (rating) {
+                                                print(rating);
+                                              },
+                                            ),
+                                            vSpace,
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  color: AppColor.whiteColor
+                                                      .withOpacity(0.3)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Account Active: ',
+                                                    style: AppTextStyles
+                                                        .textStyleNormalBodyXSmall
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .whiteColor),
+                                                  ),
+                                                  const Icon(
+                                                    Icons.online_prediction,
+                                                    color: AppColor.greenColor,
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
-                                const CircleAvatar(
-                                  backgroundColor: AppColor.alphaGrey,
-                                  child: SvgViewer(
-                                      svgPath: 'assets/icons/ic_notifications.svg'),
-                                )
-                              ],
-                            ),
+                              ),
 
-                            ///user information card
-                            vSpace,
-                            Card(
-                              elevation: 30,
-                              color: AppColor.blackColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Container(
-                                padding: EdgeInsets.all(20.h),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 180.r,
-                                      backgroundImage: const AssetImage(
-                                          'assets/images/place_your_image.png'),
+                              ///bookings widgets
+                              vSpace,
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.all(20.h),
+                                  decoration: BoxDecoration(
+                                    color: AppColor.whiteColor.withAlpha(480),
+                                    borderRadius: const BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
                                     ),
-                                    Flexible(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Row(
                                         children: [
-                                          Text(controller.loginModel.value.firstName!,
-                                            style: AppTextStyles
-                                                .textStyleBoldBodyMedium
-                                                .copyWith(
-                                                    color: AppColor.whiteColor),
-                                          ),
-                                          Text(controller.loginModel.value.phone!,
-                                            style: AppTextStyles
-                                                .textStyleBoldBodySmall
-                                                .copyWith(
-                                                    color: AppColor.alphaGrey
-                                                        .withOpacity(0.9)),
-                                          ),
-                                          RatingBar.builder(
-                                            initialRating: 3,
-                                            minRating: 1,
-                                            itemSize: 20,
-                                            direction: Axis.horizontal,
-                                            allowHalfRating: true,
-                                            unratedColor: AppColor.whiteColor,
-                                            itemCount: 5,
-                                            itemPadding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            itemBuilder: (context, _) => const Icon(
-                                              Icons.star,
-                                              color: Colors.amber,
+                                          Expanded(
+                                            child: Text(
+                                              'Bookings\nJanuary 2022',
+                                              style: AppTextStyles
+                                                  .textStyleBoldSubTitleLarge
+                                                  .copyWith(
+                                                      color:
+                                                          AppColor.blackColor),
                                             ),
-                                            onRatingUpdate: (rating) {
-                                              print(rating);
-                                            },
                                           ),
-                                          vSpace,
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: AppColor.whiteColor
-                                                    .withOpacity(0.3)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Account Active: ',
-                                                  style: AppTextStyles
-                                                      .textStyleNormalBodyXSmall
-                                                      .copyWith(
-                                                          color:
-                                                              AppColor.whiteColor),
-                                                ),
-                                                const Icon(
-                                                  Icons.online_prediction,
-                                                  color: AppColor.greenColor,
-                                                )
-                                              ],
-                                            ),
-                                          )
+                                          hSpace,
+                                          Text("View All",
+                                              style: AppTextStyles
+                                                  .textStyleBoldBodyXSmall),
+                                          // const Icon(Icons.filter_alt_rounded)
                                         ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            ///bookings widgets
-                            vSpace,
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(20.h),
-                                decoration: BoxDecoration(
-                                  color: AppColor.whiteColor.withAlpha(480),
-                                  borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    topLeft: Radius.circular(20),
+                                      vSpace,
+                                      Expanded(
+                                        child: ListView.builder(
+                                            itemCount: 10,
+                                            shrinkWrap: true,
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            itemBuilder: (context, index) {
+                                              return getRowItem(index);
+                                            }),
+                                      )
+                                    ],
                                   ),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            'Bookings\nJanuary 2022',
-                                            style: AppTextStyles
-                                                .textStyleBoldSubTitleLarge
-                                                .copyWith(
-                                                    color: AppColor.blackColor),
-                                          ),
-                                        ),
-                                        hSpace,
-                                        Text("View All",
-                                            style: AppTextStyles
-                                                .textStyleBoldBodyXSmall),
-                                        // const Icon(Icons.filter_alt_rounded)
-                                      ],
-                                    ),
-                                    vSpace,
-                                    Expanded(
-                                      child: ListView.builder(
-                                          itemCount: 10,
-                                          shrinkWrap: true,
-                                          physics: const BouncingScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            return getRowItem(index);
-                                          }),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              if(controller.loading.value)
-                LoadingWidget(),
-            ],
-          );
-        });
+        ],
+      );
+    });
   }
 
   animatedBackGround() {

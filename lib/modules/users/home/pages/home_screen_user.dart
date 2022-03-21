@@ -8,7 +8,7 @@ import '../../../drivers/utils/styles.dart';
 import '../../../drivers/utils/utils.dart';
 import '../controllers/home_screen_driver_controller.dart';
 
-class HomeScreenDriver extends GetView<HomeScreenUserController> {
+class UserHomeScreen extends GetView<HomeScreenUserController> {
   final space = SizedBox(height: 20.h);
 
   final List<String> imagesList = [
@@ -19,7 +19,7 @@ class HomeScreenDriver extends GetView<HomeScreenUserController> {
     'https://cdn.pixabay.com/photo/2018/04/07/16/30/auto-3298890__340.jpg',
   ];
 
-  HomeScreenDriver({Key? key}) : super(key: key);
+  UserHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

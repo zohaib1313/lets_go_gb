@@ -11,12 +11,11 @@ class DriverDashBoardHomeController extends GetxController
   AnimationController? motionController;
   final loginModel = UserModel().obs;
   DriverDashBoardHomeRepository? _homeRepository;
-  DriverDashBoardHomeController(){
- _homeRepository = DriverDashBoardHomeRepository();
+  DriverDashBoardHomeController() {
+    _homeRepository = DriverDashBoardHomeRepository();
   }
   final loading = false.obs;
   var scale;
-  var temp = 0.obs;
 
   @override
   void onInit() {
@@ -34,45 +33,28 @@ class DriverDashBoardHomeController extends GetxController
       }
     });
     super.onInit();
-    loadUserInfo();
   }
 
   /// User Info Service
   void loadUserInfo() {
-
     loading.value = true;
-
-    _homeRepository!.userInfo()
-        .then((value){
-      print("value is hererererre --- ${value}");
+    _homeRepository!.userInfo().then((value) {
       _userInfoResponse(value);
-
-    })
-        .catchError((onError){
-
-      Get.log("$onError",isError: true);
+    }).catchError((onError) {
+      Get.log("$onError", isError: true);
 
       Get.showSnackbar(Ui.ErrorSnackBar(message: "$onError"));
-
     }).whenComplete(() {
-
       loading.value = false;
-
     });
   }
 
-  void _userInfoResponse(UserModel value){
-
-    if(value.success!){
-
+  void _userInfoResponse(UserModel value) {
+    if (value.success!) {
       loginModel.value = value;
-
-    }else{
-
+    } else {
       Get.showSnackbar(Ui.ErrorSnackBar(message: "${value.errorMessage}"));
-
     }
-
   }
 
   @override
@@ -81,6 +63,4 @@ class DriverDashBoardHomeController extends GetxController
     motionController!.dispose();
     super.dispose();
   }
-
-
 }

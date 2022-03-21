@@ -71,6 +71,14 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                           controller: TextEditingController()),
                                       vSpace,
                                       getTextField(
+                                          title: 'Vehicle Maker',
+                                          controller: TextEditingController()),
+                                      vSpace,
+                                      getTextField(
+                                          title: 'Vehicle Make',
+                                          controller: TextEditingController()),
+                                      vSpace,
+                                      getTextField(
                                           title: 'Rent / Hour',
                                           keyBoardType: TextInputType.number,
                                           controller: TextEditingController()),
