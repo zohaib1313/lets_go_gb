@@ -29,6 +29,8 @@ class LoginUserController extends GetxController {
   final passwordController = TextEditingController();
   final loading = false.obs;
 
+
+
   /// Authenticate User with Email and Password
   void login() {
 

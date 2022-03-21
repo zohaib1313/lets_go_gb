@@ -1,12 +1,20 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
+import 'package:let_go_gb/modules/drivers/sing_in/models/login_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
+import 'package:let_go_gb/repositories/driver_dashboard_home_repository.dart';
 
 class DriverDashBoardHomeController extends GetxController
     with GetTickerProviderStateMixin {
   AnimationController? motionController;
-
+  final loginModel = UserModel().obs;
+  DriverDashBoardHomeRepository? _homeRepository;
+  DriverDashBoardHomeController(){
+ _homeRepository = DriverDashBoardHomeRepository();
+  }
+  final loading = false.obs;
   var scale;
   var temp = 0.obs;
 
@@ -26,6 +34,45 @@ class DriverDashBoardHomeController extends GetxController
       }
     });
     super.onInit();
+    loadUserInfo();
+  }
+
+  /// User Info Service
+  void loadUserInfo() {
+
+    loading.value = true;
+
+    _homeRepository!.userInfo()
+        .then((value){
+      print("value is hererererre --- ${value}");
+      _userInfoResponse(value);
+
+    })
+        .catchError((onError){
+
+      Get.log("$onError",isError: true);
+
+      Get.showSnackbar(Ui.ErrorSnackBar(message: "$onError"));
+
+    }).whenComplete(() {
+
+      loading.value = false;
+
+    });
+  }
+
+  void _userInfoResponse(UserModel value){
+
+    if(value.success!){
+
+      loginModel.value = value;
+
+    }else{
+
+      Get.showSnackbar(Ui.ErrorSnackBar(message: "${value.errorMessage}"));
+
+    }
+
   }
 
   @override
@@ -34,4 +81,6 @@ class DriverDashBoardHomeController extends GetxController
     motionController!.dispose();
     super.dispose();
   }
+
+
 }
