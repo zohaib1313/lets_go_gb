@@ -7,8 +7,10 @@ class HomeScreenUserController extends GetxController {
   final loading = true.obs;
 
   final loginModel = UserModel().obs;
-  HomeScreenUserController(){
-  }
+
+  HomeScreenUserController();
+
+
   @override
   void onInit() {
     // TODO: implement onInit

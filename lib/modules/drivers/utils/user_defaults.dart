@@ -63,13 +63,12 @@ class UserDefaults {
 
   //employer, applicant,tutor
 
-  static void saveUserSession(UserModel signInModel, String type) async {
+  static void saveUserSession(UserModel signInModel) async {
     String user = json.encode(signInModel.toJson());
     getPref().then((value) => value
-      ..setString('userData', user)
-      ..setString('type', type));
+      ..setString('userData', user));
     if (kDebugMode) {
-      printWrapped("user session saved type= ${type} ${user}");
+      printWrapped("user session saved type=  ${user}");
       printWrapped(user.toString());
     }
   }

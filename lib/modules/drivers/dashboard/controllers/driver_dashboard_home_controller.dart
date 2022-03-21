@@ -3,13 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/sing_in/models/login_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/repositories/driver_dashboard_home_repository.dart';
 
 class DriverDashBoardHomeController extends GetxController
     with GetTickerProviderStateMixin {
   AnimationController? motionController;
-  final loginModel = UserModel().obs;
+  final loginModel = UserDefaults.getUserSession();
   DriverDashBoardHomeRepository? _homeRepository;
   DriverDashBoardHomeController() {
     _homeRepository = DriverDashBoardHomeRepository();
@@ -51,7 +52,7 @@ class DriverDashBoardHomeController extends GetxController
 
   void _userInfoResponse(UserModel value) {
     if (value.success!) {
-      loginModel.value = value;
+      //loginModel.value = value;
     } else {
       Get.showSnackbar(Ui.ErrorSnackBar(message: "${value.errorMessage}"));
     }

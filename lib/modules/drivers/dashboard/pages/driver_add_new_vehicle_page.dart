@@ -188,7 +188,8 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                         textColor: AppColor.whiteColor,
                                         color: AppColor.primaryBlueDarkColor,
                                         onTap: () {
-                                          //unfocus
+                                          controller.addVehicle();
+
                                         },
                                       ),
                                       vSpace,

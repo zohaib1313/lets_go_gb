@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/home_page.dart';
 import 'package:let_go_gb/modules/drivers/on_boarding_driver/pages/onboardin_screen.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
@@ -25,7 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
         const Duration(seconds: 3),
         () => {
               if (UserDefaults.getUserSession() != null)
-                {gotoRelevantScreenOnUserType()}
+                {if(UserDefaults.getUserSession()!.userRole == "driver"){
+                  Get.toNamed(DriverHomePage.id)
+                }
+        }
               else
                 {Get.to(() => const OnBoardingScreen())}
             });

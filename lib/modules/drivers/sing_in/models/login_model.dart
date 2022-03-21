@@ -1,4 +1,32 @@
+
+class SignInModel {
+  String? token;
+  UserModel? user;
+
+  SignInModel({this.token, this.user});
+
+  SignInModel.fromJson(Map<String, dynamic> json) {
+    token = json['token'];
+    user = json['user'] != null ? new UserModel.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['token'] = this.token;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    return data;
+  }
+
+  @override
+  String toString() {
+    return 'SignInModel{token: $token, user: $user}';
+  }
+}
+
 class UserModel {
+
   String? id;
   String? adminId;
   String? firstName;
@@ -12,19 +40,19 @@ class UserModel {
   bool? success;
   String? errorMessage;
 
-  UserModel(
-      {this.id,
-      this.adminId,
-      this.emailAddress,
-      this.password,
-      this.confirmPassword,
-      this.firstName,
-      this.lastName,
-      this.userRole,
-      this.phone,
-      this.profileImageUrl,
-      this.success,
-      this.errorMessage});
+  UserModel({this.id,
+    this.adminId,
+    this.emailAddress,
+    this.password,
+    this.confirmPassword,
+    this.firstName,
+    this.lastName,
+    this.userRole,
+    this.phone,
+    this.profileImageUrl,
+    this.success,
+    this.errorMessage
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     success = json['Success'];
@@ -39,7 +67,7 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data =  <String, dynamic>{};
     data['Success'] = success;
     data['Id'] = id;
     data['AdminId'] = adminId;
@@ -52,3 +80,5 @@ class UserModel {
     return data;
   }
 }
+
+
