@@ -6,7 +6,7 @@ class VehicleModel{
   String? make;
   String? rentHour;
   String? mileage;
-  int? seatingCapacity;
+  String? seatingCapacity;
   String? transmissionType;
   bool? success;
   String? errorMessage;
@@ -66,7 +66,7 @@ class VehicleModel{
       make: map['make'] as String,
       rentHour: map['rentHour'] as String,
       mileage: map['mileage'] as String,
-      seatingCapacity: map['seatingCapacity'] as int,
+      seatingCapacity: map['seatingCapacity'] as String,
       transmissionType: map['transmissionType'] as String,
       success: map['success'] as bool,
       errorMessage: map['errorMessage'] as String,

@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/app_preferences.dart';
 
 const String kUSERS = "users";
-
+const String kVEHICLES = "vehicles";
 
 class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
   @override
