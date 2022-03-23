@@ -58,6 +58,8 @@ class MyTextField extends StatelessWidget {
   final Color textColor;
   final bool? obsecureText;
   final Widget? suffixIconWidet;
+  int minLines = 1;
+  int maxLines = 1;
   TextDirection? textDirection;
 
   MyTextField(
@@ -67,11 +69,13 @@ class MyTextField extends StatelessWidget {
       this.obsecureText,
       this.fillColor,
       this.labelText,
+      this.maxLines = 1,
+      this.minLines = 1,
       this.hintText,
       this.hintColor,
       this.labelColor,
       this.prefixIcon,
-        this.inputFormatters,
+      this.inputFormatters,
       this.suffixIcon,
       this.focusBorderColor,
       this.unfocusBorderColor,
@@ -111,6 +115,8 @@ class MyTextField extends StatelessWidget {
             AppTextStyles.textStyleNormalBodySmall.copyWith(color: textColor),
         controller: controller ?? TextEditingController(),
         initialValue: text,
+        minLines: minLines,
+        maxLines: maxLines,
         inputFormatters: inputFormatters,
         keyboardType: keyboardType ?? TextInputType.text,
         enabled: enable,
@@ -183,7 +189,6 @@ class MyTextField extends StatelessWidget {
             borderSide: BorderSide(
                 color: focusBorderColor ?? AppColor.primaryBlueColor),
           ),
-
         ),
       ),
     );

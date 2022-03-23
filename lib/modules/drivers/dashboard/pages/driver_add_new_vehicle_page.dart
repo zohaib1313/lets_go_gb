@@ -102,6 +102,14 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                 controller: controller
                                                     .vehicleMileageController),
                                             vSpace,
+                                            getTextField(
+                                                title:
+                                                    'Vehicle Description Notes',
+                                                minLines: 3,
+                                                maxLines: 5,
+                                                controller: controller
+                                                    .vehicleNotesDescriptionController),
+                                            vSpace,
                                             MyDropDown(
                                               fillColor: AppColor.alphaGrey,
                                               labelText: 'Seating Capacity',
@@ -323,10 +331,14 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
   getTextField(
       {required String title,
       required TextEditingController controller,
+      int minLines = 1,
+      int maxLines = 1,
       TextInputType keyBoardType = TextInputType.text}) {
     return MyTextField(
       fillColor: AppColor.alphaGrey,
       hintText: title,
+      minLines: minLines,
+      maxLines: maxLines,
       leftPadding: 0,
       rightPadding: 0,
       keyboardType: keyBoardType,

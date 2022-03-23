@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
@@ -22,14 +21,14 @@ class AddNewVehicleController extends GetxController {
     super.onInit();
   }
 
-
   TextEditingController vehicleNameController = TextEditingController();
   TextEditingController vehicleNoController = TextEditingController();
   TextEditingController vehicleMakerController = TextEditingController();
   TextEditingController vehicleMakeController = TextEditingController();
   TextEditingController vehicleRentHourController = TextEditingController();
   TextEditingController vehicleMileageController = TextEditingController();
-
+  TextEditingController vehicleNotesDescriptionController =
+      TextEditingController();
 
   Rx<String> selectedSeatCapacity = ''.obs;
   Rx<String> selectedTransmissionType = ''.obs;
@@ -38,50 +37,38 @@ class AddNewVehicleController extends GetxController {
   List<String> transMissionTypeList = ['Auto', 'Manual'];
   List<String> vehicleImages = [];
 
-  addVehicle(){
-
-  }
+  addVehicle() {}
 
   void resetState() {
     vehicleNameController.clear();
   }
-
 
   /// signup model
   VehicleModel _getVehicleModel() {
     /// initialize login model with data
 
     return VehicleModel(
-     vehicleName: vehicleNameController.text,
-      plateNo: vehicleNoController.text,
-      make: vehicleMakeController.text,
-      maker: vehicleMakerController.text,
-      rentHour: vehicleRentHourController.text,
-      mileage: vehicleMileageController.text,
-      seatingCapacity: selectedSeatCapacity.value,
-      transmissionType: selectedTransmissionType.value,
-      vehicleImages: ,
-      success: true,
-      errorMessage: "Success"
-
-
-
-
-
-        );
+        vehicleName: vehicleNameController.text,
+        plateNo: vehicleNoController.text,
+        make: vehicleMakeController.text,
+        maker: vehicleMakerController.text,
+        rentHour: vehicleRentHourController.text,
+        mileage: vehicleMileageController.text,
+        seatingCapacity: selectedSeatCapacity.value,
+        transmissionType: selectedTransmissionType.value,
+        //vehicleImages: ,
+        success: true,
+        errorMessage: "Success");
   }
 
-
-  void saveVehicle(){
+  void saveVehicle() {
     loading.value = true;
     _vehicleRepository!.saveVehicle(_getVehicleModel()).then((value) {
-      if (value.toString() == "Success")
-      {
-
-      Get.back();
-      Get.showSnackbar(Ui.SuccessSnackBar(
-      message: "Vehicle Added Successfully"));
-    }
+      if (value.toString() == "Success") {
+        Get.back();
+        Get.showSnackbar(
+            Ui.SuccessSnackBar(message: "Vehicle Added Successfully"));
+      }
     }).catchError((onError) {
       Get.log(onError.toString(), isError: true);
       Get.showSnackbar(Ui.ErrorSnackBar(message: onError.toString()));
