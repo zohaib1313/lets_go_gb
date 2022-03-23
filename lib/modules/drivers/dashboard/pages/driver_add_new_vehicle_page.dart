@@ -1,10 +1,12 @@
 // ignore_for_file: unnecessary_brace_in_string_interps
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/add_new_vehicle_controller.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
 import '../../utils/common_widgets.dart';
@@ -109,8 +111,7 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                     'Vehicle Description Notes',
                                                 minLines: 3,
                                                 maxLines: 5,
-                                                controller: controller
-                                                    .vehicleNotesDescriptionController),
+                                                controller: controller.vehicleNotesDescriptionController),
                                             vSpace,
                                             MyDropDown(
                                               fillColor: AppColor.alphaGrey,
@@ -148,47 +149,43 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                               },
                                             ),
                                             vSpace,
-                                            Text(
-                                              "Features",
-                                              style: AppTextStyles
-                                                  .textStyleBoldBodyMedium,
+                                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Features",
+                                                  style: AppTextStyles
+                                                      .textStyleBoldBodyMedium,
+                                                ),
+                                                InkWell(onTap: () {
+                                                  AppPopUps.displayTextInputDialog(title: "Feature" ,message: "Please enter feature", hint: "Feature",
+                                                      onSubmit:
+                                                          (String text) {
+                                                        if (text
+                                                            .isNotEmpty) {
+                                                          controller.feature.add(text);
+                                                        }
+                                                      }
+                                                  );
+                                                },child: Icon(Icons.add)),
+
+                                              ],
                                             ),
                                             vSpace,
+                                            if(controller.feature.isNotEmpty)
                                             SizedBox(
                                               height: 90.h,
                                               child: ListView.builder(
                                                 physics:
                                                     const BouncingScrollPhysics(),
                                                 itemCount:
-                                                    4 /*controller
-                                                            .picturesList.length +
-                                                        1*/
+                                                    controller.feature.length
                                                 ,
                                                 scrollDirection:
                                                     Axis.horizontal,
                                                 itemBuilder: (context, index) {
-                                                  return index ==
-                                                          3 /*controller
-                                                            .picturesList.length +
-                                                        1*/
-                                                      ? Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 10),
-                                                          width: 400.w,
-                                                          height: 60.h,
-                                                          decoration: BoxDecoration(
-                                                              color: AppColor
-                                                                  .alphaGrey,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: const Icon(Icons
-                                                              .add_circle_outline),
-                                                        )
-                                                      : Container(
+
+
+                                               return       Container(
                                                           padding:
                                                               const EdgeInsets
                                                                   .all(5),
@@ -207,7 +204,7 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                                           10)),
                                                           child: Center(
                                                             child: Text(
-                                                              'Air Conditioned',
+                                                             controller.feature[index],
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -225,10 +222,16 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                               style: AppTextStyles
                                                   .textStyleBoldSubTitleLarge,
                                             ),
-                                            Text(
-                                              "upload recent pictures of your vehicle",
-                                              style: AppTextStyles
-                                                  .textStyleNormalBodyXSmall,
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "upload recent pictures of your vehicle",
+                                                  style: AppTextStyles
+                                                      .textStyleNormalBodyXSmall,
+                                                ),
+                                                InkWell(child: Icon(Icons.add)),
+                                              ],
                                             ),
                                             vSpace,
                                             SizedBox(

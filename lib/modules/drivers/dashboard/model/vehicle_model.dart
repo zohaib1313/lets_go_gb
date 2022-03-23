@@ -1,4 +1,5 @@
 class VehicleModel {
+  String? id;
   String? vehicleName;
   String? plateNo;
   String? maker;
@@ -10,8 +11,11 @@ class VehicleModel {
   bool? success;
   String? errorMessage;
   List<String>? vehicleImages;
+  List<String>? features;
+  String? descriptionNote;
 
   VehicleModel({
+    this.id,
     this.vehicleName,
     this.plateNo,
     this.maker,
@@ -23,9 +27,13 @@ class VehicleModel {
     this.success,
     this.errorMessage,
     this.vehicleImages,
+    this.features,
+    this.descriptionNote,
+
   });
 
   VehicleModel.fromJson(Map<String, dynamic> map) {
+    id = map["Id"];
     vehicleName = map['vehicleName'];
     plateNo = map['plateNo'];
     maker = map['maker'];
@@ -35,10 +43,15 @@ class VehicleModel {
     mileage = map['mileage'];
     seatingCapacity = map['seatingCapacity'];
     transmissionType = map['transmissionType'];
+    vehicleImages = map['vehicleImages'];
+    descriptionNote = map["DescriptionNote"];
+    features = map['Feature'];
+
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'Id':id,
       'vehicleName': vehicleName,
       'plateNo': plateNo,
       'maker': maker,
@@ -50,11 +63,14 @@ class VehicleModel {
       'success': success,
       'errorMessage': errorMessage,
       'vehicleImages': vehicleImages,
+      'DescriptionNote' : descriptionNote,
+      'Feature': features,
     };
   }
 
   factory VehicleModel.fromMap(Map<String, dynamic> map) {
     return VehicleModel(
+      id: map['Id'] as String,
       vehicleName: map['vehicleName'] as String,
       plateNo: map['plateNo'] as String,
       maker: map['maker'] as String,
@@ -66,6 +82,8 @@ class VehicleModel {
       success: map['success'] as bool,
       errorMessage: map['errorMessage'] as String,
       vehicleImages: map['vehicleImages'] as List<String>,
+      features:  map['Feature'] as List<String>,
+      descriptionNote:  map['DescriptionNote'] as String,
     );
   }
 
