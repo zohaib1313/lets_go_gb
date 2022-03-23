@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/add_new_vehicle_controller.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_chat_home_controller.dart';

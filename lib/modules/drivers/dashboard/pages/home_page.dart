@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +11,7 @@ import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
 // ignore: must_be_immutable
 class DriverHomePage extends GetView<DriverDashBoardHomeController> {
-  DriverHomePage({Key? key}) : super(key: key);
+  const DriverHomePage({Key? key}) : super(key: key);
   static const id = '/DriverHomePage';
   static var vSpace = SizedBox(height: 20.h);
   static var hSpace = SizedBox(width: 50.w);
@@ -19,7 +21,6 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
     return GetX<DriverDashBoardHomeController>(
         initState: (state) {},
         builder: (_) {
-
           return Stack(
             children: [
               Scaffold(
@@ -28,8 +29,8 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                     children: [
                       animatedBackGround(),
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 100.w, vertical: 50.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 100.w, vertical: 50.h),
                         child: Column(
                           children: [
                             ///headers
@@ -40,13 +41,15 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                 Expanded(
                                   child: Text(
                                     'Welcome , TestUser',
-                                    style: AppTextStyles.textStyleBoldSubTitleLarge,
+                                    style: AppTextStyles
+                                        .textStyleBoldSubTitleLarge,
                                   ),
                                 ),
                                 const CircleAvatar(
                                   backgroundColor: AppColor.alphaGrey,
                                   child: SvgViewer(
-                                      svgPath: 'assets/icons/ic_notifications.svg'),
+                                      svgPath:
+                                          'assets/icons/ic_notifications.svg'),
                                 )
                               ],
                             ),
@@ -71,17 +74,20 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                     ),
                                     Flexible(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text(controller.loginModel!.firstName!,
+                                          Text(
+                                            controller.loginModel!.firstName!,
                                             style: AppTextStyles
                                                 .textStyleBoldBodyMedium
                                                 .copyWith(
                                                     color: AppColor.whiteColor),
                                           ),
-                                          Text(controller.loginModel!.phone!,
+                                          Text(
+                                            controller.loginModel!.phone!,
                                             style: AppTextStyles
                                                 .textStyleBoldBodySmall
                                                 .copyWith(
@@ -96,9 +102,11 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                             allowHalfRating: true,
                                             unratedColor: AppColor.whiteColor,
                                             itemCount: 5,
-                                            itemPadding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            itemBuilder: (context, _) => const Icon(
+                                            itemPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 4.0),
+                                            itemBuilder: (context, _) =>
+                                                const Icon(
                                               Icons.star,
                                               color: Colors.amber,
                                             ),
@@ -124,8 +132,8 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                                   style: AppTextStyles
                                                       .textStyleNormalBodyXSmall
                                                       .copyWith(
-                                                          color:
-                                                              AppColor.whiteColor),
+                                                          color: AppColor
+                                                              .whiteColor),
                                                 ),
                                                 const Icon(
                                                   Icons.online_prediction,
@@ -155,7 +163,8 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                   ),
                                 ),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     Row(
                                       children: [
@@ -180,7 +189,8 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                       child: ListView.builder(
                                           itemCount: 10,
                                           shrinkWrap: true,
-                                          physics: const BouncingScrollPhysics(),
+                                          physics:
+                                              const BouncingScrollPhysics(),
                                           itemBuilder: (context, index) {
                                             return getRowItem(index);
                                           }),
@@ -196,8 +206,7 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                   ),
                 ),
               ),
-              if(controller.loading.value)
-                LoadingWidget(),
+              if (controller.loading.value) LoadingWidget(),
             ],
           );
         });
@@ -224,7 +233,7 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                 ),
               );
             })
-        : IgnorePointer();
+        : const IgnorePointer();
   }
 
   Widget getRowItem(index) {

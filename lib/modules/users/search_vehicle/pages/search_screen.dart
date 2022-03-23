@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
@@ -8,6 +7,8 @@ import '../../../drivers/utils/styles.dart';
 import '../../home/controllers/search_screen_controller.dart';
 
 class SearchDriverScreen extends GetView<SearchScreenUserController> {
+  const SearchDriverScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +44,7 @@ class SearchDriverScreen extends GetView<SearchScreenUserController> {
                 height: 25.h,
               ),
               GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

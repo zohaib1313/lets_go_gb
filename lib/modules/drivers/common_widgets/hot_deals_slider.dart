@@ -8,7 +8,8 @@ class HotDealsSlider extends StatelessWidget {
   final String? carModel;
   final ImageProvider? carImage;
 
-  HotDealsSlider({this.carName, this.carImage, this.carModel});
+  const HotDealsSlider({Key? key, this.carName, this.carImage, this.carModel})
+      : super(key: key);
 
   ///
   @override

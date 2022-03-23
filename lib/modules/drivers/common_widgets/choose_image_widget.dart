@@ -8,13 +8,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../utils/common_widgets.dart';
 import '../utils/styles.dart';
 
+// ignore: must_be_immutable
 class ChooseImageWidget extends StatefulWidget {
   File? image;
   String? chooseTitle;
 
   dynamic onImageChoosed;
 
-  ChooseImageWidget({required this.chooseTitle, this.onImageChoosed});
+  ChooseImageWidget({Key? key, required this.chooseTitle, this.onImageChoosed})
+      : super(key: key);
 
   @override
   _ChooseImageWidgetState createState() => _ChooseImageWidgetState();
@@ -27,7 +29,7 @@ class _ChooseImageWidgetState extends State<ChooseImageWidget> {
       padding: EdgeInsets.symmetric(horizontal: 100.w),
       child: DottedBorder(
         color: AppColor.greyColor,
-        dashPattern: [10, 10],
+        dashPattern: const [10, 10],
         strokeWidth: 1,
         child: Container(
           padding: EdgeInsets.all(80.r),

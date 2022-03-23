@@ -1,5 +1,4 @@
-class VehicleModel{
-
+class VehicleModel {
   String? vehicleName;
   String? plateNo;
   String? maker;
@@ -12,34 +11,30 @@ class VehicleModel{
   String? errorMessage;
   List<String>? vehicleImages;
 
-
   VehicleModel({
-      this.vehicleName,
-      this.plateNo,
-      this.maker,
-      this.make,
-      this.rentHour,
-      this.mileage,
-      this.seatingCapacity,
-      this.transmissionType,
-      this.success,
-      this.errorMessage,
-      this.vehicleImages,});
-
-
+    this.vehicleName,
+    this.plateNo,
+    this.maker,
+    this.make,
+    this.rentHour,
+    this.mileage,
+    this.seatingCapacity,
+    this.transmissionType,
+    this.success,
+    this.errorMessage,
+    this.vehicleImages,
+  });
 
   VehicleModel.fromJson(Map<String, dynamic> map) {
-
-      vehicleName = map['vehicleName'] ;
-      plateNo =  map['plateNo'];
-      maker = map['maker'];
-      success = map['Success'];
-      make = map['make'];
-      rentHour = map['rentHour'];
-      mileage = map['mileage'] ;
-      seatingCapacity = map['seatingCapacity'];
-      transmissionType = map['transmissionType'];
-
+    vehicleName = map['vehicleName'];
+    plateNo = map['plateNo'];
+    maker = map['maker'];
+    success = map['success'];
+    make = map['make'];
+    rentHour = map['rentHour'];
+    mileage = map['mileage'];
+    seatingCapacity = map['seatingCapacity'];
+    transmissionType = map['transmissionType'];
   }
 
   Map<String, dynamic> toMap() {
@@ -72,5 +67,10 @@ class VehicleModel{
       errorMessage: map['errorMessage'] as String,
       vehicleImages: map['vehicleImages'] as List<String>,
     );
+  }
+
+  @override
+  String toString() {
+    return 'VehicleModel{vehicleName: $vehicleName, plateNo: $plateNo, maker: $maker, make: $make, rentHour: $rentHour, mileage: $mileage, seatingCapacity: $seatingCapacity, transmissionType: $transmissionType, success: $success, errorMessage: $errorMessage, vehicleImages: $vehicleImages}';
   }
 }

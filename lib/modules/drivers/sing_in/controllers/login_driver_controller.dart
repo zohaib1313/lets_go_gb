@@ -14,11 +14,6 @@ class LoginDriverController extends GetxController {
     _loginRepository = LoginRepository();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   final isObscure = true.obs;
 
   final emailController = TextEditingController();

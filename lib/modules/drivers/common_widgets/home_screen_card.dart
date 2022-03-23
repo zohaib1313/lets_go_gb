@@ -7,7 +7,8 @@ class HomeScreenCard extends StatelessWidget {
   final String? text;
   final String? btnText;
 
-  HomeScreenCard({this.image, this.text, this.btnText});
+  const HomeScreenCard({Key? key, this.image, this.text, this.btnText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,5 @@ class HomeScreenCard extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

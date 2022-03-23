@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -65,8 +67,7 @@ class UserDefaults {
 
   static void saveUserSession(UserModel signInModel) async {
     String user = json.encode(signInModel.toJson());
-    getPref().then((value) => value
-      ..setString('userData', user));
+    getPref().then((value) => value..setString('userData', user));
     if (kDebugMode) {
       printWrapped("user session saved type=  ${user}");
       printWrapped(user.toString());

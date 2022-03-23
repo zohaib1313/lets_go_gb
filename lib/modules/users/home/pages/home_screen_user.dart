@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -153,7 +155,7 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                 height: 15,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xffc32c37),
+                    color: const Color(0xffc32c37),
                     border: Border.all(color: Colors.white, width: 1)),
                 child: const Center(
                   child: Text(

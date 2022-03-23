@@ -1,9 +1,9 @@
-import 'dart:typed_data';
+// ignore_for_file: unnecessary_overrides
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/app_preferences.dart';
 
@@ -11,11 +11,6 @@ const String kUSERS = "users";
 const String kVEHICLES = "vehicles";
 
 class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
-  @override
-  Future<UserCredential> createUser(String email, String password) {
-    return super.createUser(email, password);
-  }
-
   @override
   Future<String?> getImageUrl(String path) {
     return super.getImageUrl(path);
@@ -53,8 +48,6 @@ class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
       String collectionPath, Map<String, dynamic> data) {
     return super.updateDocument(collectionPath, data);
   }
-
-
 }
 
 class _FireStorage {
@@ -74,9 +67,7 @@ class _FireStorage {
     try {
       fs.Reference ref = _firebaseStorage.ref('images/').child(path);
 
-
-        return ref.putData(uploadFile);
-
+      return ref.putData(uploadFile);
     } on firebase_core.FirebaseException catch (e) {
       Get.log(e.toString(), isError: true);
 
@@ -98,13 +89,14 @@ class _FireStore {
   }
 
   Future<DocumentSnapshot> getDoc(String collectionPath, String uid) async {
-
     return await firebaseFirestore.collection(collectionPath).doc(uid).get();
   }
 
-  Future<bool> saveDocument(String collectionPath, Map<String, dynamic> data) async {
-
-    Get.log("Save $collectionPath $data",);
+  Future<bool> saveDocument(
+      String collectionPath, Map<String, dynamic> data) async {
+    Get.log(
+      "Save $collectionPath $data",
+    );
 
     return firebaseFirestore
         .collection(collectionPath)
@@ -115,10 +107,11 @@ class _FireStore {
 
   Future<bool> updateDocument(
       String collectionPath, Map<String, dynamic> data) async {
-
     data.addAll({"UpdatedAt": DateTime.now()});
 
-    Get.log("Update $collectionPath $data",);
+    Get.log(
+      "Update $collectionPath $data",
+    );
 
     return firebaseFirestore
         .collection(collectionPath)

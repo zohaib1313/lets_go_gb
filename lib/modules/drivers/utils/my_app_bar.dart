@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators, prefer_typing_uninitialized_variables, prefer_const_constructors, avoid_print
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -197,7 +199,7 @@ class _MyAnimSearchBarState extends State<MyAnimSearchBar>
                     controller: widget.textController,
                     inputFormatters: widget.inputFormatters,
                     focusNode: focusNode,
-                    cursorRadius: Radius.circular(10.0),
+                    cursorRadius: const Radius.circular(10.0),
                     cursorWidth: 2.0,
                     onEditingComplete: () {
                       /// on editing complete the keyboard will be closed and the search bar will be closed
@@ -217,7 +219,7 @@ class _MyAnimSearchBarState extends State<MyAnimSearchBar>
                       isDense: true,
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       labelText: widget.helpText,
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         color: Color(0xff5B5B5B),
                         fontSize: 17.0,
                         fontWeight: FontWeight.w500,
@@ -246,7 +248,7 @@ class _MyAnimSearchBarState extends State<MyAnimSearchBar>
                 ///prefixIcon is of type Icon
                 icon: widget.prefixIcon != null
                     ? toggle == 1
-                        ? Icon(
+                        ? const Icon(
                             Icons.arrow_back_ios,
                             color: Colors.black,
                           )
@@ -264,8 +266,9 @@ class _MyAnimSearchBarState extends State<MyAnimSearchBar>
                         toggle = 1;
                         setState(() {
                           ///if the autoFocus is true, the keyboard will pop open, automatically
-                          if (widget.autoFocus)
+                          if (widget.autoFocus) {
                             FocusScope.of(context).requestFocus(focusNode);
+                          }
                         });
 
                         ///forward == expand

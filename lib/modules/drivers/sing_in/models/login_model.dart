@@ -1,3 +1,4 @@
+// ignore_for_file: unnecessary_new, unnecessary_this
 
 class SignInModel {
   String? token;
@@ -11,7 +12,7 @@ class SignInModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['token'] = this.token;
     if (this.user != null) {
       data['user'] = this.user!.toJson();
@@ -26,7 +27,6 @@ class SignInModel {
 }
 
 class UserModel {
-
   String? id;
   String? adminId;
   String? firstName;
@@ -40,19 +40,19 @@ class UserModel {
   bool? success;
   String? errorMessage;
 
-  UserModel({this.id,
-    this.adminId,
-    this.emailAddress,
-    this.password,
-    this.confirmPassword,
-    this.firstName,
-    this.lastName,
-    this.userRole,
-    this.phone,
-    this.profileImageUrl,
-    this.success,
-    this.errorMessage
-  });
+  UserModel(
+      {this.id,
+      this.adminId,
+      this.emailAddress,
+      this.password,
+      this.confirmPassword,
+      this.firstName,
+      this.lastName,
+      this.userRole,
+      this.phone,
+      this.profileImageUrl,
+      this.success,
+      this.errorMessage});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     success = json['Success'];
@@ -67,7 +67,7 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['Success'] = success;
     data['Id'] = id;
     data['AdminId'] = adminId;
@@ -80,5 +80,3 @@ class UserModel {
     return data;
   }
 }
-
-

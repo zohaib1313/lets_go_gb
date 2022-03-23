@@ -94,8 +94,8 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    DriverHomePage(),
-    const DriverGaragePage(),
+    const DriverHomePage(),
+    DriverGaragePage(),
     const DriverChatHomePage(),
     const DriverMorePage(),
   ];

@@ -10,7 +10,9 @@ class HotDealsCard extends StatelessWidget {
   final String? carSeats;
   final ImageProvider? image;
 
-  HotDealsCard({this.carName, this.carPrice, this.image, this.carSeats});
+  const HotDealsCard(
+      {Key? key, this.carName, this.carPrice, this.image, this.carSeats})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
@@ -13,6 +12,8 @@ import '../controllers/driver_chat_with_user_controller.dart';
 
 class ChatScreen extends GetView<DriverChatWithUserController> {
   static const id = "/ChatScreenUser";
+
+  const ChatScreen({Key? key}) : super(key: key);
 
   /*
 
@@ -229,7 +230,7 @@ class ChatScreen extends GetView<DriverChatWithUserController> {
           ),
           child: Text(
             message,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
         ),
       );

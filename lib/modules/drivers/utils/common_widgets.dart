@@ -1,5 +1,6 @@
+// ignore_for_file: avoid_print, must_be_immutable, unnecessary_question_mark, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
@@ -29,7 +30,6 @@ class SvgViewer extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class MyTextField extends StatelessWidget {
   final Color? fillColor;
   final String? labelText;
@@ -45,7 +45,6 @@ class MyTextField extends StatelessWidget {
   final String? text;
   final String? sufixLabel;
 
-  // ignore: prefer_typing_uninitialized_variables
   final onChanged;
   final double? leftPadding;
   final double? rightPadding;
@@ -211,7 +210,7 @@ class Button extends StatelessWidget {
   final double? leftPadding;
   final double? rightPading;
 
-  Button(
+  const Button(
       {Key? key,
       required this.buttonText,
       this.onTap,
@@ -281,7 +280,7 @@ class Button extends StatelessWidget {
 class MyDropDown extends StatefulWidget {
   Color? fillColor;
   Function(dynamic? value)? onChange;
-  dynamic? value;
+  dynamic value;
   Color? borderColor;
   final Color? labelColor;
   final Color? textColor;
@@ -299,7 +298,8 @@ class MyDropDown extends StatefulWidget {
   bool isItalicHint;
 
   MyDropDown(
-      {this.fillColor,
+      {Key? key,
+      this.fillColor,
       required this.onChange,
       this.textColor,
       this.value,
@@ -316,7 +316,8 @@ class MyDropDown extends StatefulWidget {
       this.validator,
       this.itemFuntion,
       this.isDense = true,
-      this.isItalicHint = false});
+      this.isItalicHint = false})
+      : super(key: key);
 
   @override
   State<MyDropDown> createState() => _MyDropDownState();
@@ -359,7 +360,7 @@ class _MyDropDownState extends State<MyDropDown> {
             contentPadding: EdgeInsets.all(20.h),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(50.r),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 width: 0,
                 style: BorderStyle.none,
               ),
@@ -412,16 +413,17 @@ class _MyDropDownState extends State<MyDropDown> {
   }
 }
 
-// ignore: must_be_immutable
 class ExpandableCardContainer extends StatefulWidget {
   bool isExpanded;
   Widget collapsedChild;
   Widget expandedChild;
 
   ExpandableCardContainer(
-      {required this.isExpanded,
+      {Key? key,
+      required this.isExpanded,
       required this.collapsedChild,
-      required this.expandedChild});
+      required this.expandedChild})
+      : super(key: key);
 
   @override
   _ExpandableCardContainerState createState() =>
@@ -445,7 +447,8 @@ class ExpandAbleTile extends StatefulWidget {
   ExpandableTileModel model;
   Widget? expandedWidgetChild;
 
-  ExpandAbleTile({required this.model, this.expandedWidgetChild});
+  ExpandAbleTile({Key? key, required this.model, this.expandedWidgetChild})
+      : super(key: key);
 
   @override
   State<ExpandAbleTile> createState() => _ExpandAbleTileState();
@@ -461,15 +464,15 @@ class _ExpandAbleTileState extends State<ExpandAbleTile> {
         child: Column(
           children: [
             ExpansionTile(
-              tilePadding: EdgeInsets.only(left: 10, right: 5),
+              tilePadding: const EdgeInsets.only(left: 10, right: 5),
               initiallyExpanded: widget.model.isExpanded,
               trailing: widget.model.isExpanded
-                  ? Icon(
+                  ? const Icon(
                       Icons.arrow_drop_down_outlined,
                       color: AppColor.whiteColor,
                       size: 40,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.arrow_drop_up_outlined,
                       color: AppColor.whiteColor,
                       size: 40,

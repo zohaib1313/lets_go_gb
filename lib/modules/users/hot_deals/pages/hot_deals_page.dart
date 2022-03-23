@@ -1,5 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -12,11 +13,13 @@ import '../../home/controllers/hot_deals_controller.dart';
 class HotDealsPage extends GetView<HotDealsController> {
   final space = SizedBox(height: 20.h);
 
+  HotDealsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar(title: "Hot Deals", goBack: false),
-      backgroundColor: Color(0xffE5E5E5).withOpacity(0.3),
+      backgroundColor: const Color(0xffE5E5E5).withOpacity(0.3),
       body: Container(
         padding: EdgeInsets.only(
           left: 50.w,
@@ -29,7 +32,7 @@ class HotDealsPage extends GetView<HotDealsController> {
             ),
 
             //hot deals slider
-            Container(
+            SizedBox(
               height: 320.h,
               // color: Colors.green,
               // margin: const EdgeInsets.all(5),
@@ -146,7 +149,7 @@ class HotDealsPage extends GetView<HotDealsController> {
               carName: "Toyota Land Cruiser",
               carPrice: "PKR 1000/",
               carSeats: "4 Seats",
-              image: AssetImage("assets/images/redCar.png"),
+              image: const AssetImage("assets/images/redCar.png"),
             ),
           ]),
         ),

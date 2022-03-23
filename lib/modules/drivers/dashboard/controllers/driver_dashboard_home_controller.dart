@@ -16,6 +16,7 @@ class DriverDashBoardHomeController extends GetxController
     _homeRepository = DriverDashBoardHomeRepository();
   }
   final loading = false.obs;
+  // ignore: prefer_typing_uninitialized_variables
   var scale;
 
   @override
