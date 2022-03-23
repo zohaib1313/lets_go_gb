@@ -55,7 +55,8 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                   children: [
                                     Text(
                                       "Add Your Vehicle",
-                                      style: AppTextStyles.textStyleBoldSubTitleLarge,
+                                      style: AppTextStyles
+                                          .textStyleBoldSubTitleLarge,
                                     ),
                                     Expanded(
                                         child: SingleChildScrollView(
@@ -69,37 +70,46 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                             vSpace,
                                             getTextField(
                                                 title: 'Vehicle Name',
-                                                controller:
-                                                    controller.vehicleNameController),
+                                                controller: controller
+                                                    .vehicleNameController),
                                             vSpace,
                                             getTextField(
                                                 title: 'Vehicle Plate No',
-                                                controller:controller.vehicleNoController),
+                                                controller: controller
+                                                    .vehicleNoController),
                                             vSpace,
                                             getTextField(
                                                 title: 'Vehicle Maker',
-                                                controller: controller.vehicleMakerController),
+                                                controller: controller
+                                                    .vehicleMakerController),
                                             vSpace,
                                             getTextField(
                                                 title: 'Vehicle Make',
-                                                controller: controller.vehicleMakeController),
+                                                controller: controller
+                                                    .vehicleMakeController),
                                             vSpace,
                                             getTextField(
                                                 title: 'Rent / Hour',
-                                                keyBoardType: TextInputType.number,
-                                                controller:controller.vehicleRentHourController),
+                                                keyBoardType:
+                                                    TextInputType.number,
+                                                controller: controller
+                                                    .vehicleRentHourController),
                                             vSpace,
                                             getTextField(
                                                 title: 'Mileage / Liter',
-                                                keyBoardType: TextInputType.number,
-                                                controller: controller.vehicleMileageController),
+                                                keyBoardType:
+                                                    TextInputType.number,
+                                                controller: controller
+                                                    .vehicleMileageController),
                                             vSpace,
                                             MyDropDown(
                                               fillColor: AppColor.alphaGrey,
                                               labelText: 'Seating Capacity',
                                               hintText: 'Select',
-                                              items: controller.seatingCapacityList,
-                                              value: controller.selectedSeatCapacity.value,
+                                              items: controller
+                                                  .seatingCapacityList,
+                                              value: controller
+                                                  .selectedSeatCapacity.value,
                                               validator: (value) {
                                                 return null;
                                               },
@@ -113,16 +123,91 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                               fillColor: AppColor.alphaGrey,
                                               labelText: 'Transmission Type',
                                               hintText: 'Select',
-                                              items: controller.transMissionTypeList,
+                                              items: controller
+                                                  .transMissionTypeList,
                                               value: controller
-                                                  .selectedTransmissionType.value,
+                                                  .selectedTransmissionType
+                                                  .value,
                                               validator: (value) {
                                                 return null;
                                               },
                                               onChange: (value) {
-                                                controller.selectedTransmissionType
+                                                controller
+                                                    .selectedTransmissionType
                                                     .value = value;
                                               },
+                                            ),
+                                            vSpace,
+                                            Text(
+                                              "Features",
+                                              style: AppTextStyles
+                                                  .textStyleBoldBodyMedium,
+                                            ),
+                                            vSpace,
+                                            SizedBox(
+                                              height: 90.h,
+                                              child: ListView.builder(
+                                                physics:
+                                                    const BouncingScrollPhysics(),
+                                                itemCount:
+                                                    4 /*controller
+                                                            .picturesList.length +
+                                                        1*/
+                                                ,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemBuilder: (context, index) {
+                                                  return index ==
+                                                          3 /*controller
+                                                            .picturesList.length +
+                                                        1*/
+                                                      ? Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 10),
+                                                          width: 400.w,
+                                                          height: 60.h,
+                                                          decoration: BoxDecoration(
+                                                              color: AppColor
+                                                                  .alphaGrey,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          child: const Icon(Icons
+                                                              .add_circle_outline),
+                                                        )
+                                                      : Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 10),
+                                                          width: 400.w,
+                                                          height: 60.h,
+                                                          decoration: BoxDecoration(
+                                                              color: AppColor
+                                                                  .alphaGrey,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Air Conditioned',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: AppTextStyles
+                                                                  .textStyleBoldBodyXSmall,
+                                                            ),
+                                                          ),
+                                                        );
+                                                },
+                                              ),
                                             ),
                                             vSpace,
                                             Text(
@@ -146,7 +231,8 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                             .picturesList.length +
                                                         1*/
                                                 ,
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 itemBuilder: (context, index) {
                                                   return index ==
                                                           3 /*controller
@@ -154,33 +240,38 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                         1*/
                                                       ? Container(
                                                           margin:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   right: 10),
                                                           width: 400.w,
                                                           height: 100.h,
                                                           decoration: BoxDecoration(
-                                                              color:
-                                                                  AppColor.alphaGrey,
+                                                              color: AppColor
+                                                                  .alphaGrey,
                                                               borderRadius:
                                                                   BorderRadius
-                                                                      .circular(10)),
+                                                                      .circular(
+                                                                          10)),
                                                           child: const Icon(Icons
                                                               .add_a_photo_outlined),
                                                         )
                                                       : Container(
                                                           padding:
-                                                              const EdgeInsets.all(5),
+                                                              const EdgeInsets
+                                                                  .all(5),
                                                           margin:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   right: 10),
                                                           width: 400.w,
                                                           height: 100.h,
                                                           decoration: BoxDecoration(
-                                                              color:
-                                                                  AppColor.alphaGrey,
+                                                              color: AppColor
+                                                                  .alphaGrey,
                                                               borderRadius:
                                                                   BorderRadius
-                                                                      .circular(10)),
+                                                                      .circular(
+                                                                          10)),
                                                           child: Image.asset(
                                                               'assets/images/redCar.png'),
                                                         );
@@ -191,13 +282,13 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                             Button(
                                               buttonText: "Submit",
                                               textColor: AppColor.whiteColor,
-                                              color: AppColor.primaryBlueDarkColor,
+                                              color:
+                                                  AppColor.primaryBlueDarkColor,
                                               onTap: () {
-                                                if(_formKey.currentState!.validate()){
+                                                if (_formKey.currentState!
+                                                    .validate()) {
                                                   controller.saveVehicle();
                                                 }
-
-
                                               },
                                             ),
                                             vSpace,
@@ -219,8 +310,7 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                           )
                         ],
                       ),
-                      if(controller.loading.value)
-                        LoadingWidget(),
+                      if (controller.loading.value) LoadingWidget(),
                     ],
                   )),
             ),
