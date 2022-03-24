@@ -5,7 +5,7 @@ import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_more_page.dart'
 
 import '../../utils/styles.dart';
 import 'driver_garage_page.dart';
-import 'home_page.dart';
+import 'driver_home_page.dart';
 
 class DriverDashBoard extends StatefulWidget {
   const DriverDashBoard({Key? key}) : super(key: key);

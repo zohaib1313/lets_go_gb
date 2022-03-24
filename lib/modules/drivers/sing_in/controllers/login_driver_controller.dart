@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/app_preferences.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/pages/home_page.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
 import 'package:let_go_gb/modules/drivers/sing_in/models/login_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/repositories/login_repository.dart';

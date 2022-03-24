@@ -9,6 +9,8 @@ import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_dashboard
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
+import 'driver_booking_detail_page.dart';
+
 // ignore: must_be_immutable
 class DriverHomePage extends GetView<DriverDashBoardHomeController> {
   const DriverHomePage({Key? key}) : super(key: key);
@@ -239,7 +241,7 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
   Widget getRowItem(index) {
     return InkWell(
         onTap: () {
-          ///goto booking details
+          Get.toNamed(DriverBookingDetailsPage.id);
         },
         child: Row(
           children: [
