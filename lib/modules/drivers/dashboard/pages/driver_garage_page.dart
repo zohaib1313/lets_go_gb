@@ -123,7 +123,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                   children: [
                     Text('Rent / Hour',
                         style: AppTextStyles.textStyleBoldBodyMedium),
-                    Text('Rs. ${controller.vehicleModel!.rentHour}',
+                    Text('Rs. 888888',
                         style: AppTextStyles.textStyleBoldBodyXSmall),
                   ],
                 ),

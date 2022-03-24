@@ -16,9 +16,9 @@ class DriverGarageRepository {
   }
   ///.............................Categories...............................////
 
-  Future<VehicleModel?> getVehicles() async {
+  Future<List<VehicleModel>?> getVehicles() async {
     try {
-
+      List<VehicleModel> list = [];
 
       final QuerySnapshot? querySnapshot = await _firebaseHelper
           .firebaseFirestore
@@ -27,14 +27,15 @@ class DriverGarageRepository {
           isNotEqualTo: '', isEqualTo: AppPreferences.getUserCredentialsId)
           .get();
 
+      for (final element in querySnapshot!.docs) {
+        final driverMap = element.data() as Map<String, dynamic>;
 
-        final driverMap = querySnapshot!.docs as Map<String, dynamic>;
+        list.add(VehicleModel.fromMap(driverMap));
+      }
 
-       return VehicleModel.fromMap(driverMap);
+      Get.log("Categories: ${list.map((e) => e.toMap())}");
 
-
-      //Get.log("Categories: ${VehicleModel.fromMap((e) => e.toMap())}");
-
+      return list;
     } on FirebaseFirestore catch (onError) {
       Get.log("$onError", isError: true);
 

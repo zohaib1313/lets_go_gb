@@ -7,7 +7,7 @@ class DriverGarageController extends GetxController {
   var temp = 0.obs;
   var haveVehicle = false.obs;
 final loading = false.obs;
-VehicleModel? vehicleModel = VehicleModel();
+List<VehicleModel> vehicleList = [];
   DriverGarageRepository? _driverGarageRepository;
   final List<String> imagesList = [
     'https://cdn.pixabay.com/photo/2015/10/03/06/04/porsche-969408__480.jpg',
@@ -19,19 +19,13 @@ VehicleModel? vehicleModel = VehicleModel();
   DriverGarageController(){
     _driverGarageRepository = DriverGarageRepository();
   }
-@override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    loadCategories();
-  }
 
   void loadCategories() {
     loading.value = true;
     _driverGarageRepository!
         .getVehicles()
-        .then((VehicleModel? vehicleModel) {
-      vehicleModel = vehicleModel!;
+        .then((List<VehicleModel>? list) {
+      vehicleList = list!;
     }).catchError((onError) {
       Get.log("$onError", isError: true);
       Get.showSnackbar(Ui.ErrorSnackBar(message: "$onError"));
