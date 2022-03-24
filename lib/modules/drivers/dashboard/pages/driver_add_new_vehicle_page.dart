@@ -172,48 +172,49 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                             ),
                                             vSpace,
                                             if(controller.feature.isNotEmpty)
-                                            SizedBox(
-                                              height: 90.h,
-                                              child: ListView.builder(
-                                                physics:
-                                                    const BouncingScrollPhysics(),
-                                                itemCount:
-                                                    controller.feature.length
-                                                ,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemBuilder: (context, index) {
+                                            Obx(()=> SizedBox(
+                                                height: 90.h,
+                                                child: ListView.builder(
+                                                  physics:
+                                                      const BouncingScrollPhysics(),
+                                                  itemCount:
+                                                      controller.feature.length
+                                                  ,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder: (context, index) {
 
 
-                                               return       Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(5),
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 10),
-                                                          width: 400.w,
-                                                          height: 60.h,
-                                                          decoration: BoxDecoration(
-                                                              color: AppColor
-                                                                  .alphaGrey,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: Center(
-                                                            child: Text(
-                                                             controller.feature[index],
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: AppTextStyles
-                                                                  .textStyleBoldBodyXSmall,
+                                                 return       Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 10),
+                                                            width: 400.w,
+                                                            height: 60.h,
+                                                            decoration: BoxDecoration(
+                                                                color: AppColor
+                                                                    .alphaGrey,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
+                                                            child: Center(
+                                                              child: Text(
+                                                               controller.feature[index],
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: AppTextStyles
+                                                                    .textStyleBoldBodyXSmall,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        );
-                                                },
+                                                          );
+                                                  },
+                                                ),
                                               ),
                                             ),
                                             vSpace,
@@ -230,65 +231,44 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                   style: AppTextStyles
                                                       .textStyleNormalBodyXSmall,
                                                 ),
-                                                InkWell(child: Icon(Icons.add)),
+                                                InkWell(onTap: () {
+                                                  controller.showPicker(context: context,);
+                                                },child: Icon(Icons.add)),
                                               ],
                                             ),
                                             vSpace,
-                                            SizedBox(
-                                              height: 150.h,
-                                              child: ListView.builder(
-                                                physics:
-                                                    const BouncingScrollPhysics(),
-                                                itemCount:
-                                                    4 /*controller
-                                                            .picturesList.length +
-                                                        1*/
-                                                ,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemBuilder: (context, index) {
-                                                  return index ==
-                                                          3 /*controller
-                                                            .picturesList.length +
-                                                        1*/
-                                                      ? Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 10),
-                                                          width: 400.w,
-                                                          height: 100.h,
-                                                          decoration: BoxDecoration(
-                                                              color: AppColor
-                                                                  .alphaGrey,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: const Icon(Icons
-                                                              .add_a_photo_outlined),
-                                                        )
-                                                      : Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(5),
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 10),
-                                                          width: 400.w,
-                                                          height: 100.h,
-                                                          decoration: BoxDecoration(
-                                                              color: AppColor
-                                                                  .alphaGrey,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: Image.asset(
-                                                              'assets/images/redCar.png'),
-                                                        );
-                                                },
+                                            Obx(
+                                              ()=> SizedBox(
+                                                height: 150.h,
+                                                child: ListView.builder(
+                                                  physics:
+                                                      const BouncingScrollPhysics(),
+                                                  itemCount:
+                                                  controller.picturesList.length,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder: (context, index) {
+                                                    return Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 10),
+                                                            width: 400.w,
+                                                            height: 100.h,
+                                                            decoration: BoxDecoration(
+                                                                color: AppColor
+                                                                    .alphaGrey,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
+                                                            child: Image.file(controller.picturesList[index]),
+                                                          );
+                                                  },
+                                                ),
                                               ),
                                             ),
                                             vSpace,

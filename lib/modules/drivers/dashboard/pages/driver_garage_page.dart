@@ -18,7 +18,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
   Widget build(BuildContext context) {
     return GetX<DriverGarageController>(
       initState: (state) {
-        controller.haveVehicle.value = false;
+        controller.haveVehicle.value = true;
         Future.delayed(
           const Duration(seconds: 2),
           () {},
@@ -123,7 +123,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                   children: [
                     Text('Rent / Hour',
                         style: AppTextStyles.textStyleBoldBodyMedium),
-                    Text('Rs. 50000.0',
+                    Text('Rs. ${controller.vehicleModel!.rentHour}',
                         style: AppTextStyles.textStyleBoldBodyXSmall),
                   ],
                 ),

@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/model/vehicle_model.dart';
 import 'package:let_go_gb/repositories/vehicle_repository.dart';
@@ -11,15 +15,17 @@ class AddNewVehicleController extends GetxController {
   var temp = 0.obs;
 
   RxList<File> picturesList = <File>[].obs;
-  List<String> feature = [];
+  RxList<String> feature = <String>[].obs;
   final loading = false.obs;
   VehicleRepository? _vehicleRepository;
+  FirebaseHelper? firebaseHelper;
 
   @override
   void onInit() {
     selectedSeatCapacity.value = seatingCapacityList[0];
     selectedTransmissionType.value = transMissionTypeList[0];
     _vehicleRepository = VehicleRepository();
+    firebaseHelper = FirebaseHelper();
     super.onInit();
   }
 
@@ -49,7 +55,7 @@ class AddNewVehicleController extends GetxController {
 
 
   /// signup model
-  VehicleModel _getVehicleModel() {
+  VehicleModel _getVehicleModel(vehicleImagesPath) {
     /// initialize login model with data
     final uid = const Uuid().v4();
     return VehicleModel(
@@ -64,7 +70,7 @@ class AddNewVehicleController extends GetxController {
       seatingCapacity: selectedSeatCapacity.value,
       transmissionType: selectedTransmissionType.value,
     features: feature,
-     // vehicleImages: ,
+      vehicleImages: vehicleImagesPath,
       success: true,
       errorMessage: "Success"
 
@@ -75,10 +81,77 @@ class AddNewVehicleController extends GetxController {
         );
   }
 
+  void showPicker({required BuildContext context}) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext x) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Photo Library'),
+                    onTap: () {
+                      _pickImage( source: 0);
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    _pickImage( source: 1);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+  void _pickImage({ required int source}) async {
 
-  void saveVehicle(){
+
+    try {
+      final pickedFile = await ImagePicker().pickImage(
+          source: source == 1 ? ImageSource.camera : ImageSource.gallery);
+
+      if (pickedFile != null) {
+        picturesList.add(File(pickedFile.path));
+        Get.log("kkkkkkkk");
+      } else {
+        Get.log('No image selected.');
+      }
+    } catch (e) {
+
+      Get.log(e.toString(), isError: true);
+    }
+  }
+
+  Future<List<String>> uploadFiles(List<File> _images) async {
+    var imageUrls = await Future.wait(_images.map((_image) => uploadFile(_image)));
+    print(imageUrls);
+    return imageUrls;
+  }
+
+  Future<String> uploadFile(File _image) async {
+    dynamic storageReference = FirebaseStorage.instance
+        .ref()
+        .child('images/${_image.path}');
+    dynamic uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+
+    return await storageReference.getDownloadURL();
+  }
+
+   Future<void> saveVehicle() async{
     loading.value = true;
-    _vehicleRepository!.saveVehicle(_getVehicleModel()).then((value) {
+
+
+     //await imagePicker();
+     List<String> _list = await uploadFiles(picturesList);
+
+
+    _vehicleRepository!.saveVehicle(_getVehicleModel(_list)).then((value) {
       if (value.toString() == "Success")
       {
 
