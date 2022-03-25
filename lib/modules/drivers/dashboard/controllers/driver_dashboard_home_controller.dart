@@ -2,7 +2,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
-import 'package:let_go_gb/modules/drivers/sing_in/models/login_model.dart';
+import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/repositories/driver_dashboard_home_repository.dart';
@@ -10,12 +10,15 @@ import 'package:let_go_gb/repositories/driver_dashboard_home_repository.dart';
 class DriverDashBoardHomeController extends GetxController
     with GetTickerProviderStateMixin {
   AnimationController? motionController;
-  final loginModel = UserDefaults.getUserSession();
+
   DriverDashBoardHomeRepository? _homeRepository;
+
   DriverDashBoardHomeController() {
     _homeRepository = DriverDashBoardHomeRepository();
   }
+
   final loading = false.obs;
+
   // ignore: prefer_typing_uninitialized_variables
   var scale;
 
@@ -37,7 +40,7 @@ class DriverDashBoardHomeController extends GetxController
     super.onInit();
   }
 
-  /// User Info Service
+/*  /// User Info Service
   void loadUserInfo() {
     loading.value = true;
     _homeRepository!.userInfo().then((value) {
@@ -49,9 +52,9 @@ class DriverDashBoardHomeController extends GetxController
     }).whenComplete(() {
       loading.value = false;
     });
-  }
+  }*/
 
-  void _userInfoResponse(UserModel value) {
+  void _userInfoResponse(DriverUserModel value) {
     if (value.success!) {
       //loginModel.value = value;
     } else {
@@ -64,5 +67,22 @@ class DriverDashBoardHomeController extends GetxController
     printWrapped("disposed called");
     motionController!.dispose();
     super.dispose();
+  }
+
+  @override
+  void onClose() {
+    printWrapped("close called");
+    motionController!.dispose();
+    super.onClose();
+  }
+
+/*  void getUserSession() {
+    _homeRepository!.userInfo().then((value) {
+      currentUser.value = UserDefaults.getDriverUserSession();
+    });
+  }*/
+
+  void saveUserSession(DriverUserModel driverUserModel) {
+    UserDefaults.saveDriverSession(driverUserModel);
   }
 }

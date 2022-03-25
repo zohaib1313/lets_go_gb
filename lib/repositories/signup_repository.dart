@@ -1,25 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/common_widgets/app_preferences.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
 import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 
 class SignupRepository {
-  late FirebaseHelper _firebaseHelper;
+  late FirebaseHelper firebaseHelper;
 
   SignupRepository() {
-    _firebaseHelper = FirebaseHelper();
+    firebaseHelper = FirebaseHelper();
   }
 
-  Future<bool> getUsersWithSamePhone(String phoneNo, String id) async {
+  Future<bool> checkUserIfExistsOnMail(String email) async {
     try {
-      final QuerySnapshot? querySnapshot = await _firebaseHelper
+      final QuerySnapshot? querySnapshot = await firebaseHelper
           .firebaseFirestore
-          .collection(kUSERS)
-          .where('Id', isNotEqualTo: id)
-          .where('AdminId', isEqualTo: AppPreferences.getUserCredentialsId)
-          .where('Phone', isEqualTo: phoneNo)
+          .collection(FirebasePathNodes.users)
+          .where('emailAddress', isEqualTo: email)
           .get();
 
       if (querySnapshot!.docs.isNotEmpty) {
@@ -37,22 +35,18 @@ class SignupRepository {
     }
   }
 
-
-
   /// save users
-  Future<String> saveUser(SignUpModel userModel) async {
+  Future<String> saveUser(DriverUserModel userModel) async {
     try {
-      UserCredential userCredential = await _firebaseHelper.createUser(
+      UserCredential userCredential = await firebaseHelper.createUser(
           userModel.emailAddress!, userModel.password!);
 
       if (userCredential.user != null) {
         userModel.id = userCredential.user!.uid;
 
-        userModel.adminId = AppPreferences.getUserCredentialsId;
-
         try {
-          final isSuccess =
-              await _firebaseHelper.saveDocument(kUSERS, userModel.toJson());
+          final isSuccess = await firebaseHelper.saveDocument(
+              FirebasePathNodes.users, userModel.toMap());
 
           if (isSuccess) {
             return "Success";

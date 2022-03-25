@@ -18,7 +18,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
   Widget build(BuildContext context) {
     return GetX<DriverGarageController>(
       initState: (state) {
-        controller.haveVehicle.value = true;
+        controller.haveVehicle.value = false;
         Future.delayed(
           const Duration(seconds: 2),
           () {},

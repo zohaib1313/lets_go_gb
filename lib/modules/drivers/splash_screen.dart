@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
 import 'package:let_go_gb/modules/drivers/on_boarding_driver/pages/onboardin_screen.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
 import 'utils/user_defaults.dart';
@@ -25,9 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         const Duration(seconds: 3),
         () => {
-              if (UserDefaults.getUserSession() != null)
+              if (UserDefaults.getDriverUserSession() != null)
                 {
-                  if (UserDefaults.getUserSession()!.userRole == "driver")
+                  if (UserDefaults.getDriverUserSession()!.userRole ==
+                      AppUserRoles.driver)
                     {Get.toNamed(DriverHomePage.id)}
                 }
               else

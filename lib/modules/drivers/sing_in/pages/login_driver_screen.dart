@@ -25,13 +25,13 @@ class DriverSignInScreen extends GetView<LoginDriverController> {
         Navigator.of(context).pop();
         return Future.value(true);
       },
-      child: SafeArea(
-        child: GetX<LoginDriverController>(
-          builder: (controller) => Stack(
-            children: [
-              Scaffold(
-                backgroundColor: AppColor.alphaGrey,
-                body: SingleChildScrollView(
+      child: GetX<LoginDriverController>(
+        builder: (controller) => Stack(
+          children: [
+            Scaffold(
+              backgroundColor: AppColor.alphaGrey,
+              body: SafeArea(
+                child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Container(
                     padding: EdgeInsets.only(
@@ -172,6 +172,7 @@ class DriverSignInScreen extends GetView<LoginDriverController> {
                                       textColor: AppColor.whiteColor,
                                       color: AppColor.primaryBlueDarkColor,
                                       onTap: () {
+                                        FocusScope.of(context).unfocus();
                                         if (_formKey.currentState!.validate()) {
                                           controller.login();
                                         }
@@ -214,9 +215,9 @@ class DriverSignInScreen extends GetView<LoginDriverController> {
                   ),
                 ),
               ),
-              if (controller.loading.value) LoadingWidget(),
-            ],
-          ),
+            ),
+            if (controller.loading.value) LoadingWidget(),
+          ],
         ),
       ),
     );

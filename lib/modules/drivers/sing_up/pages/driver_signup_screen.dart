@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/extension/extension.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
+
 import '../../common_widgets/choose_image_widget.dart';
 import '../../utils/common_widgets.dart';
 import '../../utils/styles.dart';
@@ -26,15 +27,16 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
           Navigator.of(context).pop();
           return Future.value(true);
         },
-        child: SafeArea(
-          child: Scaffold(
-            appBar: myAppBar(
-                title: "Driver Sign Up",
-                onBacKTap: () {
-                  Get.back();
-                }),
-            backgroundColor: AppColor.whiteColor,
-            body: GetX<DriverSignUpController>(builder: (controller) =>  Stack(
+        child: Scaffold(
+          appBar: myAppBar(
+              title: "Driver Sign Up",
+              onBacKTap: () {
+                Get.back();
+              }),
+          backgroundColor: AppColor.whiteColor,
+          body: SafeArea(
+            child: GetX<DriverSignUpController>(
+              builder: (controller) => Stack(
                 children: [
                   Column(
                     children: [
@@ -49,34 +51,61 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  space,
+                                  space,
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.pickProfileImage();
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: (controller
+                                                  .haveProfileImage.value !=
+                                              false)
+                                          ? Image.file(controller.profileImage!)
+                                              .image
+                                          : const AssetImage(
+                                              'assets/images/place_your_image.png'),
+                                    ),
+                                  ),
+                                  space,
+                                  space,
                                   getTextField(
-                                      title: "Name",
-                                      controller: controller.firstNameController,
-
-                                validate: (String? value) => value!.trim().isEmpty ? "Name Required" : null,),
+                                    title: "Name",
+                                    controller: controller.firstNameController,
+                                    validate: (String? value) =>
+                                        value!.trim().isEmpty
+                                            ? "Name Required"
+                                            : null,
+                                  ),
                                   space,
                                   getTextField(
                                       title: "Contact Number",
-                                      keyboardType:TextInputType.phone,
+                                      keyboardType: TextInputType.phone,
                                       inputFormatters: [
-                                         LengthLimitingTextInputFormatter(13),
+                                        LengthLimitingTextInputFormatter(13),
                                       ],
-                                      controller: controller.contactNumberController,
-                                    validate: (String? value) => value!.toValidPhoneNumber()),
-
+                                      controller:
+                                          controller.contactNumberController,
+                                      validate: (String? value) =>
+                                          value!.toValidPhoneNumber()),
                                   space,
                                   getTextField(
-                                      title: "Email",
-                                    keyboardType:TextInputType.emailAddress,
-                                      controller: controller.emailController,
-                                    validate: (String? value) => value!.toValidEmail(),
-                            ),
+                                    title: "Email",
+                                    keyboardType: TextInputType.emailAddress,
+                                    controller: controller.emailController,
+                                    validate: (String? value) =>
+                                        value!.toValidEmail(),
+                                  ),
                                   space,
                                   getTextField(
-                                      title: "Address",
-                                      controller: controller.addressController,
-                                  validate: (String? value) => value!.trim().isEmpty ? "Address Required" : null,),
-
+                                    title: "Address",
+                                    controller: controller.addressController,
+                                    validate: (String? value) =>
+                                        value!.trim().isEmpty
+                                            ? "Address Required"
+                                            : null,
+                                  ),
                                   space,
                                   MyTextField(
                                     suffixIconWidet: GestureDetector(
@@ -84,34 +113,38 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                                           controller.hidePasswordOne.value =
                                               !controller.hidePasswordOne.value;
                                         },
-                                        child: Icon(controller.hidePasswordOne.value
+                                        child: Icon(controller
+                                                .hidePasswordOne.value
                                             ? Icons.remove_red_eye_rounded
                                             : Icons.visibility_off_outlined)),
                                     fillColor: AppColor.alphaGrey,
                                     keyboardType: TextInputType.visiblePassword,
                                     hintText: "Password",
-                                    obsecureText: controller.hidePasswordOne.value,
+                                    obsecureText:
+                                        controller.hidePasswordOne.value,
                                     controller: controller.passwordController,
-                                    validator: (String? value) => value!.toValidPassword(),
+                                    validator: (String? value) =>
+                                        value!.toValidPassword(),
                                   ),
-
                                   space,
                                   MyTextField(
                                     suffixIconWidet: GestureDetector(
                                         onTap: () {
                                           controller.hideConfirmPassword.value =
-                                              !controller.hideConfirmPassword.value;
+                                              !controller
+                                                  .hideConfirmPassword.value;
                                         },
-                                        child: Icon(controller.hideConfirmPassword.value
+                                        child: Icon(controller
+                                                .hideConfirmPassword.value
                                             ? Icons.remove_red_eye_rounded
                                             : Icons.visibility_off_outlined)),
-
                                     keyboardType: TextInputType.visiblePassword,
                                     fillColor: AppColor.alphaGrey,
                                     hintText: "Confirm Password",
                                     obsecureText:
                                         controller.hideConfirmPassword.value,
-                                    controller: controller.confirmPasswordController,
+                                    controller:
+                                        controller.confirmPasswordController,
                                     validator: (value) {
                                       if (value!.isEmpty) {
                                         return "Confirm Password Required";
@@ -123,59 +156,6 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                                       return null;
                                     },
                                   ),
-                                  // space,
-                                  //
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.center,
-                                  //   children: [
-                                  //    const Text("Status:"),
-                                  //    const SizedBox(width: 20,),
-                                  //     Wrap(
-                                  //       children: controller.statusDropDownList
-                                  //           .map((Dropdown item) => Obx(() {
-                                  //         var boxColor = Colors.white;
-                                  //
-                                  //         var textColor = Colors.black87;
-                                  //
-                                  //         if (item ==
-                                  //             controller
-                                  //                 .statusDropDown.value) {
-                                  //           boxColor = Get.theme.primaryColor
-                                  //               .withOpacity(0.8);
-                                  //
-                                  //           textColor = Colors.white;
-                                  //         }
-                                  //
-                                  //         return InkWell(
-                                  //           onTap: () {
-                                  //             controller.statusDropDown
-                                  //                 .value = item;
-                                  //           },
-                                  //           child: Card(elevation: 3,
-                                  //             child: Container(
-                                  //               padding:
-                                  //               const EdgeInsets.all(10.0),
-                                  //               decoration: BoxDecoration(
-                                  //                   color: boxColor,
-                                  //                   borderRadius:
-                                  //                   const BorderRadius.all(
-                                  //                       Radius.circular(
-                                  //                           5.0))),
-                                  //               child: Text(
-                                  //                 item.name!,
-                                  //                 style: Get
-                                  //                     .textTheme.subtitle2!
-                                  //                     .copyWith(
-                                  //                     color: textColor),
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         );
-                                  //       }))
-                                  //           .toList(),
-                                  //     )
-                                  //   ],
-                                  // ),
                                   space,
                                   space,
                                   space,
@@ -203,34 +183,6 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                                   space,
                                   space,
                                   space,
-                                  /* MyDropDown(
-                                  onChange: (value) {},
-                                  hintText: "Martial Status",
-                                  labelText: "",
-                                  labelColor: AppColor.redColor,
-                                  borderColor: AppColor.alphaGrey,
-                                  fillColor: AppColor.alphaGrey,
-                                  suffixIcon: "assets/icons/drop_down_ic.svg",
-                                  itemFuntion: [
-                                    DropdownMenuItem(
-                                      value: "Married",
-                                      child: Text(
-                                        "Married",
-                                        style: AppTextStyles.textStyleBoldBodySmall,
-                                      ),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: "Single",
-                                      child: Text(
-                                        "Single",
-                                        style: AppTextStyles.textStyleBoldBodySmall,
-                                      ),
-                                    ),
-                                  ],
-                                  validator: (string) {
-                                    return null;
-                                  },
-                                ),*/
                                 ],
                               ),
                             ),
@@ -243,26 +195,37 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                             buttonText: "Register",
                             textColor: AppColor.whiteColor,
                             onTap: () {
+                              FocusScope.of(context).unfocus();
+
                               if (controller.formKey.currentState!.validate()) {
                                 if (controller.cnicFrontFile == null) {
                                   Get.showSnackbar(Ui.ErrorSnackBar(
-                                      message: "please choose cnic front copy"));
+                                      message:
+                                          "please choose cnic front copy"));
                                 } else if (controller.cnicBackFile == null) {
                                   Get.showSnackbar(Ui.ErrorSnackBar(
                                       message: "please choose cnic back copy"));
-                                } else if (controller.drivingLicenceFile == null) {
+                                } else if (controller.drivingLicenceFile ==
+                                    null) {
                                   Get.showSnackbar(Ui.ErrorSnackBar(
-                                      message: "please choose your driving licence"));
+                                      message:
+                                          "please choose your driving licence"));
+                                } else if (controller.profileImage == null) {
+                                  Get.showSnackbar(Ui.ErrorSnackBar(
+                                      message:
+                                          "please choose your Profile Image"));
                                 } else {
-                                  controller.saveUser();
+                                  controller.checkIfAccountAlreadyExists(
+                                      complete: () {
+                                    controller.saveUser();
+                                  });
                                 }
                               }
                             }),
                       )
                     ],
                   ),
-                  if(controller.loading.value)
-                    LoadingWidget(),
+                  if (controller.loading.value) LoadingWidget(),
                 ],
               ),
             ),
@@ -271,13 +234,17 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
   }
 
   getTextField(
-      {required String title, required TextEditingController controller,keyboardType =  TextInputType.text,validate,inputFormatters}) {
+      {required String title,
+      required TextEditingController controller,
+      keyboardType = TextInputType.text,
+      validate,
+      inputFormatters}) {
     return MyTextField(
       fillColor: AppColor.alphaGrey,
       hintText: title,
       labelText: title,
       controller: controller,
-      keyboardType:keyboardType,
+      keyboardType: keyboardType,
       validator: validate,
       inputFormatters: inputFormatters,
       //     (string) {

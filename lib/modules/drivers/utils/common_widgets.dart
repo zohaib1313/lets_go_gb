@@ -1,9 +1,11 @@
 // ignore_for_file: avoid_print, must_be_immutable, unnecessary_question_mark, prefer_typing_uninitialized_variables
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
+import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
 import 'expandable_tile_model.dart';
 
@@ -503,6 +505,43 @@ class _ExpandAbleTileState extends State<ExpandAbleTile> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CircularImage extends StatefulWidget {
+  String url;
+  double radius;
+  CircularImage({Key? key, required this.url, this.radius = 34})
+      : super(key: key);
+
+  @override
+  _CircularImageState createState() => _CircularImageState();
+}
+
+class _CircularImageState extends State<CircularImage> {
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: widget.url,
+      imageBuilder: (context, imageProvider) => CircleAvatar(
+        backgroundImage: imageProvider,
+        radius: widget.radius,
+      ),
+      placeholder: (context, url) => CircleAvatar(
+        child: const CircularProgressIndicator(
+          color: AppColor.primaryBlueColor,
+        ),
+        radius: widget.radius,
+      ),
+      errorWidget: (context, url, error) {
+        printWrapped(error.toString());
+        return CircleAvatar(
+          backgroundImage:
+              const AssetImage('assets/images/place_your_image.png'),
+          radius: widget.radius,
+        );
+      },
     );
   }
 }

@@ -2,9 +2,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/common_widgets/app_preferences.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
-import 'package:let_go_gb/modules/drivers/sing_in/models/login_model.dart';
+import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 
 class DriverDashBoardHomeRepository {
   late FirebaseHelper _firebaseHelper;
@@ -12,29 +13,28 @@ class DriverDashBoardHomeRepository {
 
   DriverDashBoardHomeRepository() {
     _firebaseHelper = FirebaseHelper();
-    _collectionReference = FirebaseFirestore.instance.collection(kUSERS);
+    _collectionReference =
+        FirebaseFirestore.instance.collection(FirebasePathNodes.users);
   }
 
-  Future<UserModel> userInfo() async {
-    final userId = AppPreferences.getUserCredentialsId;
+  Future<DriverUserModel> userInfo() async {
+    await _collectionReference!
+        .doc(UserDefaults.getDriverUserSession()?.id ?? '')
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      Get.log("userInfo: ${snapshot.data()}");
 
-    if (userId != null) {
-      return _collectionReference!
-          .doc(userId)
-          .get()
-          .then((DocumentSnapshot snapshot) {
-        Get.log("userInfo: ${snapshot.data()}");
+      Map<String, dynamic> userMap = snapshot.data() as Map<String, dynamic>;
+      var user = DriverUserModel.fromMap(userMap);
 
-        Map<String, dynamic> userMap = snapshot.data() as Map<String, dynamic>;
+      return user;
+    }).catchError((onError) {
+      Get.log("$onError", isError: true);
 
-        return UserModel.fromJson(userMap);
-      }).catchError((onError) {
-        Get.log("$onError", isError: true);
+      return DriverUserModel(success: false, errorMessage: "$onError");
+    });
 
-        return UserModel(success: false, errorMessage: "$onError");
-      });
-    }
-
-    return UserModel(success: false, errorMessage: "Something went wrong");
+    return DriverUserModel(
+        success: false, errorMessage: "Something went wrong");
   }
 }

@@ -1,26 +1,15 @@
 // ignore_for_file: unnecessary_overrides
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
-import 'package:firebase_storage/firebase_storage.dart' as fs;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/common_widgets/app_preferences.dart';
-
-const String kUSERS = "users";
-const String kVEHICLES = "vehicles";
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
+import 'package:path/path.dart';
 
 class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
-  @override
-  Future<String?> getImageUrl(String path) {
-    return super.getImageUrl(path);
-  }
-
-  @override
-  fs.UploadTask? uploadImage(String path, uploadFile) {
-    return super.uploadImage(path, uploadFile);
-  }
-
   @override
   Future<List<QueryDocumentSnapshot<Object?>>> getDocsList(
       String collectionPath) {
@@ -35,7 +24,7 @@ class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
   @override
   Future<bool> saveDocument(String collectionPath, Map<String, dynamic> data) {
     data.addAll({
-      "AdminId": AppPreferences.getUserCredentialsId,
+      "id": data['id'],
       "CreatedAt": DateTime.now(),
       "UpdatedAt": DateTime.now()
     });
@@ -48,31 +37,20 @@ class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
       String collectionPath, Map<String, dynamic> data) {
     return super.updateDocument(collectionPath, data);
   }
+
+  @override
+  Future<String> uploadImage({required File file, required String path}) {
+    return super.uploadImage(file: file, path: path);
+  }
 }
 
 class _FireStorage {
-  final _firebaseStorage = fs.FirebaseStorage.instance;
-
-  Future<String?> getImageUrl(String path) async {
-    try {
-      return await _firebaseStorage.ref('images/$path').getDownloadURL();
-    } on firebase_core.FirebaseException catch (e) {
-      Get.log(e.toString(), isError: true);
-
-      return null;
-    }
-  }
-
-  fs.UploadTask? uploadImage(String path, uploadFile) {
-    try {
-      fs.Reference ref = _firebaseStorage.ref('images/').child(path);
-
-      return ref.putData(uploadFile);
-    } on firebase_core.FirebaseException catch (e) {
-      Get.log(e.toString(), isError: true);
-
-      return null;
-    }
+  Future<String> uploadImage({required File file, required String path}) async {
+    Reference ref =
+        FirebaseStorage.instance.ref(path).child("/${basename(file.path)}.jpg");
+    await ref.putFile(file);
+    String url = await ref.getDownloadURL();
+    return Future.value(url);
   }
 }
 
@@ -82,7 +60,7 @@ class _FireStore {
   Future<List<QueryDocumentSnapshot>> getDocsList(String collectionPath) async {
     QuerySnapshot? querySnapshot = await firebaseFirestore
         .collection(collectionPath)
-        .where('AdminId', isEqualTo: AppPreferences.getUserCredentialsId)
+        .where('id', isEqualTo: UserDefaults.getDriverUserSession()?.id ?? '')
         .get();
 
     return querySnapshot.docs;
@@ -100,7 +78,7 @@ class _FireStore {
 
     return firebaseFirestore
         .collection(collectionPath)
-        .doc(data["Id"])
+        .doc(data["id"])
         .set(data)
         .then((value) => true);
   }
@@ -115,7 +93,7 @@ class _FireStore {
 
     return firebaseFirestore
         .collection(collectionPath)
-        .doc(data["Id"])
+        .doc(data["id"])
         .update(data)
         .then((value) => true);
   }
@@ -124,7 +102,7 @@ class _FireStore {
       String collectionPath, Map<String, dynamic> data) async {
     return firebaseFirestore
         .collection(collectionPath)
-        .doc(data["Id"])
+        .doc(data["id"])
         .delete()
         .then((value) => true);
   }

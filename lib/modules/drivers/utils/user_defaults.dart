@@ -1,12 +1,11 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
-
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../sing_in/models/login_model.dart';
+import 'app_user_roles.dart';
 
 class UserDefaults {
   static SharedPreferences? sharedPreferences;
@@ -63,15 +62,30 @@ class UserDefaults {
     return sharedPreferences.getInt(key) ?? defaultValue;
   }
 
-  //employer, applicant,tutor
+  ///driver///////////////////////////////////////////////////////////////
 
-  static void saveUserSession(UserModel signInModel) async {
-    String user = json.encode(signInModel.toJson());
-    getPref().then((value) => value..setString('userData', user));
+  static void saveDriverSession(DriverUserModel signInModel) async {
+    String user = json.encode(signInModel.toMap());
+    getPref().then((value) => value..setString(AppUserRoles.driver, user));
     if (kDebugMode) {
       printWrapped("user session saved type=  ${user}");
       printWrapped(user.toString());
     }
+  }
+
+  static DriverUserModel? getDriverUserSession() {
+    DriverUserModel? user;
+    if (sharedPreferences!.getString(AppUserRoles.driver) != null) {
+      Map<String, dynamic> json =
+          jsonDecode(sharedPreferences!.getString(AppUserRoles.driver)!);
+      user = DriverUserModel.fromMap(json);
+      printWrapped(user.toString());
+    }
+    return user;
+  }
+
+  static setUserType(String type) {
+    return sharedPreferences?.setString('type', type);
   }
 
   static String? getUserType() {
@@ -84,17 +98,5 @@ class UserDefaults {
 
   static setApiToken(String value) {
     return sharedPreferences?.setString('ApiToken', value);
-  }
-
-  static UserModel? getUserSession() {
-    UserModel? user;
-    if (sharedPreferences!.getString('userData') != null) {
-      Map<String, dynamic> json =
-          jsonDecode(sharedPreferences!.getString('userData')!);
-      user = UserModel.fromJson(json);
-
-      printWrapped(user.toString());
-    }
-    return user;
   }
 }

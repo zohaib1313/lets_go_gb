@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/common_widgets/app_preferences.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
-import 'package:let_go_gb/modules/drivers/sing_in/models/login_model.dart';
+import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/repositories/login_repository.dart';
 
@@ -26,8 +26,8 @@ class LoginDriverController extends GetxController {
     loading.value = true;
 
     _loginRepository!
-        .userLogin(emailController.text, passwordController.text)
-        .then((UserModel? value) {
+        .userLogin(emailController.text.trim(), passwordController.text.trim())
+        .then((DriverUserModel? value) {
       _loginResponse(value);
     }).catchError((onError) {
       Get.log("$onError", isError: true);
@@ -35,24 +35,19 @@ class LoginDriverController extends GetxController {
       Get.showSnackbar(Ui.ErrorSnackBar(message: "$onError"));
     }).whenComplete(() {
       passwordController.clear();
-
       loading.value = false;
     });
   }
 
-  void _loginResponse(UserModel? value) {
-    if (value!.success!) {
-      AppPreferences.setUserCredentialsId(value.id!);
-
-      AppPreferences.setUserRole(value.userRole!);
-      UserDefaults.saveUserSession(value);
-      if (value.userRole == "driver") {
-        Get.toNamed(DriverHomePage.id);
+  void _loginResponse(DriverUserModel? value) {
+    if (value?.success ?? false) {
+      if (value!.userRole == AppUserRoles.driver) {
+        UserDefaults.saveDriverSession(value);
+        Get.offAndToNamed(DriverHomePage.id);
       }
     } else {
-      Get.log("${value.errorMessage}", isError: true);
-
-      Get.showSnackbar(Ui.ErrorSnackBar(message: "${value.errorMessage}"));
+      Get.log("${value?.errorMessage}", isError: true);
+      Get.showSnackbar(Ui.ErrorSnackBar(message: "${value?.errorMessage}"));
     }
   }
 }
