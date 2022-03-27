@@ -1,9 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_garage_controller.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/model/vehicle_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -18,31 +22,43 @@ class DriverGaragePage extends GetView<DriverGarageController> {
   Widget build(BuildContext context) {
     return GetX<DriverGarageController>(
       initState: (state) {
-        controller.haveVehicle.value = false;
-        Future.delayed(
+        controller.haveVehicle = false;
+        /*  Future.delayed(
           const Duration(seconds: 2),
           () {},
-        );
+        );*/
       },
       builder: (_) {
+        controller.temp.value;
         return SafeArea(
           child: Scaffold(
-            appBar: myAppBar(
-                goBack: false,
-                title: 'Your Vehicle',
-                actions: controller.haveVehicle.value
-                    ? [
-                        const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Icon(Icons.more_vert),
-                        )
-                      ]
-                    : null),
+            appBar: myAppBar(goBack: false, title: 'Your Vehicle', actions: [
+              PopupMenuButton<int>(
+                onSelected: (item) => handleClick(item),
+                itemBuilder: (context) => [
+                  const PopupMenuItem<int>(value: 0, child: Text('Update')),
+                  const PopupMenuItem<int>(value: 1, child: Text('Delete')),
+                ],
+              ),
+            ]),
             body: Container(
               padding: EdgeInsets.all(10.h),
-              child: controller.haveVehicle.value
-                  ? vehicleDetails()
-                  : Center(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebasePathNodes.vehicles)
+                      .doc(UserDefaults.getDriverUserSession()?.id ?? "")
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.data?.data() != null) {
+                      controller.haveVehicle = true;
+                      return vehicleDetails(
+                          vehicleModel: VehicleModel.fromMap(
+                              snapshot.data!.data() as Map<String, dynamic>));
+                    }
+                    return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +79,8 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                           ),
                         ],
                       ),
-                    ),
+                    );
+                  }),
             ),
           ),
         );
@@ -71,7 +88,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
     );
   }
 
-  vehicleDetails() {
+  vehicleDetails({required VehicleModel vehicleModel}) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
@@ -80,16 +97,17 @@ class DriverGaragePage extends GetView<DriverGarageController> {
         children: [
           CarouselSlider(
             options: CarouselOptions(autoPlay: true, enlargeCenterPage: true),
-            items: controller.imagesList
+            items: vehicleModel.vehicleImages
 
                 ///these will be the images in vehicle
-                .map(
+                ?.map(
                   (item) => ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Center(
                       child: Image.network(
                         item,
-                        height: 200,
+                        height: 300.h,
+                        width: 1500.w,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -98,13 +116,14 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                 .toList(),
           ),
           vSpace,
+          vSpace,
           Text(
-            'Toyota Parado',
+            vehicleModel.vehicleName ?? '',
             style: AppTextStyles.textStyleBoldSubTitleLarge,
           ),
           vSpace,
           Text(
-            'Vaadi travels provides Toyota Prado on rent from Islamabad and Rawalpindi to all Northern areas of Pakistan and AJK. For more details please call us at',
+            vehicleModel.descriptionNote ?? '',
             style: AppTextStyles.textStyleNormalBodySmall,
           ),
           vSpace,
@@ -123,7 +142,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                   children: [
                     Text('Rent / Hour',
                         style: AppTextStyles.textStyleBoldBodyMedium),
-                    Text('Rs. 888888',
+                    Text('Rs. ${vehicleModel.rentHour ?? ''}',
                         style: AppTextStyles.textStyleBoldBodyXSmall),
                   ],
                 ),
@@ -136,31 +155,39 @@ class DriverGaragePage extends GetView<DriverGarageController> {
             'Specifications',
             style: AppTextStyles.textStyleBoldSubTitleLarge,
           ),
+          vSpace,
           Wrap(
             children: [
-              getSpecificationItem(),
-              getSpecificationItem(),
-              getSpecificationItem(),
-              getSpecificationItem(),
-              getSpecificationItem(),
-              getSpecificationItem(),
-              getSpecificationItem(),
-              getSpecificationItem(),
+              getSpecificationItem(
+                  value: vehicleModel.transmissionType ?? '',
+                  title: 'Transmission'),
+              getSpecificationItem(
+                  value: vehicleModel.mileage ?? '', title: 'Mileage / liter'),
+              getSpecificationItem(
+                  value: vehicleModel.seatingCapacity ?? '',
+                  title: 'Seating Capacity'),
+              getSpecificationItem(
+                  value: vehicleModel.make ?? '', title: 'Make'),
+              getSpecificationItem(
+                  value: vehicleModel.maker ?? '', title: 'Maker'),
             ],
           ),
+          vSpace,
           Text(
             ///features that driver will add while adding a vehicle
             'Features',
             style: AppTextStyles.textStyleBoldSubTitleLarge,
           ),
+          vSpace,
           SizedBox(
             height: 80.h,
             child: ListView.builder(
-                itemCount: 10,
+                itemCount: vehicleModel.features?.length,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return getSpecificationItem(height: 50.h);
+                  return getSpecificationItem(
+                      height: 50.h, value: vehicleModel.features![index]);
                 }),
           ),
           vSpace,
@@ -179,7 +206,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
     );
   }
 
-  getSpecificationItem({double? height}) {
+  getSpecificationItem({double? height, String? title, required String value}) {
     return Container(
       height: height ?? 100.h,
       margin: EdgeInsets.symmetric(horizontal: 10.h, vertical: 5.h),
@@ -191,12 +218,14 @@ class DriverGaragePage extends GetView<DriverGarageController> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Milage/Liter',
-                style: AppTextStyles.textStyleNormalBodyXSmall),
-            Text('40km', style: AppTextStyles.textStyleBoldBodyXSmall),
+            if (title != null)
+              Text(title, style: AppTextStyles.textStyleNormalBodyXSmall),
+            Text(value, style: AppTextStyles.textStyleBoldBodyXSmall),
           ],
         ),
       ),
     );
   }
+
+  handleClick(int item) {}
 }

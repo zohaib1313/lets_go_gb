@@ -6,15 +6,15 @@ import 'package:let_go_gb/modules/drivers/dashboard/model/vehicle_model.dart';
 import '../modules/drivers/utils/firebase_paths.dart';
 
 class VehicleRepository {
-  late FirebaseHelper _firebaseHelper;
+  late FirebaseHelper firebaseHelper;
 
   VehicleRepository() {
-    _firebaseHelper = FirebaseHelper();
+    firebaseHelper = FirebaseHelper();
   }
 
   Future<String?> saveVehicle(VehicleModel model) async {
     try {
-      final isSuccess = await _firebaseHelper.saveDocument(
+      final isSuccess = await firebaseHelper.saveDocument(
           FirebasePathNodes.vehicles, model.toMap());
 
       if (isSuccess) {

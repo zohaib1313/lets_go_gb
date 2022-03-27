@@ -79,7 +79,6 @@ class UserDefaults {
       Map<String, dynamic> json =
           jsonDecode(sharedPreferences!.getString(AppUserRoles.driver)!);
       user = DriverUserModel.fromMap(json);
-      printWrapped(user.toString());
     }
     return user;
   }

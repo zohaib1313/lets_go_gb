@@ -105,19 +105,23 @@ class DriverSignUpController extends GetxController {
     String profileImageUrl = await _signupRepository!.firebaseHelper
         .uploadImage(
             file: File(profileImage?.path ?? ''),
-            path: FirebasePathNodes.driverImages + email + "/");
+            fileName: 'profilePic',
+            path: FirebasePathNodes.driverImages + email);
 
     String cnincFrontUrl = await _signupRepository!.firebaseHelper.uploadImage(
         file: File(cnicFrontFile?.path ?? ''),
-        path: FirebasePathNodes.driverImages + email + "/");
+        fileName: 'cnicFront',
+        path: FirebasePathNodes.driverImages + email);
 
     String cnincBackUrl = await _signupRepository!.firebaseHelper.uploadImage(
         file: File(cnicBackFile?.path ?? ''),
-        path: FirebasePathNodes.driverImages + email + "/");
+        fileName: 'cnicBack',
+        path: FirebasePathNodes.driverImages + email);
     String drivingLicenseUrl = await _signupRepository!.firebaseHelper
         .uploadImage(
+            fileName: 'drivingLicense',
             file: File(drivingLicenceFile?.path ?? ''),
-            path: FirebasePathNodes.driverImages + email + "/");
+            path: FirebasePathNodes.driverImages + email);
 
     var user = DriverUserModel(
       password: passwordController.text.trim(),
@@ -160,7 +164,7 @@ class DriverSignUpController extends GetxController {
         type: FileType.custom,
         allowedExtensions: [
           'jpg',
-          '.png',
+          'png',
         ],
         allowMultiple: false);
     haveProfileImage.value = false;

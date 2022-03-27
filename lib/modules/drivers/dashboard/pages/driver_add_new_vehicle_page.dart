@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/add_new_vehicle_controller.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
@@ -94,6 +95,8 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                             vSpace,
                                             getTextField(
                                                 title: 'Rent / Hour',
+                                                hintText:
+                                                    'Rent in rupees/ Hour',
                                                 keyBoardType:
                                                     TextInputType.number,
                                                 controller: controller
@@ -111,7 +114,8 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                     'Vehicle Description Notes',
                                                 minLines: 3,
                                                 maxLines: 5,
-                                                controller: controller.vehicleNotesDescriptionController),
+                                                controller: controller
+                                                    .vehicleNotesDescriptionController),
                                             vSpace,
                                             MyDropDown(
                                               fillColor: AppColor.alphaGrey,
@@ -149,62 +153,95 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                               },
                                             ),
                                             vSpace,
-                                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "Features",
                                                   style: AppTextStyles
                                                       .textStyleBoldBodyMedium,
                                                 ),
-                                                InkWell(onTap: () {
-                                                  AppPopUps.displayTextInputDialog(title: "Feature" ,message: "Please enter feature", hint: "Feature",
-                                                      onSubmit:
-                                                          (String text) {
-                                                        if (text
-                                                            .isNotEmpty) {
-                                                          controller.feature.add(text);
-                                                        }
-                                                      }
-                                                  );
-                                                },child: Icon(Icons.add)),
-
+                                                InkWell(
+                                                    onTap: () {
+                                                      AppPopUps
+                                                          .displayTextInputDialog(
+                                                              title: "Feature",
+                                                              message:
+                                                                  "Please enter feature",
+                                                              hint: "Feature",
+                                                              onSubmit: (String
+                                                                  text) {
+                                                                if (text
+                                                                    .isNotEmpty) {
+                                                                  controller
+                                                                      .feature
+                                                                      .add(
+                                                                          text);
+                                                                }
+                                                              });
+                                                    },
+                                                    child: Icon(Icons.add)),
                                               ],
                                             ),
                                             vSpace,
-                                            if(controller.feature.isNotEmpty)
-                                            Obx(()=> SizedBox(
-                                                height: 90.h,
-                                                child: ListView.builder(
-                                                  physics:
-                                                      const BouncingScrollPhysics(),
-                                                  itemCount:
-                                                      controller.feature.length
-                                                  ,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemBuilder: (context, index) {
-
-
-                                                 return       Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    right: 10),
-                                                            width: 400.w,
-                                                            height: 60.h,
-                                                            decoration: BoxDecoration(
-                                                                color: AppColor
-                                                                    .alphaGrey,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10)),
-                                                            child: Center(
+                                            if (controller.feature.isNotEmpty)
+                                              Obx(
+                                                () => SizedBox(
+                                                  height: 90.h,
+                                                  child: ListView.builder(
+                                                    physics:
+                                                        const BouncingScrollPhysics(),
+                                                    itemCount: controller
+                                                        .feature.length,
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(5),
+                                                        margin: const EdgeInsets
+                                                            .only(right: 10),
+                                                        width: 400.w,
+                                                        height: 60.h,
+                                                        decoration: BoxDecoration(
+                                                            color: AppColor
+                                                                .alphaGrey,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        child: Stack(
+                                                          children: [
+                                                            Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topRight,
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  controller
+                                                                      .feature
+                                                                      .removeAt(
+                                                                          index);
+                                                                },
+                                                                child:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .cancel_outlined,
+                                                                  color: AppColor
+                                                                      .redColor,
+                                                                  size: 17,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Center(
                                                               child: Text(
-                                                               controller.feature[index],
+                                                                controller
+                                                                        .feature[
+                                                                    index],
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -212,11 +249,13 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                                     .textStyleBoldBodyXSmall,
                                                               ),
                                                             ),
-                                                          );
-                                                  },
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
                                               ),
-                                            ),
                                             vSpace,
                                             Text(
                                               "Gallery",
@@ -224,49 +263,90 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                   .textStyleBoldSubTitleLarge,
                                             ),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   "upload recent pictures of your vehicle",
                                                   style: AppTextStyles
                                                       .textStyleNormalBodyXSmall,
                                                 ),
-                                                InkWell(onTap: () {
-                                                  controller.showPicker(context: context,);
-                                                },child: Icon(Icons.add)),
+                                                InkWell(
+                                                    onTap: () {
+                                                      controller.showPicker(
+                                                        context: context,
+                                                      );
+                                                    },
+                                                    child:
+                                                        const Icon(Icons.add)),
                                               ],
                                             ),
                                             vSpace,
                                             Obx(
-                                              ()=> SizedBox(
+                                              () => SizedBox(
                                                 height: 150.h,
                                                 child: ListView.builder(
                                                   physics:
                                                       const BouncingScrollPhysics(),
-                                                  itemCount:
-                                                  controller.picturesList.length,
+                                                  itemCount: controller
+                                                      .picturesList.length,
                                                   scrollDirection:
                                                       Axis.horizontal,
-                                                  itemBuilder: (context, index) {
+                                                  itemBuilder:
+                                                      (context, index) {
                                                     return Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    right: 10),
-                                                            width: 400.w,
-                                                            height: 100.h,
-                                                            decoration: BoxDecoration(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 10),
+                                                      width: 400.w,
+                                                      height: 100.h,
+                                                      decoration: BoxDecoration(
+                                                          color: AppColor
+                                                              .alphaGrey,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
+                                                      child: Stack(
+                                                        children: [
+                                                          Center(
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7),
+                                                              child: Image.file(
+                                                                controller
+                                                                        .picturesList[
+                                                                    index],
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Align(
+                                                            alignment: Alignment
+                                                                .topRight,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                controller
+                                                                    .picturesList
+                                                                    .removeAt(
+                                                                        index);
+                                                              },
+                                                              child: const Icon(
+                                                                Icons
+                                                                    .cancel_outlined,
                                                                 color: AppColor
-                                                                    .alphaGrey,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10)),
-                                                            child: Image.file(controller.picturesList[index]),
-                                                          );
+                                                                    .redColor,
+                                                                size: 17,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
                                                   },
                                                 ),
                                               ),
@@ -280,7 +360,21 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                               onTap: () {
                                                 if (_formKey.currentState!
                                                     .validate()) {
-                                                  controller.saveVehicle();
+                                                  if (controller
+                                                      .picturesList.isEmpty) {
+                                                    Get.showSnackbar(
+                                                        Ui.ErrorSnackBar(
+                                                            message:
+                                                                "Add Some Pictures Of Vehicle"));
+                                                  } else if (controller
+                                                      .feature.isEmpty) {
+                                                    Get.showSnackbar(
+                                                        Ui.ErrorSnackBar(
+                                                            message:
+                                                                'Add Some Features Of Vehicle'));
+                                                  } else {
+                                                    controller.saveVehicle();
+                                                  }
                                                 }
                                               },
                                             ),
@@ -316,12 +410,13 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
   getTextField(
       {required String title,
       required TextEditingController controller,
+      String? hintText,
       int minLines = 1,
       int maxLines = 1,
       TextInputType keyBoardType = TextInputType.text}) {
     return MyTextField(
       fillColor: AppColor.alphaGrey,
-      hintText: title,
+      hintText: hintText ?? title,
       minLines: minLines,
       maxLines: maxLines,
       leftPadding: 0,

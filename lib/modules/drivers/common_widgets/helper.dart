@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
-import 'package:path/path.dart';
 
 class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
   @override
@@ -39,15 +38,18 @@ class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
   }
 
   @override
-  Future<String> uploadImage({required File file, required String path}) {
-    return super.uploadImage(file: file, path: path);
+  Future<String> uploadImage(
+      {required File file, required String path, required String fileName}) {
+    return super.uploadImage(file: file, path: path, fileName: fileName);
   }
 }
 
 class _FireStorage {
-  Future<String> uploadImage({required File file, required String path}) async {
-    Reference ref =
-        FirebaseStorage.instance.ref(path).child("/${basename(file.path)}.jpg");
+  Future<String> uploadImage(
+      {required File file,
+      required String path,
+      required String fileName}) async {
+    Reference ref = FirebaseStorage.instance.ref(path).child("/" + fileName);
     await ref.putFile(file);
     String url = await ref.getDownloadURL();
     return Future.value(url);
