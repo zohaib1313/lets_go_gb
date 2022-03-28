@@ -6,15 +6,15 @@ import '../../utils/styles.dart';
 import 'login_driver_screen.dart';
 import 'on_boarding_views.dart';
 
-class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
-  static const id = "on_boarding";
+class DriverOnBoardingScreen extends StatefulWidget {
+  const DriverOnBoardingScreen({Key? key}) : super(key: key);
+  static const id = "/DriverOnBoardingScreen";
 
   @override
-  _OnBoardingScreenState createState() => _OnBoardingScreenState();
+  _DriverOnBoardingScreenState createState() => _DriverOnBoardingScreenState();
 }
 
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
+class _DriverOnBoardingScreenState extends State<DriverOnBoardingScreen> {
   @override
   void initState() {
     super.initState();

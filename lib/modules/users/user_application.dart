@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/users/user_app_pages.dart';
+import 'package:let_go_gb/modules/users/user_splash_screen.dart';
 import 'package:let_go_gb/routes.dart';
 
-import 'appPages.dart';
-import 'splash_screen.dart';
-
-class MyApplication extends StatefulWidget {
-  const MyApplication({Key? key}) : super(key: key);
+class UserApplication extends StatefulWidget {
+  const UserApplication({Key? key}) : super(key: key);
 
   @override
-  _MyApplicationState createState() => _MyApplicationState();
+  _UserApplicationState createState() => _UserApplicationState();
 }
 
-class _MyApplicationState extends State<MyApplication>
+class _UserApplicationState extends State<UserApplication>
     with WidgetsBindingObserver {
   @override
   void initState() {
@@ -35,10 +34,10 @@ class _MyApplicationState extends State<MyApplication>
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: () => GetMaterialApp(
-        getPages: appPages(),
+        getPages: userAppPages(),
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
-        home: const SplashScreen(),
+        home: const UserSplashScreen(),
       ),
     );
   }

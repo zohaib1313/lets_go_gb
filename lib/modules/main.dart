@@ -4,8 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
-
-import 'my_application.dart';
+import 'package:let_go_gb/modules/users/user_application.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -22,5 +21,6 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   await UserDefaults.getPref();
 
-  runApp(const MyApplication());
+//  runApp(const DriverApplication());
+  runApp(const UserApplication());
 }

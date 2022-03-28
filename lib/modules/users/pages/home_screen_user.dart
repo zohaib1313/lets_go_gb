@@ -11,6 +11,7 @@ import '../../drivers/utils/utils.dart';
 import '../controllers/home_screen_driver_controller.dart';
 
 class UserHomeScreen extends GetView<HomeScreenUserController> {
+  static const id = '/UserHomeScreen';
   final space = SizedBox(height: 20.h);
 
   final List<String> imagesList = [

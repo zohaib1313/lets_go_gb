@@ -25,12 +25,13 @@ import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_view_all_bookin
 import 'package:let_go_gb/modules/drivers/dashboard/pages/login_driver_screen.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/privacy_policy_page.dart';
 
-import 'drivers/dashboard/controllers/DriverBookingDetailController.dart';
-import 'drivers/dashboard/controllers/driver_more_controller.dart';
-import 'drivers/dashboard/pages/driver_booking_detail_page.dart';
+import 'dashboard/controllers/DriverBookingDetailController.dart';
+import 'dashboard/controllers/driver_more_controller.dart';
+import 'dashboard/pages/driver_booking_detail_page.dart';
 
-appPages() {
+driverAppPages() {
   return [
+    ///driver////////////////////////////////////////////////////////
     GetPage(
         name: DriverSignUpScreen.id,
         page: () => DriverSignUpScreen(),
@@ -51,8 +52,6 @@ appPages() {
 
           //  Get.lazyPut<DriverGarageController>(() => DriverGarageController());
         })),
-
-    ///login binding
     GetPage(
         name: DriverSignInScreen.id,
         page: () => DriverSignInScreen(),
@@ -61,7 +60,6 @@ appPages() {
             () => LoginDriverController(),
           );
         })),
-
     GetPage(
         name: DriverAddNewVehiclePage.id,
         page: () => DriverAddNewVehiclePage(),
@@ -70,7 +68,6 @@ appPages() {
             () => AddNewVehicleController(),
           );
         })),
-
     GetPage(
         name: ChatScreen.id,
         page: () => ChatScreen(),
@@ -79,7 +76,6 @@ appPages() {
             () => DriverChatWithUserController(),
           );
         })),
-
     GetPage(
         name: DriverBookingDetailsPage.id,
         page: () => DriverBookingDetailsPage(),
@@ -88,7 +84,6 @@ appPages() {
             () => DriverBookingDetailController(),
           );
         })),
-
     GetPage(
         name: DriverViewAllBookingsPage.id,
         page: () => DriverViewAllBookingsPage(),
@@ -97,7 +92,6 @@ appPages() {
             () => DriverBookingController(),
           );
         })),
-
     GetPage(
         name: DriverNotificationsPage.id,
         page: () => DriverNotificationsPage(),
@@ -106,7 +100,6 @@ appPages() {
             () => DriverNotificationsController(),
           );
         })),
-
     GetPage(
         name: PrivacyPolicyPage.id,
         page: () => PrivacyPolicyPage(),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
+import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_user_roles.dart';
@@ -80,6 +81,28 @@ class UserDefaults {
           jsonDecode(sharedPreferences!.getString(AppUserRoles.driver)!);
       user = DriverUserModel.fromMap(json);
     }
+
+    return user;
+  }
+
+  ///user///////////////////////////////////////////////////////////////
+  static void saveUserSession(UserModel signInModel) async {
+    String user = json.encode(signInModel.toMap());
+    getPref().then((value) => value..setString(AppUserRoles.driver, user));
+    if (kDebugMode) {
+      printWrapped("user session saved type=  ${user}");
+      printWrapped(user.toString());
+    }
+  }
+
+  static UserModel? getUserSession() {
+    UserModel? user;
+    if (sharedPreferences!.getString(AppUserRoles.user) != null) {
+      Map<String, dynamic> json =
+          jsonDecode(sharedPreferences!.getString(AppUserRoles.user)!);
+      user = UserModel.fromMap(json);
+    }
+
     return user;
   }
 }
