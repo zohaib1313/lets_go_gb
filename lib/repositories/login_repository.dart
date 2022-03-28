@@ -5,7 +5,7 @@ import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 
-import '../modules/drivers/sing_up/models/signup_model.dart';
+import '../modules/drivers/dashboard/models/signup_model.dart';
 
 class LoginRepository {
   late FirebaseHelper _firebaseHelper;

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/model/vehicle_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
 import 'package:let_go_gb/repositories/driver_garage_controller_repository.dart';
 
 class DriverGarageController extends GetxController {

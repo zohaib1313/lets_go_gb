@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../drivers/common_widgets/home_screen_card.dart';
-import '../../../drivers/utils/styles.dart';
-import '../../../drivers/utils/utils.dart';
+import '../../drivers/common_widgets/home_screen_card.dart';
+import '../../drivers/utils/styles.dart';
+import '../../drivers/utils/utils.dart';
 import '../controllers/home_screen_driver_controller.dart';
 
 class UserHomeScreen extends GetView<HomeScreenUserController> {

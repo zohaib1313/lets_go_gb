@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
-import 'package:let_go_gb/modules/drivers/on_boarding_driver/pages/onboardin_screen.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/onboardin_screen.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 

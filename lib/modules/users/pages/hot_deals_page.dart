@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../drivers/common_widgets/hot_deals_card.dart';
-import '../../../drivers/common_widgets/hot_deals_slider.dart';
-import '../../../drivers/utils/styles.dart';
-import '../../../drivers/utils/utils.dart';
-import '../../home/controllers/hot_deals_controller.dart';
+import '../../drivers/common_widgets/hot_deals_card.dart';
+import '../../drivers/common_widgets/hot_deals_slider.dart';
+import '../../drivers/utils/styles.dart';
+import '../../drivers/utils/utils.dart';
+import '../controllers/hot_deals_controller.dart';
 
 class HotDealsPage extends GetView<HotDealsController> {
   final space = SizedBox(height: 20.h);

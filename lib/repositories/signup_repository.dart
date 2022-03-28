@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
-import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 
 class SignupRepository {

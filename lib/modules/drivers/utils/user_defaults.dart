@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

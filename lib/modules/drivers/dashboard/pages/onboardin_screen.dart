@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import '../../sing_in/pages/login_driver_screen.dart';
+
 import '../../utils/styles.dart';
+import 'login_driver_screen.dart';
 import 'on_boarding_views.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -28,7 +29,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       controlsMargin: const EdgeInsets.all(10),
       onDone: () {
         Get.toNamed(DriverSignInScreen.id);
-
       },
       onSkip: () {
         Get.toNamed(DriverSignInScreen.id);

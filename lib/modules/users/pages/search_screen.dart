@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 
-import '../../../drivers/utils/styles.dart';
-import '../../home/controllers/search_screen_controller.dart';
+import '../../drivers/utils/styles.dart';
+import '../controllers/search_screen_controller.dart';
 
 class SearchDriverScreen extends GetView<SearchScreenUserController> {
   const SearchDriverScreen({Key? key}) : super(key: key);
