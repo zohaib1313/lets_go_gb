@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_dashboard_home_controller.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_notifications_page.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_view_all_bookings_page.dart';
 import 'package:let_go_gb/modules/drivers/sing_up/models/signup_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
@@ -52,11 +53,16 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                         .textStyleBoldSubTitleLarge,
                                   ),
                                 ),
-                                const CircleAvatar(
-                                  backgroundColor: AppColor.alphaGrey,
-                                  child: SvgViewer(
-                                      svgPath:
-                                          'assets/icons/ic_notifications.svg'),
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(DriverNotificationsPage.id);
+                                  },
+                                  child: const CircleAvatar(
+                                    backgroundColor: AppColor.alphaGrey,
+                                    child: SvgViewer(
+                                        svgPath:
+                                            'assets/icons/ic_notifications.svg'),
+                                  ),
                                 )
                               ],
                             ),

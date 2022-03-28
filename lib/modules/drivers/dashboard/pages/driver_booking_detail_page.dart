@@ -6,6 +6,7 @@ import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../utils/styles.dart';
+import 'driver_chat_screen.dart';
 import 'google_map.dart';
 
 class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
@@ -79,7 +80,7 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                   Container(
                       width: 70,
                       height: 8,
-                      margin: EdgeInsets.only(bottom: 12),
+                      margin: const EdgeInsets.only(bottom: 12),
                       decoration: const BoxDecoration(
                           color: AppColor.alphaGrey,
                           borderRadius:
@@ -169,7 +170,7 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
           hSpace,
           InkWell(
             onTap: () {
-              ///open chat with this user
+              Get.toNamed(ChatScreen.id);
             },
             child: const Icon(
               Icons.chat,

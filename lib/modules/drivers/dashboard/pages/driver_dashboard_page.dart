@@ -68,7 +68,7 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
                           text: 'Garage',
                         ),
                         GButton(
-                          icon: Icons.chat_bubble_outline_outlined,
+                          icon: Icons.message,
                           text: 'Chat',
                         ),
                         GButton(
