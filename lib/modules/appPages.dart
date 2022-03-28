@@ -25,9 +25,9 @@ import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_view_all_bookin
 import 'package:let_go_gb/modules/drivers/dashboard/pages/login_driver_screen.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/privacy_policy_page.dart';
 
-import 'dashboard/controllers/DriverBookingDetailController.dart';
-import 'dashboard/controllers/driver_more_controller.dart';
-import 'dashboard/pages/driver_booking_detail_page.dart';
+import 'drivers/dashboard/controllers/DriverBookingDetailController.dart';
+import 'drivers/dashboard/controllers/driver_more_controller.dart';
+import 'drivers/dashboard/pages/driver_booking_detail_page.dart';
 
 appPages() {
   return [

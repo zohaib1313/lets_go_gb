@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/onboardin_screen.dart';
-import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
-import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
-import 'utils/user_defaults.dart';
+import 'drivers/utils/user_defaults.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const id = "splash_screen";
+  static const id = "/splash_screen";
 
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -23,30 +21,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(
-        const Duration(seconds: 3),
-        () => {
-              if (UserDefaults.getDriverUserSession() != null)
-                {
-                  if (UserDefaults.getDriverUserSession()!.userRole ==
-                      AppUserRoles.driver)
-                    {Get.toNamed(DriverHomePage.id)}
-                }
-              else
-                {Get.to(() => const OnBoardingScreen())}
-            });
+    Timer(const Duration(seconds: 3), () => {gotoRelevantScreenOnUserType()});
   }
 
   void gotoRelevantScreenOnUserType() {
-    String userType = UserDefaults?.getUserType() ?? "";
-
-    printWrapped(userType);
-
-    if (userType.isNotEmpty) {
-      switch (userType) {
-      }
+    if (UserDefaults.getDriverUserSession() != null) {
+      Get.toNamed(DriverHomePage.id);
     } else {
-      //  Navigator.of(myContext!).pushReplacementNamed(OnBoardingScreen.id);
+      Get.to(() => const OnBoardingScreen());
     }
   }
 

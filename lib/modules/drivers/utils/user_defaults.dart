@@ -82,20 +82,4 @@ class UserDefaults {
     }
     return user;
   }
-
-  static setUserType(String type) {
-    return sharedPreferences?.setString('type', type);
-  }
-
-  static String? getUserType() {
-    return sharedPreferences?.getString('type');
-  }
-
-  static String? getToken() {
-    return sharedPreferences?.getString('ApiToken');
-  }
-
-  static setApiToken(String value) {
-    return sharedPreferences?.setString('ApiToken', value);
-  }
 }
