@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
+import 'package:let_go_gb/modules/users/models/user_model.dart';
+import 'package:let_go_gb/modules/users/pages/home_screen_user.dart';
 import 'package:let_go_gb/repositories/login_repository.dart';
 
 class UserLoginController extends GetxController {
@@ -26,8 +26,9 @@ class UserLoginController extends GetxController {
     loading.value = true;
 
     _loginRepository!
-        .userLogin(emailController.text.trim(), passwordController.text.trim())
-        .then((DriverUserModel? value) {
+        .userUserLogin(
+            emailController.text.trim(), passwordController.text.trim())
+        .then((UserModel? value) {
       _loginResponse(value);
     }).catchError((onError) {
       Get.log("$onError", isError: true);
@@ -39,11 +40,11 @@ class UserLoginController extends GetxController {
     });
   }
 
-  void _loginResponse(DriverUserModel? value) {
+  void _loginResponse(UserModel? value) {
     if (value?.success ?? false) {
-      if (value!.userRole == AppUserRoles.driver) {
-        UserDefaults.saveDriverSession(value);
-        Get.offAndToNamed(DriverHomePage.id);
+      if (value!.userRole == AppUserRoles.user) {
+        UserDefaults.saveUserSession(value);
+        Get.offAndToNamed(UserHomeScreen.id);
       }
     } else {
       Get.log("${value?.errorMessage}", isError: true);

@@ -3,12 +3,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/common_widgets/dropdown.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
+import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:let_go_gb/repositories/signup_repository.dart';
 
 class UserSignUpController extends GetxController {
@@ -17,21 +16,15 @@ class UserSignUpController extends GetxController {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   final loading = false.obs;
 
-  final statusDropDown = Dropdown().obs;
-  List<Dropdown> statusDropDownList = [];
   SignupRepository? _signupRepository;
 
-  File? cnicFrontFile;
-  File? cnicBackFile;
   File? profileImage;
 
-  File? drivingLicenceFile;
   String password = "";
   RxBool hidePasswordOne = true.obs;
   RxBool hideConfirmPassword = true.obs;
@@ -39,9 +32,8 @@ class UserSignUpController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     _signupRepository = SignupRepository();
-    loadStatusDropdown();
+
     super.onInit();
   }
 
@@ -52,40 +44,13 @@ class UserSignUpController extends GetxController {
     passwordController.clear();
     confirmPasswordController.clear();
     emailController.clear();
-    cnicFrontFile = null;
-    cnicBackFile = null;
-    drivingLicenceFile = null;
-    statusDropDown.value = statusDropDownList.first;
-  }
-
-  /// map of status list
-  Map<String, int> _getStatusMap() {
-    return {
-      "Active": 1,
-      "InActive": 2,
-    };
-  }
-
-  /// load paid status list
-  Future<void> loadStatusDropdown() async {
-    List<Dropdown> _list = [];
-
-    _getStatusMap().forEach((key, value) {
-      _list.add(Dropdown(name: key, id: value));
-    });
-
-    if (_list.isNotEmpty) {
-      statusDropDownList = _list;
-
-      statusDropDown.value = _list.first;
-    }
   }
 
   /// save User
   Future<void> saveUser() async {
     loading.value = true;
     uploadImagesToFireStorage(complete: (user) {
-      _signupRepository!.saveUser(user).then((value) {
+      _signupRepository!.saveUserUser(user).then((value) {
         if (value == "Success") {
           Get.back();
           Get.showSnackbar(
@@ -106,38 +71,18 @@ class UserSignUpController extends GetxController {
         .uploadImage(
             file: File(profileImage?.path ?? ''),
             fileName: 'profilePic',
-            path: FirebasePathNodes.driverImages + email);
+            path: FirebasePathNodes.usersImages + email);
 
-    String cnincFrontUrl = await _signupRepository!.firebaseHelper.uploadImage(
-        file: File(cnicFrontFile?.path ?? ''),
-        fileName: 'cnicFront',
-        path: FirebasePathNodes.driverImages + email);
-
-    String cnincBackUrl = await _signupRepository!.firebaseHelper.uploadImage(
-        file: File(cnicBackFile?.path ?? ''),
-        fileName: 'cnicBack',
-        path: FirebasePathNodes.driverImages + email);
-    String drivingLicenseUrl = await _signupRepository!.firebaseHelper
-        .uploadImage(
-            fileName: 'drivingLicense',
-            file: File(drivingLicenceFile?.path ?? ''),
-            path: FirebasePathNodes.driverImages + email);
-
-    var user = DriverUserModel(
+    var user = UserModel(
       password: passwordController.text.trim(),
       address: addressController.text.trim(),
-      errorMessage: "Success",
       success: true,
       emailAddress: email,
       profileImage: profileImageUrl,
       firstName: firstNameController.text.trim(),
       phone: contactNumberController.text.trim(),
-      userRole: AppUserRoles.driver,
+      userRole: AppUserRoles.user,
       isActive: false,
-      ratings: 0,
-      cnicFrontImageUrl: cnincFrontUrl,
-      cnicBackImageUrl: cnincBackUrl,
-      driverLicenceImageUrl: drivingLicenseUrl,
     );
 
     printWrapped(user.toString());

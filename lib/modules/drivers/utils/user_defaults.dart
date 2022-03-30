@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,7 +88,7 @@ class UserDefaults {
   ///user///////////////////////////////////////////////////////////////
   static void saveUserSession(UserModel signInModel) async {
     String user = json.encode(signInModel.toMap());
-    getPref().then((value) => value..setString(AppUserRoles.driver, user));
+    getPref().then((value) => value..setString(AppUserRoles.user, user));
     if (kDebugMode) {
       printWrapped("user session saved type=  ${user}");
       printWrapped(user.toString());

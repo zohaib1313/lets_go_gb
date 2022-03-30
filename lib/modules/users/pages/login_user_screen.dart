@@ -184,7 +184,7 @@ class UserLoginScreen extends GetView<UserLoginController> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Already have not an account? ",
+                                          "Don't have an account? ",
                                           style: AppTextStyles
                                               .textStyleNormalBodySmall,
                                         ),

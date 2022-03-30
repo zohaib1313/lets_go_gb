@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
@@ -26,7 +26,8 @@ class LoginDriverController extends GetxController {
     loading.value = true;
 
     _loginRepository!
-        .userLogin(emailController.text.trim(), passwordController.text.trim())
+        .driverLogin(
+            emailController.text.trim(), passwordController.text.trim())
         .then((DriverUserModel? value) {
       _loginResponse(value);
     }).catchError((onError) {

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/dropdown.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
@@ -85,7 +85,7 @@ class DriverSignUpController extends GetxController {
   Future<void> saveUser() async {
     loading.value = true;
     uploadImagesToFireStorage(complete: (user) {
-      _signupRepository!.saveUser(user).then((value) {
+      _signupRepository!.saveDriverUser(user).then((value) {
         if (value == "Success") {
           Get.back();
           Get.showSnackbar(

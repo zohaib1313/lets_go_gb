@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +6,6 @@ import 'package:let_go_gb/modules/drivers/common_widgets/extension/extension.dar
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 
-import '../../drivers/common_widgets/choose_image_widget.dart';
 import '../../drivers/utils/common_widgets.dart';
 import '../../drivers/utils/styles.dart';
 import '../../drivers/utils/utils.dart';
@@ -159,27 +156,6 @@ class UserSignUpScreen extends GetView<UserSignUpController> {
                                   space,
                                   space,
                                   space,
-                                  ChooseImageWidget(
-                                    chooseTitle: 'CNIC FRONT',
-                                    onImageChoosed: (File? file) {
-                                      controller.cnicFrontFile = file;
-                                    },
-                                  ),
-                                  space,
-                                  ChooseImageWidget(
-                                    chooseTitle: 'CNIC Back',
-                                    onImageChoosed: (File? file) {
-                                      controller.cnicBackFile = file;
-                                    },
-                                  ),
-                                  space,
-                                  ChooseImageWidget(
-                                    chooseTitle: 'Driving License',
-                                    onImageChoosed: (File? file) {
-                                      controller.drivingLicenceFile = file;
-                                    },
-                                  ),
-                                  space,
                                   space,
                                   space,
                                   space,
@@ -198,19 +174,7 @@ class UserSignUpScreen extends GetView<UserSignUpController> {
                               FocusScope.of(context).unfocus();
 
                               if (controller.formKey.currentState!.validate()) {
-                                if (controller.cnicFrontFile == null) {
-                                  Get.showSnackbar(Ui.ErrorSnackBar(
-                                      message:
-                                          "please choose cnic front copy"));
-                                } else if (controller.cnicBackFile == null) {
-                                  Get.showSnackbar(Ui.ErrorSnackBar(
-                                      message: "please choose cnic back copy"));
-                                } else if (controller.drivingLicenceFile ==
-                                    null) {
-                                  Get.showSnackbar(Ui.ErrorSnackBar(
-                                      message:
-                                          "please choose your driving licence"));
-                                } else if (controller.profileImage == null) {
+                                if (controller.profileImage == null) {
                                   Get.showSnackbar(Ui.ErrorSnackBar(
                                       message:
                                           "please choose your Profile Image"));

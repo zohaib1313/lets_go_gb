@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 

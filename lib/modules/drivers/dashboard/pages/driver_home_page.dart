@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_dashboard_home_controller.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/signup_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_notifications_page.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_view_all_bookings_page.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
