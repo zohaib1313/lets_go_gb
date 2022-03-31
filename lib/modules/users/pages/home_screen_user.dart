@@ -136,7 +136,7 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                             text: "Skardu Valley",
                                             btnText: "Explore",
                                             image: const AssetImage(
-                                                'assets/icons/sceneOne.png'),
+                                                'assets/images/sceneone.jpg'),
                                           );
                                         }),
                                   )

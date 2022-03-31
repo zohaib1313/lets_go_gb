@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utils/styles.dart';
 
-class HotDealsCard extends StatelessWidget {
+class VehicleInfoCard extends StatelessWidget {
   final String? carName;
   final String? carPrice;
   final String? carSeats;
   final ImageProvider? image;
 
-  const HotDealsCard(
+  const VehicleInfoCard(
       {Key? key, this.carName, this.carPrice, this.image, this.carSeats})
       : super(key: key);
 
@@ -20,7 +20,7 @@ class HotDealsCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      elevation: 0,
+      elevation: 10,
       child: Container(
         // height: 130.h,
         width: MediaQuery.of(context).size.width,
@@ -75,27 +75,28 @@ class HotDealsCard extends StatelessWidget {
                       direction: Axis.horizontal,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              carPrice!,
-                              style: AppTextStyles.textStyleBoldBodyMedium
-                                  .copyWith(color: const Color(0xffF6BC29)),
-                            ),
-                            Text(
-                              "Hour",
-                              style: AppTextStyles.textStyleNormalBodyMedium
-                                  .copyWith(
-                                color: const Color(0xff0088FF),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Text(
+                                carPrice!,
+                                style: AppTextStyles.textStyleBoldBodyMedium
+                                    .copyWith(color: const Color(0xffF6BC29)),
                               ),
-                            ),
-                          ],
+                              Text(
+                                "Hour",
+                                style: AppTextStyles.textStyleNormalBodyMedium
+                                    .copyWith(
+                                  color: const Color(0xff0088FF),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         MaterialButton(
                             height: 20.h,
-                            minWidth: 20.w,
+                            minWidth: 420.w,
                             padding: const EdgeInsets.all(7),
                             child: Text(
                               "Book",
