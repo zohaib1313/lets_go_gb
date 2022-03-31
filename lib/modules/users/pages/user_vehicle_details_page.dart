@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
@@ -11,6 +13,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../drivers/dashboard/pages/driver_chat_screen.dart';
+import '../../drivers/utils/common_widgets.dart';
 import '../controllers/user_vehicle_details_controller.dart';
 
 // ignore: must_be_immutable
@@ -32,10 +35,23 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
       },
       builder: (_) {
         controller.temp.value;
-        return SafeArea(
-          child: Scaffold(
-            appBar: myAppBar(goBack: true, title: 'Vehicle', actions: []),
-            body: Container(
+        return Scaffold(
+          appBar: myAppBar(goBack: true, title: 'Vehicle', actions: []),
+          floatingActionButton: SafeArea(
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Container(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Text(
+                  'Book Now',
+                  style: AppTextStyles.textStyleBoldBodyMedium
+                      .copyWith(color: AppColor.whiteColor),
+                ),
+              ),
+            ),
+          ),
+          body: SafeArea(
+            child: Container(
               padding: EdgeInsets.all(10.h),
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
@@ -50,11 +66,10 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
                       return Stack(
                         children: [
                           vehicleDetails(
-                              vehicleModel: VehicleModel.fromMap(snapshot.data!
-                                  .data() as Map<String, dynamic>)),
-                          vSpace,
+                            vehicleModel: VehicleModel.fromMap(
+                                snapshot.data!.data() as Map<String, dynamic>),
+                          ),
                           _slidingPanel(context),
-                          vSpace,
                         ],
                       );
                     }
@@ -80,6 +95,7 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
 
   vehicleDetails({required VehicleModel vehicleModel}) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -93,11 +109,11 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
                   (item) => ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Center(
-                      child: Image.network(
-                        item,
+                      child: NetworkPlainImage(
                         height: 300.h,
                         width: 1500.w,
                         fit: BoxFit.cover,
+                        url: item,
                       ),
                     ),
                   ),
@@ -216,43 +232,51 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
   SlidingUpPanel _slidingPanel(BuildContext context) {
     return SlidingUpPanel(
         color: Colors.transparent,
-        minHeight: MediaQuery.of(context).size.height * (0.08),
+        minHeight: MediaQuery.of(context).size.height * (0.10),
         maxHeight: MediaQuery.of(context).size.height * (1),
         panelBuilder: (ScrollController _scrollController) {
           return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsetsDirectional.only(
+                start: 5, end: 20, top: 14, bottom: 8),
             decoration: const BoxDecoration(
-                color: AppColor.whiteColor,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0))),
-            child: Container(
-              child: Column(
-                children: [
-                  // Path 45
-                  Container(
-                      width: 70,
-                      height: 8,
-                      margin: const EdgeInsets.only(bottom: 12),
-                      decoration: const BoxDecoration(
-                          color: AppColor.alphaGrey,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(4.0)))),
-
-                  ///views
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _userDetails(),
-                        vSpace,
-                      ],
-                    ),
-                  )
-                ],
+              color: AppColor.whiteColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
               ),
+            ),
+            child: Column(
+              children: [
+                // Path 45
+                Container(
+                    width: 70,
+                    height: 8,
+                    margin: const EdgeInsets.only(bottom: 12, top: 12),
+                    decoration: const BoxDecoration(
+                        color: AppColor.alphaGrey,
+                        borderRadius: BorderRadius.all(Radius.circular(4.0)))),
+
+                ///views
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 100.w),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          vSpace,
+                          _userDetails(),
+                          vSpace,
+                          _reviews()
+                          // _reviews(),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
           );
         },
@@ -262,7 +286,6 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
   _userDetails() {
     return Container(
       padding: EdgeInsets.all(15.h),
-      margin: EdgeInsets.symmetric(horizontal: 100.w),
       decoration: BoxDecoration(
           color: AppColor.blackColor, borderRadius: BorderRadius.circular(20)),
       child: Row(
@@ -300,6 +323,108 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
           ),
           hSpace
         ],
+      ),
+    );
+  }
+
+  Widget _reviews() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Reviews', style: AppTextStyles.textStyleBoldSubTitleLarge),
+        vSpace,
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: 20,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return _reviewRowItem();
+            }),
+      ],
+    );
+  }
+
+  Widget _reviewRowItem() {
+    return InkWell(
+      onTap: () {},
+      child: Card(
+        margin: const EdgeInsets.only(left: 0, right: 0, top: 3, bottom: 3),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+          ),
+        ),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                radius: 27,
+                backgroundImage: Image.asset('assets/images/eclipse.jpg').image,
+              ),
+            ),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'John Doe',
+                    style: AppTextStyles.textStyleBoldBodyMedium,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 5.h),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: RatingBar.builder(
+                              initialRating: 4.5,
+                              minRating: 1,
+                              itemSize: 15,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              updateOnDrag: false,
+                              unratedColor: AppColor.alphaGrey,
+                              itemCount: 5,
+                              ignoreGestures: true,
+                              itemPadding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              onRatingUpdate: (rating) {
+                                print(rating);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5.h),
+                      Text(
+                        "22 January 2022",
+                        maxLines: 2,
+                        style: AppTextStyles.textStyleBoldBodyXSmall,
+                      ),
+                      Text(
+                        "That was nice ride , this driver has offered me and it was so nice",
+                        maxLines: 2,
+                        style: AppTextStyles.textStyleNormalBodySmall,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            )),
+          ],
+        ),
       ),
     );
   }

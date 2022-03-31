@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../drivers/common_widgets/home_screen_card.dart';
+import '../../drivers/utils/common_widgets.dart';
 import '../../drivers/utils/styles.dart';
 import '../controllers/home_screen_driver_controller.dart';
 
@@ -92,8 +93,8 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: Center(
-                                              child: Image.network(
-                                                item,
+                                              child: NetworkPlainImage(
+                                                url: item,
                                                 height: 200,
                                                 fit: BoxFit.cover,
                                               ),

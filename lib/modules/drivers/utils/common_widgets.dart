@@ -509,21 +509,34 @@ class _ExpandAbleTileState extends State<ExpandAbleTile> {
   }
 }
 
-class CircularImage extends StatefulWidget {
+class NetworkCircularImage extends StatefulWidget {
   String url;
   double radius;
-  CircularImage({Key? key, required this.url, this.radius = 34})
+  double? width;
+  double? height;
+  BoxFit? fit;
+
+  NetworkCircularImage(
+      {Key? key,
+      required this.url,
+      this.radius = 34,
+      this.width,
+      this.height,
+      this.fit})
       : super(key: key);
 
   @override
-  _CircularImageState createState() => _CircularImageState();
+  _NetworkCircularImageState createState() => _NetworkCircularImageState();
 }
 
-class _CircularImageState extends State<CircularImage> {
+class _NetworkCircularImageState extends State<NetworkCircularImage> {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: widget.url,
+      width: widget.width,
+      height: widget.height,
+      fit: widget.fit,
       imageBuilder: (context, imageProvider) => CircleAvatar(
         backgroundImage: imageProvider,
         radius: widget.radius,
@@ -542,6 +555,43 @@ class _CircularImageState extends State<CircularImage> {
           radius: widget.radius,
         );
       },
+    );
+  }
+}
+
+class NetworkPlainImage extends StatefulWidget {
+  String url;
+
+  double? width;
+  double? height;
+  BoxFit? fit;
+
+  NetworkPlainImage(
+      {Key? key, required this.url, this.width, this.height, this.fit})
+      : super(key: key);
+
+  @override
+  _NetworkPlainImageState createState() => _NetworkPlainImageState();
+}
+
+class _NetworkPlainImageState extends State<NetworkPlainImage> {
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: widget.url,
+      key: UniqueKey(),
+      imageBuilder: (context, imageProvider) => Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: imageProvider,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      placeholder: (context, url) =>
+          const Center(child: CircularProgressIndicator()),
+      errorWidget: (context, url, error) =>
+          const Center(child: Icon(Icons.error)),
     );
   }
 }

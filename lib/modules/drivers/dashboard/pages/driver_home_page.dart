@@ -104,7 +104,7 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          CircularImage(
+                                          NetworkCircularImage(
                                             url: currentUser.profileImage ?? '',
                                           ),
                                           Flexible(

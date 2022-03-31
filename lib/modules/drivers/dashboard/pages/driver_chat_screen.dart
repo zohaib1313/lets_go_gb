@@ -48,61 +48,59 @@ class ChatScreen extends GetView<DriverChatWithUserController> {
       controller.listOfChat.add(ChatModel('Hello one', false));
     }, builder: (staex) {
       controller.temp.value;
-      return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: AppColor.whiteColor,
-            automaticallyImplyLeading: true,
-            iconTheme: const IconThemeData(color: AppColor.blackColor),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage:
-                          Image.asset("assets/images/place_your_image.png")
-                              .image,
-                    ),
-                    SizedBox(
-                      width: 35.w,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Zohaib",
-                            style: AppTextStyles.textStyleBoldBodySmall),
-                        Text("Active Now",
-                            style: AppTextStyles.textStyleBoldBodySmall
-                                .copyWith(
-                                    color: AppColor.greenColor,
-                                    fontWeight: FontWeight.normal))
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(50.w),
-                      child: const SvgViewer(
-                          svgPath: "assets/icons/ic_video_call.svg"),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(50.w),
-                      child: const SvgViewer(
-                          svgPath: "assets/icons/ic_audio_call.svg"),
-                    )
-                  ],
-                )
-              ],
-            ),
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: AppColor.whiteColor,
+          automaticallyImplyLeading: true,
+          iconTheme: const IconThemeData(color: AppColor.blackColor),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage:
+                        Image.asset("assets/images/place_your_image.png").image,
+                  ),
+                  SizedBox(
+                    width: 35.w,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Zohaib",
+                          style: AppTextStyles.textStyleBoldBodySmall),
+                      Text("Active Now",
+                          style: AppTextStyles.textStyleBoldBodySmall.copyWith(
+                              color: AppColor.greenColor,
+                              fontWeight: FontWeight.normal))
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(50.w),
+                    child: const SvgViewer(
+                        svgPath: "assets/icons/ic_video_call.svg"),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(50.w),
+                    child: const SvgViewer(
+                        svgPath: "assets/icons/ic_audio_call.svg"),
+                  )
+                ],
+              )
+            ],
           ),
-          backgroundColor: AppColor.alphaGrey,
-          body: Column(
+        ),
+        backgroundColor: AppColor.alphaGrey,
+        body: SafeArea(
+          child: Column(
             children: [
               Expanded(
                 child: Container(

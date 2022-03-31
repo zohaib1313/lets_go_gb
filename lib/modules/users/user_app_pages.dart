@@ -87,7 +87,7 @@ userAppPages() {
         })),
     GetPage(
         name: ChatScreen.id,
-        page: () => UserVehicleDetailPage(),
+        page: () => ChatScreen(),
         binding: BindingsBuilder(() {
           Get.lazyPut<DriverChatWithUserController>(
             () => DriverChatWithUserController(),
