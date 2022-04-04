@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:let_go_gb/modules/admin/admin_application.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
-import 'package:let_go_gb/modules/users/user_application.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -16,11 +16,14 @@ class MyHttpOverrides extends HttpOverrides {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      /* options: DefaultFirebaseOptions.currentPlatform,*/
+      );
   await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
   await UserDefaults.getPref();
 
   //runApp(const DriverApplication());
-  runApp(const UserApplication());
+  // runApp(const UserApplication());
+  runApp(const AdminApplication());
 }

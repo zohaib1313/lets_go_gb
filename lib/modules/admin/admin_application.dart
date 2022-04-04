@@ -3,17 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/admin/admin_splash_screen.dart';
-import 'package:let_go_gb/modules/users/user_app_pages.dart';
 import 'package:let_go_gb/routes.dart';
 
-class UserApplication extends StatefulWidget {
-  const UserApplication({Key? key}) : super(key: key);
+import 'admin_app_pages.dart';
+
+class AdminApplication extends StatefulWidget {
+  const AdminApplication({Key? key}) : super(key: key);
 
   @override
-  _UserApplicationState createState() => _UserApplicationState();
+  _AdminApplicationState createState() => _AdminApplicationState();
 }
 
-class _UserApplicationState extends State<UserApplication>
+class _AdminApplicationState extends State<AdminApplication>
     with WidgetsBindingObserver {
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _UserApplicationState extends State<UserApplication>
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: () => GetMaterialApp(
-        getPages: userAppPages(),
+        getPages: adminAppPages(),
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         home: const AdminSplashScreen(),
