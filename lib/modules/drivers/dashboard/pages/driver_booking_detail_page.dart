@@ -7,7 +7,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../utils/styles.dart';
 import 'driver_chat_screen.dart';
-import 'google_map.dart';
+import 'driver_google_map.dart';
 
 class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
   static const id = "/DriverBookingDetailsPage";
@@ -44,12 +44,12 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                     height: MediaQuery.of(context).size.height * 0.37,
                     child: Container(
                       color: AppColor.greenColor,
-                      child: MapSample(),
+                      child: MapSampleDriver(),
 
                       ///show pickup location
                     ),
                   ),
-                  _slidingPanel(context, _pageArea)
+                  _slidingPanel(context, _pageArea),
                 ],
               ),
             ),

@@ -579,9 +579,12 @@ class _NetworkPlainImageState extends State<NetworkPlainImage> {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: widget.url,
+      width: widget.width,
+      height: widget.height,
       key: UniqueKey(),
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,

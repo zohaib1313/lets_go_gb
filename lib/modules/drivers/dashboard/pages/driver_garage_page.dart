@@ -140,9 +140,9 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                 highlightColor: Colors.black54,
                 child: Column(
                   children: [
-                    Text('Rent / Hour',
+                    Text('Rent / Day',
                         style: AppTextStyles.textStyleBoldBodyMedium),
-                    Text('Rs. ${vehicleModel.rentHour ?? ''}',
+                    Text('Rs. ${vehicleModel.rent ?? ''}',
                         style: AppTextStyles.textStyleBoldBodyXSmall),
                   ],
                 ),

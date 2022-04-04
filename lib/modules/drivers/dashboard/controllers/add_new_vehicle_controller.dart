@@ -64,7 +64,7 @@ class AddNewVehicleController extends GetxController {
               plateNo: vehicleNoController.text,
               make: vehicleMakeController.text,
               maker: vehicleMakerController.text,
-              rentHour: vehicleRentHourController.text,
+              rent: vehicleRentHourController.text,
               mileage: vehicleMileageController.text,
               descriptionNote: vehicleNotesDescriptionController.text,
               seatingCapacity: selectedSeatCapacity.value,

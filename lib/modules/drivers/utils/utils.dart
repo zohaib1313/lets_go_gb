@@ -85,6 +85,29 @@ Future<void> showDatePickerDialog(
   }
 }
 
+Future pickDateRange({
+  required BuildContext context,
+  DateTimeRange? initialRange,
+  required Function(DateTimeRange date) onRangeSelect,
+}) async {
+  DateTime now = DateTime.now();
+  DateTimeRange dateRange = DateTimeRange(
+    start: now,
+    end: DateTime(now.year, now.month, now.day + 1),
+  );
+
+  DateTimeRange? newDateRange = await showDateRangePicker(
+    context: context,
+    initialDateRange: initialRange ?? dateRange,
+    firstDate: DateTime(2019),
+    lastDate: DateTime(2023),
+  );
+
+  if (newDateRange != null) {
+    onRangeSelect(newDateRange);
+  }
+}
+
 Future<void> showMyTimePicker(
     {required BuildContext context,
     required Function(dynamic date) onTimeSelected,
@@ -93,6 +116,6 @@ Future<void> showMyTimePicker(
   final TimeOfDay? picked =
       await showTimePicker(context: context, initialTime: TimeOfDay.now());
   if (picked != null) {
-    onTimeSelected(picked.period.name);
+    onTimeSelected(picked.format(context));
   }
 }

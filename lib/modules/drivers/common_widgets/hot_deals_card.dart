@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 
+import '../../users/pages/user_vehicle_details_page.dart';
 import '../utils/styles.dart';
 
 class VehicleInfoCard extends StatelessWidget {
-  final String? carName;
-  final String? carPrice;
-  final String? carSeats;
-  final ImageProvider? image;
+  VehicleModel vehicleModel;
 
-  const VehicleInfoCard(
-      {Key? key, this.carName, this.carPrice, this.image, this.carSeats})
-      : super(key: key);
+  VehicleInfoCard({Key? key, required this.vehicleModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class VehicleInfoCard extends StatelessWidget {
             SizedBox(
               width: 10.w,
             ),
-            Container(
+            /*Container(
               height: 110.h,
               width: 160.h,
               decoration: BoxDecoration(
@@ -41,6 +41,11 @@ class VehicleInfoCard extends StatelessWidget {
                 image: image!,
                 fit: BoxFit.fill,
               )),
+            ),*/
+            NetworkPlainImage(
+              url: vehicleModel.vehicleImages?[0],
+              height: 110.h,
+              width: 160.h,
             ),
             Expanded(
               child: Container(
@@ -53,19 +58,19 @@ class VehicleInfoCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          carName!,
+                          vehicleModel.vehicleName ?? '',
                           style: AppTextStyles.textStyleBoldBodyMedium
                               .copyWith(color: AppColor.blackColor),
                         ),
                         Text(
-                          carSeats!,
+                          ('Seating Capacity ${vehicleModel.seatingCapacity ?? ''}'),
                           style: AppTextStyles.textStyleNormalBodySmall
                               .copyWith(color: AppColor.greyColor),
                         ),
                       ],
                     ),
                     RatingBarIndicator(
-                      rating: 4,
+                      rating: (vehicleModel.ratings ?? 0.0).toDouble(),
                       itemBuilder: (context, index) => const Icon(
                         Icons.star,
                         color: Colors.amber,
@@ -80,12 +85,12 @@ class VehicleInfoCard extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                carPrice!,
+                                ('RS: ${vehicleModel.rent ?? ''}'),
                                 style: AppTextStyles.textStyleBoldBodyMedium
                                     .copyWith(color: const Color(0xffF6BC29)),
                               ),
                               Text(
-                                "Hour",
+                                " /Day",
                                 style: AppTextStyles.textStyleNormalBodyMedium
                                     .copyWith(
                                   color: const Color(0xff0088FF),
@@ -107,7 +112,10 @@ class VehicleInfoCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15)),
                             // color: const Color(0xff0088FF),
                             color: AppColor.primaryBlueColor,
-                            onPressed: () {})
+                            onPressed: () {
+                              Get.toNamed(UserVehicleDetailPage.id,
+                                  arguments: vehicleModel.id ?? '');
+                            })
                       ],
                     ),
                   ],

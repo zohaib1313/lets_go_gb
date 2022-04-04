@@ -4,7 +4,7 @@ class VehicleModel {
   String? plateNo;
   String? maker;
   String? make;
-  String? rentHour;
+  String? rent;
   String? mileage;
   String? seatingCapacity;
   String? transmissionType;
@@ -13,6 +13,7 @@ class VehicleModel {
   List<dynamic>? vehicleImages;
   List<dynamic>? features;
   String? descriptionNote;
+  double? ratings;
 
 //<editor-fold desc="Data Methods">
 
@@ -22,7 +23,7 @@ class VehicleModel {
     this.plateNo,
     this.maker,
     this.make,
-    this.rentHour,
+    this.rent,
     this.mileage,
     this.seatingCapacity,
     this.transmissionType,
@@ -31,6 +32,7 @@ class VehicleModel {
     this.vehicleImages,
     this.features,
     this.descriptionNote,
+    this.ratings,
   });
 
   @override
@@ -43,7 +45,7 @@ class VehicleModel {
           plateNo == other.plateNo &&
           maker == other.maker &&
           make == other.make &&
-          rentHour == other.rentHour &&
+          rent == other.rent &&
           mileage == other.mileage &&
           seatingCapacity == other.seatingCapacity &&
           transmissionType == other.transmissionType &&
@@ -51,7 +53,8 @@ class VehicleModel {
           errorMessage == other.errorMessage &&
           vehicleImages == other.vehicleImages &&
           features == other.features &&
-          descriptionNote == other.descriptionNote);
+          descriptionNote == other.descriptionNote &&
+          ratings == other.ratings);
 
   @override
   int get hashCode =>
@@ -60,7 +63,7 @@ class VehicleModel {
       plateNo.hashCode ^
       maker.hashCode ^
       make.hashCode ^
-      rentHour.hashCode ^
+      rent.hashCode ^
       mileage.hashCode ^
       seatingCapacity.hashCode ^
       transmissionType.hashCode ^
@@ -68,7 +71,8 @@ class VehicleModel {
       errorMessage.hashCode ^
       vehicleImages.hashCode ^
       features.hashCode ^
-      descriptionNote.hashCode;
+      descriptionNote.hashCode ^
+      ratings.hashCode;
 
   @override
   String toString() {
@@ -78,7 +82,7 @@ class VehicleModel {
         ' plateNo: $plateNo,' +
         ' maker: $maker,' +
         ' make: $make,' +
-        ' rentHour: $rentHour,' +
+        ' rent: $rent,' +
         ' mileage: $mileage,' +
         ' seatingCapacity: $seatingCapacity,' +
         ' transmissionType: $transmissionType,' +
@@ -87,6 +91,7 @@ class VehicleModel {
         ' vehicleImages: $vehicleImages,' +
         ' features: $features,' +
         ' descriptionNote: $descriptionNote,' +
+        ' ratings: $ratings,' +
         '}';
   }
 
@@ -96,16 +101,16 @@ class VehicleModel {
     String? plateNo,
     String? maker,
     String? make,
-    String? rentHour,
+    String? rent,
     String? mileage,
     String? seatingCapacity,
     String? transmissionType,
     bool? success,
     String? errorMessage,
-    List<String>? vehicleImages,
-    List<String>? features,
+    List<dynamic>? vehicleImages,
+    List<dynamic>? features,
     String? descriptionNote,
-    String? vehicleOwnerId,
+    double? ratings,
   }) {
     return VehicleModel(
       id: id ?? this.id,
@@ -113,7 +118,7 @@ class VehicleModel {
       plateNo: plateNo ?? this.plateNo,
       maker: maker ?? this.maker,
       make: make ?? this.make,
-      rentHour: rentHour ?? this.rentHour,
+      rent: rent ?? this.rent,
       mileage: mileage ?? this.mileage,
       seatingCapacity: seatingCapacity ?? this.seatingCapacity,
       transmissionType: transmissionType ?? this.transmissionType,
@@ -122,6 +127,7 @@ class VehicleModel {
       vehicleImages: vehicleImages ?? this.vehicleImages,
       features: features ?? this.features,
       descriptionNote: descriptionNote ?? this.descriptionNote,
+      ratings: ratings ?? this.ratings,
     );
   }
 
@@ -132,7 +138,7 @@ class VehicleModel {
       'plateNo': this.plateNo,
       'maker': this.maker,
       'make': this.make,
-      'rentHour': this.rentHour,
+      'rent': this.rent,
       'mileage': this.mileage,
       'seatingCapacity': this.seatingCapacity,
       'transmissionType': this.transmissionType,
@@ -141,6 +147,7 @@ class VehicleModel {
       'vehicleImages': this.vehicleImages,
       'features': this.features,
       'descriptionNote': this.descriptionNote,
+      'ratings': this.ratings,
     };
   }
 
@@ -151,15 +158,16 @@ class VehicleModel {
       plateNo: map['plateNo'] as String,
       maker: map['maker'] as String,
       make: map['make'] as String,
-      rentHour: map['rentHour'] as String,
+      rent: map['rent'] as String,
       mileage: map['mileage'] as String,
       seatingCapacity: map['seatingCapacity'] as String,
       transmissionType: map['transmissionType'] as String,
       success: map['success'] as bool,
       errorMessage: map['errorMessage'] as String,
-      vehicleImages: map['vehicleImages'],
-      features: map['features'],
+      vehicleImages: map['vehicleImages'] as List<dynamic>,
+      features: map['features'] as List<dynamic>,
       descriptionNote: map['descriptionNote'] as String,
+      ratings: map['ratings'],
     );
   }
 

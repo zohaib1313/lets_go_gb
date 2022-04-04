@@ -20,7 +20,7 @@ class VehicleRepository {
       if (isSuccess) {
         return Future.value("Success");
       } else {
-        return Future.value("Failed to save product");
+        return Future.value("Failed to save vehicle");
       }
     } on FirebaseFirestore catch (onError) {
       Get.log("$onError", isError: true);
@@ -29,7 +29,7 @@ class VehicleRepository {
     } catch (onError) {
       Get.log("$onError", isError: true);
 
-      return Future.value("Failed to save product");
+      return Future.value("Failed to save vehicle");
     }
   }
 }

@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
+import 'package:let_go_gb/modules/users/pages/user_make_booking_page.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -37,19 +39,6 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
         controller.temp.value;
         return Scaffold(
           appBar: myAppBar(goBack: true, title: 'Vehicle', actions: []),
-          floatingActionButton: SafeArea(
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Container(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Text(
-                  'Book Now',
-                  style: AppTextStyles.textStyleBoldBodyMedium
-                      .copyWith(color: AppColor.whiteColor),
-                ),
-              ),
-            ),
-          ),
           body: SafeArea(
             child: Container(
               padding: EdgeInsets.all(10.h),
@@ -60,16 +49,50 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
                       .snapshots(),
                   builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Center(child: LoadingWidget());
                     }
                     if (snapshot.data?.data() != null) {
+                      VehicleModel vehicleModel = VehicleModel.fromMap(
+                          snapshot.data!.data() as Map<String, dynamic>);
                       return Stack(
                         children: [
                           vehicleDetails(
-                            vehicleModel: VehicleModel.fromMap(
-                                snapshot.data!.data() as Map<String, dynamic>),
+                            vehicleModel: vehicleModel,
                           ),
                           _slidingPanel(context),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(UserMakeBookingPage.id,
+                                    arguments: vehicleModel);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 5, bottom: 5),
+                                decoration: const BoxDecoration(
+                                    color: AppColor.primaryBlueColor,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(28),
+                                        bottomLeft: Radius.circular(28))),
+                                child: Shimmer.fromColors(
+                                  period: const Duration(milliseconds: 5500),
+                                  baseColor: AppColor.whiteColor,
+                                  highlightColor: Colors.black,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 18.0, bottom: 18),
+                                    child: Text(
+                                      "Book Now",
+                                      style: AppTextStyles
+                                          .textStyleBoldBodyMedium
+                                          .copyWith(color: AppColor.whiteColor),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       );
                     }
@@ -145,9 +168,9 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
                 highlightColor: Colors.black54,
                 child: Column(
                   children: [
-                    Text('Rent / Hour',
+                    Text('Rent / Day',
                         style: AppTextStyles.textStyleBoldBodyMedium),
-                    Text('Rs. ${vehicleModel.rentHour ?? ''}',
+                    Text('Rs. ${vehicleModel.rent ?? ''}',
                         style: AppTextStyles.textStyleBoldBodyXSmall),
                   ],
                 ),
@@ -341,6 +364,19 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
             itemBuilder: (context, index) {
               return _reviewRowItem();
             }),
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
+        vSpace,
       ],
     );
   }

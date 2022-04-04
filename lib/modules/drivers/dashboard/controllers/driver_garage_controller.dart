@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
-import 'package:let_go_gb/repositories/driver_garage_controller_repository.dart';
+import 'package:let_go_gb/repositories/driver_garage_repository.dart';
 
 class DriverGarageController extends GetxController {
   var temp = 0.obs;
@@ -20,7 +20,7 @@ class DriverGarageController extends GetxController {
     _driverGarageRepository = DriverGarageRepository();
   }
 
-  void loadCategories() {
+  void loadVehicles() {
     loading.value = true;
     _driverGarageRepository!.getVehicles().then((List<VehicleModel>? list) {
       vehicleList = list!;

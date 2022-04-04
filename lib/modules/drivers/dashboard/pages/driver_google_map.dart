@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapSample extends StatefulWidget {
+class MapSampleDriver extends StatefulWidget {
   @override
-  State<MapSample> createState() => MapSampleState();
+  State<MapSampleDriver> createState() => MapSampleDriverState();
 }
 
-class MapSampleState extends State<MapSample> {
+class MapSampleDriverState extends State<MapSampleDriver> {
   final Completer<GoogleMapController> _controller = Completer();
 
   @override
