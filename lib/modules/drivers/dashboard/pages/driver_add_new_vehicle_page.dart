@@ -102,9 +102,8 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                     .vehicleMakeController),
                                             vSpace,
                                             getTextField(
-                                                title: 'Rent / Hour',
-                                                hintText:
-                                                    'Rent in rupees/ Hour',
+                                                title: 'Rent / Day',
+                                                hintText: 'Rent in rupees/ Day',
                                                 keyBoardType:
                                                     TextInputType.number,
                                                 controller: controller
@@ -297,72 +296,76 @@ class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
                                                 child: Row(
                                                   children: [
                                                     ///network
-                                                    Flexible(
-                                                      child: ListView.builder(
-                                                        physics:
-                                                            const BouncingScrollPhysics(),
-                                                        itemCount: controller
-                                                            .networkImageList
-                                                            .length,
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          return Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    right: 10),
-                                                            width: 400.w,
-                                                            height: 100.h,
-                                                            decoration: BoxDecoration(
-                                                                color: AppColor
-                                                                    .alphaGrey,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10)),
-                                                            child: Stack(
-                                                              children: [
-                                                                Center(
-                                                                  child:
-                                                                      ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(7),
-                                                                    child: NetworkPlainImage(
-                                                                        url: controller
-                                                                            .networkImageList[index]),
-                                                                  ),
-                                                                ),
-                                                                Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .topRight,
-                                                                  child:
-                                                                      InkWell(
-                                                                    onTap: () {
-                                                                      controller
-                                                                          .networkImageList
-                                                                          .removeAt(
-                                                                              index);
-                                                                    },
+
+                                                    if (vehicleModel != null)
+                                                      Flexible(
+                                                        child: ListView.builder(
+                                                          physics:
+                                                              const BouncingScrollPhysics(),
+                                                          itemCount: controller
+                                                              .networkImageList
+                                                              .length,
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            return Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          10),
+                                                              width: 400.w,
+                                                              height: 100.h,
+                                                              decoration: BoxDecoration(
+                                                                  color: AppColor
+                                                                      .alphaGrey,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10)),
+                                                              child: Stack(
+                                                                children: [
+                                                                  Center(
                                                                     child:
-                                                                        const Icon(
-                                                                      Icons
-                                                                          .cancel_outlined,
-                                                                      color: AppColor
-                                                                          .redColor,
-                                                                      size: 17,
+                                                                        ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              7),
+                                                                      child: NetworkPlainImage(
+                                                                          url: controller
+                                                                              .networkImageList[index]),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
+                                                                  Align(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .topRight,
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        controller
+                                                                            .networkImageList
+                                                                            .removeAt(index);
+                                                                      },
+                                                                      child:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .cancel_outlined,
+                                                                        color: AppColor
+                                                                            .redColor,
+                                                                        size:
+                                                                            17,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
                                                       ),
-                                                    ),
 
                                                     ///local
                                                     Flexible(

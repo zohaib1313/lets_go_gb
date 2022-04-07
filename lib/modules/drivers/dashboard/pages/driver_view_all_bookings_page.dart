@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_booking_controller.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
@@ -49,6 +50,10 @@ class DriverViewAllBookingsPage extends GetView<DriverBookingController> {
                             UserDefaults.getDriverUserSession()?.id ?? '')
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: LoadingWidget());
+                  }
+
                   if (snapshot.hasError) {
                     return Center(
                       child: Text(
@@ -58,10 +63,14 @@ class DriverViewAllBookingsPage extends GetView<DriverBookingController> {
                     );
                   }
 
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
+                  if ((snapshot.data?.docs ?? []).isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No Booking Found',
+                        style: AppTextStyles.textStyleBoldBodyMedium,
+                      ),
+                    );
                   }
-
                   return ListView(
                     shrinkWrap: true,
                     children:
@@ -217,7 +226,8 @@ class DriverViewAllBookingsPage extends GetView<DriverBookingController> {
             return Center(
               child: Text(
                 'No Data Found',
-                style: AppTextStyles.textStyleBoldBodyMedium,
+                style: AppTextStyles.textStyleBoldBodyMedium
+                    .copyWith(color: AppColor.blackColor),
               ),
             );
           }
