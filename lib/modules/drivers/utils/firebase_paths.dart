@@ -7,4 +7,6 @@ class FirebasePathNodes {
   static const usersImages = 'UsersImages/';
 
   static const String messages = 'Messages';
+
+  static String appConstants = 'AppConstants';
 }
