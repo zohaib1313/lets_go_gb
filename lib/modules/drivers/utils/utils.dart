@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 void printWrapped(String text) {
   final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
@@ -10,8 +11,16 @@ void printWrapped(String text) {
       (match) => print("\n********TAGGGG*********\n${match.group(0)}"));
 }
 
-String formatAmount(String? amount) {
-  return NumberFormat("#,##0.0", "en_US").format(double.parse(amount ?? "0.0"));
+String formatDateTime(DateTime? dateTime) {
+  return DateFormat('dd-MM-yyyy').format(dateTime ?? DateTime.now());
+}
+
+int daysDifference({required DateTime from, required DateTime to}) {
+// get the difference in term of days, and not just a 24h difference
+  from = DateTime(from.year, from.month, from.day);
+  to = DateTime(to.year, to.month, to.day);
+
+  return to.difference(from).inDays;
 }
 
 myAppBar(
@@ -117,5 +126,23 @@ Future<void> showMyTimePicker(
       await showTimePicker(context: context, initialTime: TimeOfDay.now());
   if (picked != null) {
     onTimeSelected(picked.format(context));
+  }
+}
+
+Future<void> showMyMonthPicker(
+    {required BuildContext context,
+    required DateTime initialDate,
+    required Function(dynamic date) onMonthSelected,
+    TimePickerEntryMode initialDatePickerMode =
+        TimePickerEntryMode.dial}) async {
+  DateTime? result = await showMonthYearPicker(
+    context: context,
+    initialDate: initialDate,
+    firstDate: DateTime(2022),
+    lastDate: DateTime(2026),
+  );
+
+  if (result != null) {
+    onMonthSelected(result);
   }
 }

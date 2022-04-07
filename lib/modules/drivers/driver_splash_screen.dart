@@ -26,7 +26,7 @@ class _DriverSplashPageState extends State<DriverSplashPage> {
 
   void gotoRelevantScreenOnUserType() {
     if (UserDefaults.getDriverUserSession() != null) {
-      Get.toNamed(DriverHomePage.id);
+      Get.offAndToNamed(DriverHomePage.id);
     } else {
       Get.to(() => const DriverOnBoardingScreen());
     }

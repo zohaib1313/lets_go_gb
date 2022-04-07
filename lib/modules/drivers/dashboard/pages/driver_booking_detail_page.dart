@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:let_go_gb/common/booking_model.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/DriverBookingDetailController.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_constants.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
+import 'package:let_go_gb/modules/drivers/utils/utils.dart';
+import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../utils/styles.dart';
@@ -12,9 +19,12 @@ import 'driver_google_map.dart';
 class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
   static const id = "/DriverBookingDetailsPage";
 
-  const DriverBookingDetailsPage({Key? key}) : super(key: key);
+  DriverBookingDetailsPage({Key? key}) : super(key: key);
   static var vSpace = SizedBox(height: 20.h);
   static var hSpace = SizedBox(width: 50.w);
+
+  BookingModel bookingModel = Get.arguments[0];
+  UserModel userModel = Get.arguments[1];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +34,6 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
     return GetX<DriverBookingDetailController>(
         initState: (state) {},
         builder: (staex) {
-          controller.temp.value;
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -44,12 +53,15 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                     height: MediaQuery.of(context).size.height * 0.37,
                     child: Container(
                       color: AppColor.greenColor,
-                      child: MapSampleDriver(),
+                      child: MapSampleDriver(
+                          userLocationPickUp: LatLng(bookingModel.pickUpLat!,
+                              bookingModel.pickUpLng!)),
 
                       ///show pickup location
                     ),
                   ),
                   _slidingPanel(context, _pageArea),
+                  if (controller.isLoading.value) LoadingWidget(),
                 ],
               ),
             ),
@@ -97,37 +109,67 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                         vSpace,
                         getRowInfo(
                             title: 'Booking Notes',
-                            value:
-                                ''''Hi, i need a vehicle for 3 days,Hi, i need a vehicle for 3 days,Hi, i need a vehicle for 3 days,Hi, i need a vehicle for 3 days',  '''),
+                            value: bookingModel.bookingNotes ?? ''),
                         getRowInfo(
                             title: 'Pick Up Date & Time',
-                            value: '22 Feb 2022 : 11:00 pm'),
+                            value:
+                                '${formatDateTime(bookingModel.bookingDateStart)} : ${bookingModel.pickUpTime ?? ''}'),
                         getRowInfo(
                             title: 'Pick Up Address',
-                            value: 'Airport road gate no 10'),
+                            value: bookingModel.pickUpAddress ?? ''),
                         getRowInfo(
-                            title: 'Total Passengers', value: '4 Persons'),
+                            title: 'Total Passengers',
+                            value: (bookingModel.passengers ?? 0).toString()),
                         getRowInfo(
                             title: 'Booking Request For',
-                            value: '22 Feb 2022 -- 25 Feb 2022  ${'3 Days'}'),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Button(
-                              buttonText: 'Cancel',
-                              color: AppColor.redColor,
-                              textColor: AppColor.whiteColor,
-                              onTap: () {},
-                            )),
-                            Expanded(
-                                child: Button(
-                              buttonText: 'Confirm',
-                              color: AppColor.greenColor,
-                              textColor: AppColor.whiteColor,
-                              onTap: () {},
-                            )),
-                          ],
-                        )
+                            value:
+                                '${formatDateTime(bookingModel.bookingDateStart)} -- ${formatDateTime(bookingModel.bookingDateEnd)}  ${'${daysDifference(from: bookingModel.bookingDateStart!, to: bookingModel.bookingDateEnd!).toString()} Days'}'),
+                        if ((bookingModel.status ?? '') ==
+                            BookingStatus.pending)
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Button(
+                                buttonText: 'Cancel',
+                                color: AppColor.redColor,
+                                textColor: AppColor.whiteColor,
+                                onTap: () {
+                                  AppPopUps.showConfirmDialog(
+                                    title: 'Please Confirm',
+                                    message: 'Booking will be cancelled',
+                                    onSubmit: () {
+                                      Navigator.pop(context);
+                                      controller.changeBookingStatus(
+                                        booking: bookingModel,
+                                        user: userModel,
+                                        status: BookingStatus.cancelled,
+                                      );
+                                    },
+                                  );
+                                },
+                              )),
+                              Expanded(
+                                  child: Button(
+                                buttonText: 'Please Confirm',
+                                color: AppColor.greenColor,
+                                textColor: AppColor.whiteColor,
+                                onTap: () {
+                                  AppPopUps.showConfirmDialog(
+                                    title: 'Confirm',
+                                    message: 'Booking will be confirmed',
+                                    onSubmit: () {
+                                      Navigator.pop(context);
+                                      controller.changeBookingStatus(
+                                        booking: bookingModel,
+                                        user: userModel,
+                                        status: BookingStatus.confirmed,
+                                      );
+                                    },
+                                  );
+                                },
+                              )),
+                            ],
+                          )
                       ],
                     ),
                   )
@@ -146,9 +188,8 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
           color: AppColor.blackColor, borderRadius: BorderRadius.circular(20)),
       child: Row(
         children: [
-          const CircleAvatar(
-            radius: 35,
-            backgroundImage: AssetImage('assets/images/eclipse.jpg'),
+          NetworkCircularImage(
+            url: userModel.profileImage ?? '',
           ),
           Expanded(
               child: Column(
@@ -156,12 +197,12 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'User abc',
+                userModel.firstName ?? '',
                 style: AppTextStyles.textStyleBoldBodyMedium
                     .copyWith(color: AppColor.whiteColor),
               ),
               Text(
-                '+92xxxxxxxx',
+                userModel.phone ?? '',
                 style: AppTextStyles.textStyleBoldBodySmall
                     .copyWith(color: AppColor.whiteColor),
               ),

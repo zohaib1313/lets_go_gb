@@ -21,9 +21,12 @@ class DriverDashBoardHomeController extends GetxController
 
   // ignore: prefer_typing_uninitialized_variables
   var scale;
+  final DateTime now = DateTime.now();
+  late Rx<DateTime> selecetedDateTime = DateTime(now.year, now.month, 1).obs;
 
   @override
   void onInit() {
+    // selecetedDateTime = DateTime(now.year,now.month,now.day).obs;
     motionController = AnimationController(
         duration: const Duration(seconds: 15),
         vsync: this,

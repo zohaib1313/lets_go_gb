@@ -32,4 +32,25 @@ class VehicleRepository {
       return Future.value("Failed to save vehicle");
     }
   }
+
+  Future<String?> updateVehicle(VehicleModel model) async {
+    try {
+      final isSuccess = await firebaseHelper.updateDocument(
+          FirebasePathNodes.vehicles, model.toMap());
+
+      if (isSuccess) {
+        return Future.value("Success");
+      } else {
+        return Future.value("Failed to update vehicle");
+      }
+    } on FirebaseFirestore catch (onError) {
+      Get.log("$onError", isError: true);
+
+      return Future.value(onError.toString());
+    } catch (onError) {
+      Get.log("$onError", isError: true);
+
+      return Future.value("Failed to update vehicle");
+    }
+  }
 }

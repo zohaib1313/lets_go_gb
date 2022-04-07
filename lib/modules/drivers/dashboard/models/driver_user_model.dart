@@ -11,7 +11,7 @@ class DriverUserModel {
   String? password;
   bool? isActive;
   bool? success;
-  num? ratings;
+
   String? errorMessage;
   String? profileImage;
 
@@ -23,7 +23,6 @@ class DriverUserModel {
     this.userRole,
     this.emailAddress,
     this.phone,
-    this.ratings,
     this.profileImage,
     this.address,
     this.cnicFrontImageUrl,
@@ -45,7 +44,6 @@ class DriverUserModel {
           userRole == other.userRole &&
           emailAddress == other.emailAddress &&
           phone == other.phone &&
-          ratings == other.ratings &&
           address == other.address &&
           cnicFrontImageUrl == other.cnicFrontImageUrl &&
           cnicBackImageUrl == other.cnicBackImageUrl &&
@@ -71,7 +69,6 @@ class DriverUserModel {
       profileImage.hashCode ^
       isActive.hashCode ^
       success.hashCode ^
-      ratings.hashCode ^
       errorMessage.hashCode;
 
   @override
@@ -90,7 +87,6 @@ class DriverUserModel {
         ' password: $password,' +
         ' isActive: $isActive,' +
         ' success: $success,' +
-        ' ratings: $ratings,' +
         ' errorMessage: $errorMessage,' +
         '}';
   }
@@ -114,7 +110,6 @@ class DriverUserModel {
   }) {
     return DriverUserModel(
       id: id ?? this.id,
-      ratings: ratings ?? this.ratings,
       firstName: firstName ?? this.firstName,
       userRole: userRole ?? this.userRole,
       emailAddress: emailAddress ?? this.emailAddress,
@@ -145,7 +140,6 @@ class DriverUserModel {
       'driverLicenceImageUrl': this.driverLicenceImageUrl,
       'isActive': this.isActive,
       'success': this.success,
-      'ratings': this.ratings,
       'profileImage': this.profileImage,
       'errorMessage': this.errorMessage,
     };
@@ -158,7 +152,6 @@ class DriverUserModel {
       userRole: map['userRole'] as String,
       emailAddress: map['emailAddress'] as String,
       phone: map['phone'] as String,
-      ratings: map['ratings'] as num,
       profileImage: map['profileImage'] as String,
       address: map['address'] as String,
       cnicFrontImageUrl: map['cnicFrontImageUrl'] as String,

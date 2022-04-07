@@ -7,6 +7,8 @@ import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/repositories/user_booking_repository.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../drivers/utils/app_constants.dart';
+
 class UserMakeBookingController extends GetxController {
   TextEditingController addressController = TextEditingController();
   TextEditingController startDateController = TextEditingController();
@@ -22,11 +24,11 @@ class UserMakeBookingController extends GetxController {
   DateTimeRange? dateTimeRange;
 
   var formKey = GlobalKey<FormState>();
-  late UserBookingRepository _userBookingRepository;
+  late BookingRepository _userBookingRepository;
 
   @override
   void onInit() {
-    _userBookingRepository = UserBookingRepository();
+    _userBookingRepository = BookingRepository();
     super.onInit();
   }
 
@@ -60,7 +62,7 @@ class UserMakeBookingController extends GetxController {
       ..pickUpAddress = addressController.text
       ..pickUpLat = 35.920618
       ..pickUpLng = 74.329363
-      ..status = "Pending"
+      ..status = BookingStatus.pending
       ..pickUpDate = startDateController.text
       ..pickUpTime = startTimeController.text;
 

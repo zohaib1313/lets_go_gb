@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:let_go_gb/common/booking_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_constants.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/modules/users/controllers/user_booking_controller.dart';
@@ -178,13 +178,13 @@ class UserBookingPage extends GetView<UserBookingController> {
                                     ),
                                     SizedBox(height: 5.h),
                                     Text(
-                                      "From: ${DateFormat('dd-MM-yyyy').format(model.bookingDateStart!)}",
+                                      "From: ${formatDateTime(model.bookingDateStart!)}",
                                       maxLines: 2,
                                       style: AppTextStyles
                                           .textStyleNormalBodySmall,
                                     ),
                                     Text(
-                                      "To: ${DateFormat('dd-MM-yyyy').format(model.bookingDateEnd!)}",
+                                      "To: ${formatDateTime(model.bookingDateEnd)}",
                                       maxLines: 2,
                                       style: AppTextStyles
                                           .textStyleNormalBodySmall,
@@ -202,9 +202,7 @@ class UserBookingPage extends GetView<UserBookingController> {
                     width: 120.w,
                     height: 122.h,
                     decoration: BoxDecoration(
-                      color: ((model.status ?? '') == 'Confirmed')
-                          ? Colors.green
-                          : AppColor.primaryBlueColor,
+                      color: BookingStatus.getColor(model.status),
                       borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(12),
                         bottomRight: Radius.circular(12),

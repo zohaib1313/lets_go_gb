@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/routes.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 import 'driverAppPages.dart';
 import 'driver_splash_screen.dart';
@@ -36,6 +38,11 @@ class _DriverApplicationState extends State<DriverApplication>
       designSize: const Size(1920, 1080),
       builder: () => GetMaterialApp(
         getPages: driverAppPages(),
+        localizationsDelegates: const [
+          DefaultCupertinoLocalizations.delegate,
+          DefaultMaterialLocalizations.delegate,
+          MonthYearPickerLocalizations.delegate
+        ],
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         home: const DriverSplashPage(),

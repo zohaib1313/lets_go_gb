@@ -4,40 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapSampleDriver extends StatefulWidget {
+  LatLng userLocationPickUp;
+
+  MapSampleDriver({required this.userLocationPickUp});
+
   @override
   State<MapSampleDriver> createState() => MapSampleDriverState();
 }
 
 class MapSampleDriverState extends State<MapSampleDriver> {
   final Completer<GoogleMapController> _controller = Completer();
+  late CameraPosition _cameraPostion;
 
   @override
   void initState() {
     super.initState();
+    _cameraPostion = CameraPosition(
+      target: widget.userLocationPickUp,
+      zoom: 14.4746,
+    );
   }
-
-  static const CameraPosition _userPickUpLocation = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        mapType: MapType.hybrid,
+        mapType: MapType.normal,
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
         trafficEnabled: false,
-        liteModeEnabled: true,
         buildingsEnabled: false,
         compassEnabled: true,
         markers: {
-          const Marker(
+          Marker(
               markerId: MarkerId('UserPickUpLocation'),
-              position: LatLng(37.42796133580664, -122.085749655962))
+              position: widget.userLocationPickUp)
         },
-        initialCameraPosition: _userPickUpLocation,
+        initialCameraPosition: _cameraPostion,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },

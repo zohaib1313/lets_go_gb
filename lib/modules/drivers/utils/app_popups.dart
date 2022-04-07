@@ -269,12 +269,12 @@ class AppPopUps {
     );
   }
 
-  static Future<void> showConfirmDialog({
+  static Future<bool> showConfirmDialog({
     onSubmit,
     required String title,
     required String message,
-  }) {
-    return showDialog(
+  }) async {
+    return await showDialog(
         context: myContext!,
         builder: (context) {
           return AlertDialog(
@@ -292,7 +292,7 @@ class AppPopUps {
                 textColor: Colors.white,
                 child: const Text('Cancel'),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context, false);
                 },
               ),
               FlatButton(
@@ -308,11 +308,11 @@ class AppPopUps {
         });
   }
 
-  static Future<void> showAlertDialog({
+  static Future<bool> showAlertDialog({
     onSubmit,
     required String message,
-  }) {
-    return showDialog(
+  }) async {
+    return await showDialog(
         context: myContext!,
         builder: (context) {
           return AlertDialog(
@@ -327,7 +327,7 @@ class AppPopUps {
                 child: const Text('Ok'),
                 onPressed: onSubmit ??
                     () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
               ),
             ],

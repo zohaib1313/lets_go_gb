@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_core_web/firebase_core_web.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:let_go_gb/modules/admin/admin_application.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
+
+import 'modules/drivers/driver_application.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -26,18 +26,19 @@ const firebaseConfig = {
 };
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FirebaseOptions.fromMap(firebaseConfig),
-  );
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: FirebaseOptions.fromMap(firebaseConfig),
+    );
+    //await FirebaseCoreWeb().initializeApp();
+  } else {
+    await Firebase.initializeApp();
+  }
   await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
   await UserDefaults.getPref();
 
-  if (kIsWeb) {
-    await FirebaseCoreWeb().initializeApp();
-  }
-
-  //runApp(const DriverApplication());
+  runApp(const DriverApplication());
   // runApp(const UserApplication());
-  runApp(const AdminApplication());
+  //runApp(const AdminApplication());
 }

@@ -4,14 +4,11 @@ import 'package:let_go_gb/common/booking_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 
-class UserBookingRepository {
+class BookingRepository {
   late FirebaseHelper _firebaseHelper;
-  CollectionReference? _collectionReference;
 
-  UserBookingRepository() {
+  BookingRepository() {
     _firebaseHelper = FirebaseHelper();
-    _collectionReference =
-        FirebaseFirestore.instance.collection(FirebasePathNodes.bookings);
   }
   Future<String?> saveBooking(BookingModel model) async {
     try {
@@ -31,6 +28,27 @@ class UserBookingRepository {
       Get.log("$onError", isError: true);
 
       return Future.value("Failed to save booking");
+    }
+  }
+
+  Future<String?> updateBooking(BookingModel model) async {
+    try {
+      final isSuccess = await _firebaseHelper.updateDocument(
+          FirebasePathNodes.bookings, model.toMap());
+
+      if (isSuccess) {
+        return Future.value("Success");
+      } else {
+        return Future.value("Failed to update booking");
+      }
+    } on FirebaseFirestore catch (onError) {
+      Get.log("$onError", isError: true);
+
+      return Future.value(onError.toString());
+    } catch (onError) {
+      Get.log("$onError", isError: true);
+
+      return Future.value("Failed to update booking");
     }
   }
 }

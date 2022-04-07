@@ -85,6 +85,28 @@ class SignupRepository {
     return "";
   }
 
+  /// update driver users
+  Future<String> updateDriverUser(DriverUserModel userModel) async {
+    try {
+      final isSuccess = await firebaseHelper.updateDocument(
+          FirebasePathNodes.users, userModel.toMap());
+
+      if (isSuccess) {
+        return "Success";
+      } else {
+        return "Failed to update user";
+      }
+    } on FirebaseFirestore catch (onError) {
+      Get.log("$onError", isError: true);
+
+      return onError.toString();
+    } catch (onError) {
+      Get.log("$onError", isError: true);
+
+      return "Failed to update user";
+    }
+  }
+
   /// save users
   Future<String> saveUserUser(UserModel userModel) async {
     try {

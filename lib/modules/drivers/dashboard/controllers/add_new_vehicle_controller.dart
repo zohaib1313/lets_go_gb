@@ -16,6 +16,8 @@ class AddNewVehicleController extends GetxController {
 
   RxList<File> picturesList = <File>[].obs;
   RxList<String> feature = <String>[].obs;
+
+  RxList<String> networkImageList = <String>[].obs;
   final loading = false.obs;
   VehicleRepository? _vehicleRepository;
 
@@ -51,13 +53,15 @@ class AddNewVehicleController extends GetxController {
 
   /// signup model
 
-  Future<void> saveVehicle() async {
+  Future<void> saveVehicle(VehicleModel? vehicleModel) async {
     loading.value = true;
     String id = UserDefaults.getDriverUserSession()?.id ?? '';
 
     uploadImagesToFireStorage(
         id: id,
-        onComplete: (vehiclesImagesUrls) {
+        onComplete: (List<String> vehiclesImagesUrls) {
+          ///this will set previous images list if being updated
+          vehiclesImagesUrls.addAll(networkImageList);
           VehicleModel model = VehicleModel(
               id: id,
               vehicleName: vehicleNameController.text,
@@ -73,18 +77,34 @@ class AddNewVehicleController extends GetxController {
               vehicleImages: vehiclesImagesUrls,
               success: true,
               errorMessage: "Success");
-          _vehicleRepository!.saveVehicle(model).then((value) {
-            if (value.toString() == "Success") {
-              Get.back();
-              Get.showSnackbar(
-                  Ui.SuccessSnackBar(message: "Vehicle Added Successfully"));
-            }
-          }).catchError((onError) {
-            Get.log(onError.toString(), isError: true);
-            Get.showSnackbar(Ui.ErrorSnackBar(message: onError.toString()));
-          }).whenComplete(() {
-            loading.value = false;
-          });
+
+          if (vehicleModel != null) {
+            _vehicleRepository!.updateVehicle(model).then((value) {
+              if (value.toString() == "Success") {
+                Get.back();
+                Get.showSnackbar(Ui.SuccessSnackBar(
+                    message: "Vehicle Updated Successfully"));
+              }
+            }).catchError((onError) {
+              Get.log(onError.toString(), isError: true);
+              Get.showSnackbar(Ui.ErrorSnackBar(message: onError.toString()));
+            }).whenComplete(() {
+              loading.value = false;
+            });
+          } else {
+            _vehicleRepository!.saveVehicle(model).then((value) {
+              if (value.toString() == "Success") {
+                Get.back();
+                Get.showSnackbar(
+                    Ui.SuccessSnackBar(message: "Vehicle Added Successfully"));
+              }
+            }).catchError((onError) {
+              Get.log(onError.toString(), isError: true);
+              Get.showSnackbar(Ui.ErrorSnackBar(message: onError.toString()));
+            }).whenComplete(() {
+              loading.value = false;
+            });
+          }
         });
   }
 
@@ -144,4 +164,24 @@ class AddNewVehicleController extends GetxController {
     printWrapped('on Complete called');
     onComplete(imagesUrl);
   }
+
+  void setUpdatedValues(VehicleModel vehicleModel) {
+    vehicleNameController.text = vehicleModel.vehicleName ?? '-';
+    vehicleNoController.text = vehicleModel.plateNo ?? '';
+    vehicleMakeController.text = vehicleModel.make ?? '';
+    vehicleMakerController.text = vehicleModel.maker ?? '';
+    vehicleRentHourController.text = vehicleModel.rent ?? '';
+    vehicleMileageController.text = vehicleModel.mileage ?? '';
+    vehicleNotesDescriptionController.text = vehicleModel.descriptionNote ?? '';
+    selectedSeatCapacity.value = vehicleModel.seatingCapacity ?? "1";
+    selectedTransmissionType.value = vehicleModel.transmissionType ?? 'Manual';
+    vehicleModel.features?.forEach((element) {
+      feature.add(element.toString());
+    });
+    vehicleModel.vehicleImages?.forEach((element) {
+      networkImageList.add(element);
+    });
+  }
+
+  void updateVehicle() {}
 }

@@ -9,13 +9,19 @@ import '../utils/common_widgets.dart';
 import '../utils/styles.dart';
 
 // ignore: must_be_immutable
+
 class ChooseImageWidget extends StatefulWidget {
   File? image;
   String? chooseTitle;
+  String? networkUrl;
 
   dynamic onImageChoosed;
 
-  ChooseImageWidget({Key? key, required this.chooseTitle, this.onImageChoosed})
+  ChooseImageWidget(
+      {Key? key,
+      required this.chooseTitle,
+      this.onImageChoosed,
+      this.networkUrl})
       : super(key: key);
 
   @override
@@ -70,25 +76,13 @@ class _ChooseImageWidgetState extends State<ChooseImageWidget> {
               ),
               Expanded(
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    getFile();
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      widget.image != null
-                          ? Image.file(
-                              widget.image!,
-                              height: 80.h,
-                              width: 1000.w,
-                            )
-                          : Button(
-                              buttonText: "Choose",
-                              textColor: AppColor.whiteColor,
-                              onTap: () {
-                                getFile();
-                              },
-                            )
-                    ],
+                    children: [getImage()],
                   ),
                 ),
               )
@@ -115,6 +109,30 @@ class _ChooseImageWidgetState extends State<ChooseImageWidget> {
       });
     } else {
       // User canceled the picker
+    }
+  }
+
+  Widget getImage() {
+    if (widget.image != null) {
+      return Image.file(
+        widget.image!,
+        height: 80.h,
+        width: 1000.w,
+      );
+    } else if ((widget.networkUrl != null)) {
+      return NetworkPlainImage(
+        url: widget.networkUrl ?? '',
+        height: 80.h,
+        width: 1000.w,
+      );
+    } else {
+      return Button(
+        buttonText: "Choose",
+        textColor: AppColor.whiteColor,
+        onTap: () {
+          getFile();
+        },
+      );
     }
   }
 }

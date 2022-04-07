@@ -17,7 +17,6 @@ class DriverSignUpController extends GetxController {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -82,46 +81,74 @@ class DriverSignUpController extends GetxController {
   }
 
   /// save User
-  Future<void> saveUser() async {
+  Future<void> setUser(DriverUserModel? driverUserModel) async {
     loading.value = true;
-    uploadImagesToFireStorage(complete: (user) {
-      _signupRepository!.saveDriverUser(user).then((value) {
-        if (value == "Success") {
-          Get.back();
-          Get.showSnackbar(
-              Ui.SuccessSnackBar(message: "User Added successfully"));
-        } else {
-          Get.showSnackbar(Ui.ErrorSnackBar(message: value));
-        }
-      }).whenComplete(() {
-        loading.value = false;
-      });
-    });
+    uploadImagesToFireStorage(
+        driverUserModel: driverUserModel,
+        complete: (DriverUserModel user) {
+          if (driverUserModel != null) {
+            user.id = driverUserModel.id ?? '';
+            _signupRepository!.updateDriverUser(user).then((value) {
+              if (value == "Success") {
+                Get.back();
+                Get.showSnackbar(
+                    Ui.SuccessSnackBar(message: "User updated successfully"));
+              } else {
+                Get.showSnackbar(Ui.ErrorSnackBar(message: value));
+              }
+            }).whenComplete(() {
+              loading.value = false;
+            });
+          } else {
+            _signupRepository!.saveDriverUser(user).then((value) {
+              if (value == "Success") {
+                Get.back();
+                Get.showSnackbar(
+                    Ui.SuccessSnackBar(message: "User Added successfully"));
+              } else {
+                Get.showSnackbar(Ui.ErrorSnackBar(message: value));
+              }
+            }).whenComplete(() {
+              loading.value = false;
+            });
+          }
+        });
   }
 
-  void uploadImagesToFireStorage({complete}) async {
+  void uploadImagesToFireStorage(
+      {complete, DriverUserModel? driverUserModel}) async {
     String email = emailController.text.trim();
 
-    String profileImageUrl = await _signupRepository!.firebaseHelper
-        .uploadImage(
-            file: File(profileImage?.path ?? ''),
-            fileName: 'profilePic',
-            path: FirebasePathNodes.driverImages + email);
+    String profileImageUrl = driverUserModel?.profileImage ?? '';
+    if (profileImage != null) {
+      profileImageUrl = await _signupRepository!.firebaseHelper.uploadImage(
+          file: File(profileImage?.path ?? ''),
+          fileName: 'profilePic',
+          path: FirebasePathNodes.driverImages + email);
+    }
 
-    String cnincFrontUrl = await _signupRepository!.firebaseHelper.uploadImage(
-        file: File(cnicFrontFile?.path ?? ''),
-        fileName: 'cnicFront',
-        path: FirebasePathNodes.driverImages + email);
+    String cnincFrontUrl = driverUserModel?.cnicFrontImageUrl ?? '';
+    if (cnicFrontFile != null) {
+      cnincFrontUrl = await _signupRepository!.firebaseHelper.uploadImage(
+          file: File(cnicFrontFile?.path ?? ''),
+          fileName: 'cnicFront',
+          path: FirebasePathNodes.driverImages + email);
+    }
+    String cnincBackUrl = driverUserModel?.cnicBackImageUrl ?? '';
+    if (cnicBackFile != null) {
+      cnincBackUrl = await _signupRepository!.firebaseHelper.uploadImage(
+          file: File(cnicBackFile?.path ?? ''),
+          fileName: 'cnicBack',
+          path: FirebasePathNodes.driverImages + email);
+    }
 
-    String cnincBackUrl = await _signupRepository!.firebaseHelper.uploadImage(
-        file: File(cnicBackFile?.path ?? ''),
-        fileName: 'cnicBack',
-        path: FirebasePathNodes.driverImages + email);
-    String drivingLicenseUrl = await _signupRepository!.firebaseHelper
-        .uploadImage(
-            fileName: 'drivingLicense',
-            file: File(drivingLicenceFile?.path ?? ''),
-            path: FirebasePathNodes.driverImages + email);
+    String drivingLicenseUrl = driverUserModel?.driverLicenceImageUrl ?? "";
+    if (drivingLicenceFile != null) {
+      drivingLicenseUrl = await _signupRepository!.firebaseHelper.uploadImage(
+          fileName: 'drivingLicense',
+          file: File(drivingLicenceFile?.path ?? ''),
+          path: FirebasePathNodes.driverImages + email);
+    }
 
     var user = DriverUserModel(
       password: passwordController.text.trim(),
@@ -134,7 +161,6 @@ class DriverSignUpController extends GetxController {
       phone: contactNumberController.text.trim(),
       userRole: AppUserRoles.driver,
       isActive: false,
-      ratings: 0,
       cnicFrontImageUrl: cnincFrontUrl,
       cnicBackImageUrl: cnincBackUrl,
       driverLicenceImageUrl: drivingLicenseUrl,
@@ -159,7 +185,7 @@ class DriverSignUpController extends GetxController {
     }
   }
 
-  pickProfileImage() async {
+  Future<void> pickProfileImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: [
@@ -176,4 +202,42 @@ class DriverSignUpController extends GetxController {
     }
     haveProfileImage.value = profileImage != null;
   }
+
+  void setValuesWithUpdated(DriverUserModel driverUserModel) {
+    addressController.text = driverUserModel.address ?? '';
+    firstNameController.text = driverUserModel.firstName ?? '';
+    contactNumberController.text = driverUserModel.phone ?? '';
+    emailController.text = driverUserModel.emailAddress ?? '';
+  }
+
+/*void _changePassword(String password) async {
+    User? user =   FirebaseAuth.instance.currentUser;
+
+    String? email = user?.email;
+
+    //Create field for user to input old password
+
+    //pass the password here
+    String password = "password";
+    String newPassword = "password";
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email!,
+        password: password,
+      );
+
+      user?.updatePassword(newPassword).then((_){
+
+      }).catchError((error){
+
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }*/
 }

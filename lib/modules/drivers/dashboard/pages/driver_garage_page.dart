@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_garage_controller.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
@@ -22,7 +23,6 @@ class DriverGaragePage extends GetView<DriverGarageController> {
   Widget build(BuildContext context) {
     return GetX<DriverGarageController>(
       initState: (state) {
-        controller.haveVehicle = false;
         /*  Future.delayed(
           const Duration(seconds: 2),
           () {},
@@ -37,7 +37,7 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                 onSelected: (item) => handleClick(item),
                 itemBuilder: (context) => [
                   const PopupMenuItem<int>(value: 0, child: Text('Update')),
-                  const PopupMenuItem<int>(value: 1, child: Text('Delete')),
+                  /*   const PopupMenuItem<int>(value: 1, child: Text('Delete')),*/
                 ],
               ),
             ]),
@@ -53,11 +53,14 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.data?.data() != null) {
-                      controller.haveVehicle = true;
+                      controller.vehicleModel = VehicleModel.fromMap(
+                          snapshot.data!.data() as Map<String, dynamic>);
+
                       return vehicleDetails(
-                          vehicleModel: VehicleModel.fromMap(
-                              snapshot.data!.data() as Map<String, dynamic>));
+                          vehicleModel: controller.vehicleModel!);
                     }
+
+                    controller.vehicleModel = null;
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,13 +107,12 @@ class DriverGaragePage extends GetView<DriverGarageController> {
                   (item) => ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Center(
-                      child: Image.network(
-                        item,
-                        height: 300.h,
-                        width: 1500.w,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                        child: NetworkPlainImage(
+                      url: item,
+                      height: 300.h,
+                      width: 1500.w,
+                      fit: BoxFit.cover,
+                    )),
                   ),
                 )
                 .toList(),
@@ -227,5 +229,16 @@ class DriverGaragePage extends GetView<DriverGarageController> {
     );
   }
 
-  handleClick(int item) {}
+  handleClick(int item) {
+    switch (item) {
+      case 0:
+        Get.toNamed(DriverAddNewVehiclePage.id,
+            arguments: controller.vehicleModel);
+
+        break;
+
+      case 2:
+        break;
+    }
+  }
 }

@@ -13,6 +13,7 @@ class AppColor {
   static const alphaGrey = Color(0xffF5F3F3);
   static const whiteColor = Colors.white;
   static const greyColor = Colors.grey;
+  static const green = Colors.green;
 
   static const chatReceiveColor = Color(0xff7F47FA);
   static const chatSendColor = Color(0xffFFC107);
