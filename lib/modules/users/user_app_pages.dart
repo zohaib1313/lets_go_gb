@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_chat_with_user_controller.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_chat_screen.dart';
+import 'package:let_go_gb/common/controller/driver_chat_with_user_controller.dart';
+import 'package:let_go_gb/common/pages/chat_screen.dart';
 import 'package:let_go_gb/modules/users/controllers/home_screen_driver_controller.dart';
 import 'package:let_go_gb/modules/users/controllers/login_user_controller.dart';
 import 'package:let_go_gb/modules/users/controllers/signup_user_controller.dart';

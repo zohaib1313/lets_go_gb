@@ -5,4 +5,6 @@ class FirebasePathNodes {
 
   static const driverImages = 'DriverImages/';
   static const usersImages = 'UsersImages/';
+
+  static const String messages = 'Messages';
 }

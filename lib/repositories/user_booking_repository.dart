@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/common/booking_model.dart';
+import 'package:let_go_gb/common/models/booking_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 

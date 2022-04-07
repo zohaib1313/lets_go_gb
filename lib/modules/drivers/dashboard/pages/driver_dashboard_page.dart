@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_chat_page_home.dart';
+import 'package:let_go_gb/common/pages/chat_all_home_page.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_more_page.dart';
 
 import '../../utils/styles.dart';
@@ -96,7 +96,7 @@ class _DriverDashBoardState extends State<DriverDashBoard> {
   static final List<Widget> _widgetOptions = <Widget>[
     const DriverHomePage(),
     DriverGaragePage(),
-    const DriverChatHomePage(),
+    ChatAllHomePage(),
     const DriverMorePage(),
   ];
 }

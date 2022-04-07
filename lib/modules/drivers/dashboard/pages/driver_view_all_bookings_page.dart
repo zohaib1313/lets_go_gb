@@ -7,7 +7,7 @@ import 'package:let_go_gb/modules/drivers/dashboard/controllers/driver_booking_c
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
-import '../../../../common/booking_model.dart';
+import '../../../../common/models/booking_model.dart';
 import '../../../users/models/user_model.dart';
 import '../../utils/app_constants.dart';
 import '../../utils/common_widgets.dart';

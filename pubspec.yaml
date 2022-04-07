@@ -71,6 +71,7 @@ dependencies:
   geolocator: ^8.2.0
   google_maps_place_picker_mb: ^2.0.0-mb.15
   month_year_picker: ^0.1.0+1
+  url_launcher:
 #  flutter_map: ^0.14.0
 #  firebase_core_web: ^1.6.1
 

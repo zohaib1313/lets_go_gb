@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:let_go_gb/common/booking_model.dart';
+import 'package:let_go_gb/common/models/booking_model.dart';
+import 'package:let_go_gb/common/models/chat_user_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/DriverBookingDetailController.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_constants.dart';
@@ -12,8 +13,8 @@ import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../../../common/pages/chat_screen.dart';
 import '../../utils/styles.dart';
-import 'driver_chat_screen.dart';
 import 'driver_google_map.dart';
 
 class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
@@ -211,7 +212,12 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
           hSpace,
           InkWell(
             onTap: () {
-              Get.toNamed(ChatScreen.id);
+              Get.toNamed(ChatScreen.id,
+                  arguments: ChatUserModel(
+                      otherUserId: userModel.id,
+                      otherUserName: userModel.firstName,
+                      otherUserContact: userModel.phone,
+                      otherUserProfileImage: userModel.profileImage));
             },
             child: const Icon(
               Icons.chat,

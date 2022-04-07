@@ -67,9 +67,10 @@ class UserDefaults {
 
   static void saveDriverSession(DriverUserModel signInModel) async {
     String user = json.encode(signInModel.toMap());
+    setCurrentUserId(signInModel.id ?? "");
+    setUserType(AppUserRoles.driver);
     getPref().then((value) => value..setString(AppUserRoles.driver, user));
     if (kDebugMode) {
-      printWrapped("user session saved type=  ${user}");
       printWrapped(user.toString());
     }
   }
@@ -88,6 +89,8 @@ class UserDefaults {
   ///user///////////////////////////////////////////////////////////////
   static void saveUserSession(UserModel signInModel) async {
     String user = json.encode(signInModel.toMap());
+    setCurrentUserId(signInModel.id ?? "");
+    setUserType(AppUserRoles.user);
     getPref().then((value) => value..setString(AppUserRoles.user, user));
     if (kDebugMode) {
       printWrapped("user session saved type=  ${user}");
@@ -104,5 +107,21 @@ class UserDefaults {
     }
 
     return user;
+  }
+
+  static setCurrentUserId(String value) {
+    return sharedPreferences?.setString('userId', value);
+  }
+
+  static String? getCurrentUserId() {
+    return sharedPreferences?.getString('userId');
+  }
+
+  static String? getUserType() {
+    return sharedPreferences?.getString('type');
+  }
+
+  static setUserType(String value) {
+    return sharedPreferences?.setString('type', value);
   }
 }

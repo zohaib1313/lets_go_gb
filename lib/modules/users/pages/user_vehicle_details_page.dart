@@ -14,7 +14,7 @@ import 'package:let_go_gb/modules/users/pages/user_make_booking_page.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../drivers/dashboard/pages/driver_chat_screen.dart';
+import '../../../common/pages/chat_screen.dart';
 import '../../drivers/utils/common_widgets.dart';
 import '../controllers/user_vehicle_details_controller.dart';
 
