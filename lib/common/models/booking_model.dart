@@ -15,6 +15,7 @@ class BookingModel {
   double? pickUpLat;
   double? pickUpLng;
   String? status;
+  String? bookingId;
 
 //<editor-fold desc="Data Methods">
 
@@ -35,6 +36,7 @@ class BookingModel {
     this.pickUpLat,
     this.pickUpLng,
     this.status,
+    this.bookingId,
   });
 
   @override
@@ -57,7 +59,8 @@ class BookingModel {
           twentyPercentAmount == other.twentyPercentAmount &&
           pickUpLat == other.pickUpLat &&
           pickUpLng == other.pickUpLng &&
-          status == other.status);
+          status == other.status &&
+          bookingId == other.bookingId);
 
   @override
   int get hashCode =>
@@ -76,7 +79,8 @@ class BookingModel {
       twentyPercentAmount.hashCode ^
       pickUpLat.hashCode ^
       pickUpLng.hashCode ^
-      status.hashCode;
+      status.hashCode ^
+      bookingId.hashCode;
 
   @override
   String toString() {
@@ -97,6 +101,7 @@ class BookingModel {
         ' pickUpLat: $pickUpLat,' +
         ' pickUpLng: $pickUpLng,' +
         ' status: $status,' +
+        ' bookingId: $bookingId,' +
         '}';
   }
 
@@ -117,6 +122,7 @@ class BookingModel {
     double? pickUpLat,
     double? pickUpLng,
     String? status,
+    String? bookingId,
   }) {
     return BookingModel(
       id: id ?? this.id,
@@ -135,6 +141,7 @@ class BookingModel {
       pickUpLat: pickUpLat ?? this.pickUpLat,
       pickUpLng: pickUpLng ?? this.pickUpLng,
       status: status ?? this.status,
+      bookingId: bookingId ?? this.bookingId,
     );
   }
 
@@ -156,6 +163,7 @@ class BookingModel {
       'pickUpLat': this.pickUpLat,
       'pickUpLng': this.pickUpLng,
       'status': this.status,
+      'bookingId': this.bookingId,
     };
   }
 
@@ -177,6 +185,7 @@ class BookingModel {
       pickUpLat: map['pickUpLat'] as double,
       pickUpLng: map['pickUpLng'] as double,
       status: map['status'] as String,
+      bookingId: map['bookingId'] as String,
     );
   }
 

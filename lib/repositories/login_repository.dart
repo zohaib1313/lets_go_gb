@@ -37,15 +37,18 @@ class LoginRepository {
             return DriverUserModel.fromMap(userMap);
           }
 
-          return null;
+          return _userModel =
+              DriverUserModel(success: false, errorMessage: "Failed to login");
         } on FirebaseFirestore catch (onError) {
           Get.log("$onError", isError: true);
 
-          return null;
+          return _userModel =
+              DriverUserModel(success: false, errorMessage: "Failed to login");
         } catch (onError) {
           Get.log("$onError", isError: true);
 
-          return null;
+          return _userModel =
+              DriverUserModel(success: false, errorMessage: "Failed to login");
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -83,14 +86,17 @@ class LoginRepository {
             return UserModel.fromMap(userMap);
           }
 
-          return null;
+          _userModel =
+              UserModel(success: false, errorMessage: "Failed to login");
         } on FirebaseFirestore catch (onError) {
           Get.log("$onError", isError: true);
-
+          _userModel =
+              UserModel(success: false, errorMessage: "Failed to login");
           return null;
         } catch (onError) {
           Get.log("$onError", isError: true);
-
+          _userModel =
+              UserModel(success: false, errorMessage: "Failed to login");
           return null;
         }
       }

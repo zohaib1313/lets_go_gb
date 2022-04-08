@@ -4,9 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:let_go_gb/common/Push_notifications_manager.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 
-import 'modules/drivers/driver_application.dart';
+import 'modules/users/user_application.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -37,8 +38,10 @@ void main() async {
   await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
   await UserDefaults.getPref();
-
-  runApp(const DriverApplication());
-  // runApp(const UserApplication());
+  await PushNotificationsManager().init();
+/*  await PushNotificationsManager.sendMessage(
+      toDeviceId: "toDeviceId", notificationModel: NotificationModel());*/
+  //runApp(const DriverApplication());
+  runApp(const UserApplication());
   //runApp(const AdminApplication());
 }

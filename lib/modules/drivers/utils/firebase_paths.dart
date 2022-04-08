@@ -9,4 +9,6 @@ class FirebasePathNodes {
   static const String messages = 'Messages';
 
   static String appConstants = 'AppConstants';
+
+  static String notifications = 'Notifications';
 }

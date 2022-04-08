@@ -5,6 +5,7 @@ import 'package:let_go_gb/common/models/booking_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/repositories/user_booking_repository.dart';
+import 'package:let_go_gb/utils/Utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../drivers/utils/app_constants.dart';
@@ -46,7 +47,7 @@ class UserMakeBookingController extends GetxController {
     twentyPercentOfTax.value = ((20.0 / 100.0) * total).toPrecision(2);
   }
 
-  void makeReservation(String vehicleId) {
+  Future<void> makeReservation(String vehicleId) async {
     isLoading.value = true;
     BookingModel bookingModel = BookingModel()
       ..id = const Uuid().v1().toString()
@@ -57,7 +58,8 @@ class UserMakeBookingController extends GetxController {
       ..bookingDateEnd = dateTimeRange?.end
       ..totalAmount = totalPrice.value.toDouble()
       ..twentyPercentAmount = twentyPercentOfTax.value.toDouble()
-      ..transactionId = const Uuid().v1().toString()
+      ..transactionId = await AppUtils.getUniqueOrderId()
+      ..bookingId = await AppUtils.getUniqueOrderId()
       ..bookingNotes = notesController.text
       ..pickUpAddress = addressController.text
       ..pickUpLat = 35.920618

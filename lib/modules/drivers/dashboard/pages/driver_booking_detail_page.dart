@@ -109,6 +109,9 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                         _userDetails(),
                         vSpace,
                         getRowInfo(
+                            title: 'Booking id',
+                            value: bookingModel.bookingId ?? ''),
+                        getRowInfo(
                             title: 'Booking Notes',
                             value: bookingModel.bookingNotes ?? ''),
                         getRowInfo(
@@ -131,7 +134,7 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                             children: [
                               Expanded(
                                   child: Button(
-                                buttonText: 'Cancel',
+                                buttonText: 'Cancel Booking',
                                 color: AppColor.redColor,
                                 textColor: AppColor.whiteColor,
                                 onTap: () {
@@ -151,12 +154,12 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                               )),
                               Expanded(
                                   child: Button(
-                                buttonText: 'Please Confirm',
+                                buttonText: 'Confirm Confirm',
                                 color: AppColor.greenColor,
                                 textColor: AppColor.whiteColor,
                                 onTap: () {
                                   AppPopUps.showConfirmDialog(
-                                    title: 'Confirm',
+                                    title: 'Please Confirm',
                                     message: 'Booking will be confirmed',
                                     onSubmit: () {
                                       Navigator.pop(context);

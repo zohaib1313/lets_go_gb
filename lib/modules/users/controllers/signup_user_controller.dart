@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
@@ -77,6 +78,8 @@ class UserSignUpController extends GetxController {
       password: passwordController.text.trim(),
       address: addressController.text.trim(),
       success: true,
+      errorMessage: "Success",
+      deviceTokenId: await FirebaseMessaging.instance.getToken(),
       emailAddress: email,
       profileImage: profileImageUrl,
       firstName: firstNameController.text.trim(),

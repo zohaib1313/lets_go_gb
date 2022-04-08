@@ -10,8 +10,8 @@ class DriverUserModel {
   String? driverLicenceImageUrl;
   String? password;
   bool? isActive;
+  String? deviceTokenId;
   bool? success;
-
   String? errorMessage;
   String? profileImage;
 
@@ -23,7 +23,6 @@ class DriverUserModel {
     this.userRole,
     this.emailAddress,
     this.phone,
-    this.profileImage,
     this.address,
     this.cnicFrontImageUrl,
     this.cnicBackImageUrl,
@@ -31,7 +30,9 @@ class DriverUserModel {
     this.password,
     this.isActive,
     this.success,
+    this.deviceTokenId,
     this.errorMessage,
+    this.profileImage,
   });
 
   @override
@@ -51,8 +52,9 @@ class DriverUserModel {
           password == other.password &&
           isActive == other.isActive &&
           success == other.success &&
-          profileImage == other.profileImage &&
-          errorMessage == other.errorMessage);
+          deviceTokenId == other.deviceTokenId &&
+          errorMessage == other.errorMessage &&
+          profileImage == other.profileImage);
 
   @override
   int get hashCode =>
@@ -66,14 +68,15 @@ class DriverUserModel {
       cnicBackImageUrl.hashCode ^
       driverLicenceImageUrl.hashCode ^
       password.hashCode ^
-      profileImage.hashCode ^
       isActive.hashCode ^
       success.hashCode ^
-      errorMessage.hashCode;
+      deviceTokenId.hashCode ^
+      errorMessage.hashCode ^
+      profileImage.hashCode;
 
   @override
   String toString() {
-    return 'SignUpModel{' +
+    return 'DriverUserModel{' +
         ' id: $id,' +
         ' firstName: $firstName,' +
         ' userRole: $userRole,' +
@@ -83,11 +86,12 @@ class DriverUserModel {
         ' cnicFrontImageUrl: $cnicFrontImageUrl,' +
         ' cnicBackImageUrl: $cnicBackImageUrl,' +
         ' driverLicenceImageUrl: $driverLicenceImageUrl,' +
-        ' profileImage: $profileImage,' +
         ' password: $password,' +
         ' isActive: $isActive,' +
         ' success: $success,' +
+        ' deviceTokenId: $deviceTokenId,' +
         ' errorMessage: $errorMessage,' +
+        ' profileImage: $profileImage,' +
         '}';
   }
 
@@ -103,10 +107,10 @@ class DriverUserModel {
     String? driverLicenceImageUrl,
     String? password,
     bool? isActive,
-    String? profileImage,
-    num? ratings,
     bool? success,
+    String? deviceTokenId,
     String? errorMessage,
+    String? profileImage,
   }) {
     return DriverUserModel(
       id: id ?? this.id,
@@ -122,8 +126,9 @@ class DriverUserModel {
       password: password ?? this.password,
       isActive: isActive ?? this.isActive,
       success: success ?? this.success,
-      profileImage: profileImage ?? this.profileImage,
+      deviceTokenId: deviceTokenId ?? this.deviceTokenId,
       errorMessage: errorMessage ?? this.errorMessage,
+      profileImage: profileImage ?? this.profileImage,
     );
   }
 
@@ -138,10 +143,12 @@ class DriverUserModel {
       'cnicFrontImageUrl': this.cnicFrontImageUrl,
       'cnicBackImageUrl': this.cnicBackImageUrl,
       'driverLicenceImageUrl': this.driverLicenceImageUrl,
+      'password': this.password,
       'isActive': this.isActive,
+      'deviceTokenId': this.deviceTokenId,
       'success': this.success,
-      'profileImage': this.profileImage,
       'errorMessage': this.errorMessage,
+      'profileImage': this.profileImage,
     };
   }
 
@@ -152,12 +159,13 @@ class DriverUserModel {
       userRole: map['userRole'] as String,
       emailAddress: map['emailAddress'] as String,
       phone: map['phone'] as String,
-      profileImage: map['profileImage'] as String,
       address: map['address'] as String,
       cnicFrontImageUrl: map['cnicFrontImageUrl'] as String,
       cnicBackImageUrl: map['cnicBackImageUrl'] as String,
       driverLicenceImageUrl: map['driverLicenceImageUrl'] as String,
       isActive: map['isActive'] as bool,
+      deviceTokenId: map['deviceTokenId'] as String,
+      profileImage: map['profileImage'] as String,
       success: map['success'] as bool,
       errorMessage: map['errorMessage'] as String,
     );

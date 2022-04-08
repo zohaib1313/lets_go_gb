@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/admin/admin_splash_screen.dart';
 import 'package:let_go_gb/modules/users/user_app_pages.dart';
+import 'package:let_go_gb/modules/users/user_splash_screen.dart';
 import 'package:let_go_gb/routes.dart';
 
 class UserApplication extends StatefulWidget {
@@ -37,7 +37,7 @@ class _UserApplicationState extends State<UserApplication>
         getPages: userAppPages(),
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
-        home: const AdminSplashScreen(),
+        home: const UserSplashScreen(),
       ),
     );
   }

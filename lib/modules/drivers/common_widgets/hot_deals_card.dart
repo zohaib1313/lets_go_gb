@@ -56,16 +56,22 @@ class VehicleInfoCard extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          vehicleModel.vehicleName ?? '',
-                          style: AppTextStyles.textStyleBoldBodyMedium
-                              .copyWith(color: AppColor.blackColor),
+                        Flexible(
+                          child: Text(
+                            vehicleModel.vehicleName ?? '',
+                            style: AppTextStyles.textStyleBoldBodyMedium
+                                .copyWith(color: AppColor.blackColor),
+                          ),
                         ),
-                        Text(
-                          ('Seating Capacity ${vehicleModel.seatingCapacity ?? ''}'),
-                          style: AppTextStyles.textStyleNormalBodySmall
-                              .copyWith(color: AppColor.greyColor),
+                        Flexible(
+                          child: Text(
+                            ('Seating Capacity ${vehicleModel.seatingCapacity ?? ''}'),
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.textStyleNormalBodySmall
+                                .copyWith(color: AppColor.greyColor),
+                          ),
                         ),
                       ],
                     ),

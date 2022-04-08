@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/dropdown.dart';
@@ -154,6 +155,7 @@ class DriverSignUpController extends GetxController {
       password: passwordController.text.trim(),
       address: addressController.text.trim(),
       errorMessage: "Success",
+      deviceTokenId: await FirebaseMessaging.instance.getToken(),
       success: true,
       emailAddress: email,
       profileImage: profileImageUrl,

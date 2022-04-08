@@ -10,6 +10,7 @@ class UserModel {
   bool? success;
   String? profileImage;
   String? errorMessage;
+  String? deviceTokenId;
 
 //<editor-fold desc="Data Methods">
 
@@ -18,13 +19,14 @@ class UserModel {
     this.firstName,
     this.userRole,
     this.emailAddress,
-    this.errorMessage,
     this.phone,
     this.address,
     this.password,
     this.isActive,
     this.success,
     this.profileImage,
+    this.errorMessage = 'Something went wrong',
+    this.deviceTokenId,
   });
 
   @override
@@ -41,7 +43,9 @@ class UserModel {
           password == other.password &&
           isActive == other.isActive &&
           success == other.success &&
-          profileImage == other.profileImage);
+          profileImage == other.profileImage &&
+          errorMessage == other.errorMessage &&
+          deviceTokenId == other.deviceTokenId);
 
   @override
   int get hashCode =>
@@ -54,7 +58,9 @@ class UserModel {
       password.hashCode ^
       isActive.hashCode ^
       success.hashCode ^
-      profileImage.hashCode;
+      profileImage.hashCode ^
+      errorMessage.hashCode ^
+      deviceTokenId.hashCode;
 
   @override
   String toString() {
@@ -69,6 +75,8 @@ class UserModel {
         ' isActive: $isActive,' +
         ' success: $success,' +
         ' profileImage: $profileImage,' +
+        ' errorMessage: $errorMessage,' +
+        ' deviceTokenId: $deviceTokenId,' +
         '}';
   }
 
@@ -83,6 +91,8 @@ class UserModel {
     bool? isActive,
     bool? success,
     String? profileImage,
+    String? errorMessage,
+    String? deviceTokenId,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -95,6 +105,8 @@ class UserModel {
       isActive: isActive ?? this.isActive,
       success: success ?? this.success,
       profileImage: profileImage ?? this.profileImage,
+      errorMessage: errorMessage ?? this.errorMessage,
+      deviceTokenId: deviceTokenId ?? this.deviceTokenId,
     );
   }
 
@@ -108,8 +120,10 @@ class UserModel {
       'address': this.address,
       'password': this.password,
       'isActive': this.isActive,
-      'success': this.success,
       'profileImage': this.profileImage,
+      'success': this.success,
+      'errorMessage': this.errorMessage,
+      'deviceTokenId': this.deviceTokenId,
     };
   }
 
@@ -121,10 +135,11 @@ class UserModel {
       emailAddress: map['emailAddress'] as String,
       phone: map['phone'] as String,
       address: map['address'] as String,
-      password: map['password'] as String,
       isActive: map['isActive'] as bool,
-      success: map['success'] as bool,
       profileImage: map['profileImage'] as String,
+      deviceTokenId: map['deviceTokenId'] as String,
+      success: map['success'] as bool,
+      errorMessage: map['errorMessage'] as String,
     );
   }
 

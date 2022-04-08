@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/extension/extension.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
+import 'package:let_go_gb/utils/Utils.dart';
 
 import '../../utils/common_widgets.dart';
 import '../../utils/styles.dart';
@@ -172,7 +173,7 @@ class DriverSignInScreen extends GetView<LoginDriverController> {
                                       textColor: AppColor.whiteColor,
                                       color: AppColor.primaryBlueDarkColor,
                                       onTap: () {
-                                        FocusScope.of(context).unfocus();
+                                        AppUtils.hideKeyboard(context);
                                         if (_formKey.currentState!.validate()) {
                                           controller.login();
                                         }

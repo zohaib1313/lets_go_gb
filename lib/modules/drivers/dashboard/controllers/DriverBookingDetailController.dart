@@ -1,8 +1,13 @@
 import 'package:get/get.dart';
 import 'package:let_go_gb/common/models/booking_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:let_go_gb/repositories/user_booking_repository.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../../../common/Push_notifications_manager.dart';
+import '../../../../common/models/notification_model.dart';
 
 class DriverBookingDetailController extends GetxController {
   var isLoading = false.obs;
@@ -23,6 +28,17 @@ class DriverBookingDetailController extends GetxController {
     isLoading.value = true;
     bookingRepository.updateBooking(bookingUpdate).then((value) {
       if (value.toString() == "Success") {
+        ///sending notification to the user
+        sendPushNotification(
+          toDeviceId: user.deviceTokenId,
+          notificationModel: NotificationModel(
+              id: const Uuid().v1(),
+              fromId: UserDefaults.getCurrentUserId() ?? '',
+              toId: user.id ?? '',
+              time: DateTime.now().toString(),
+              title: 'Booking Confirmed',
+              body: 'Your booking #${booking.bookingId} has been $status.'),
+        );
         Get.back();
         Get.showSnackbar(Ui.SuccessSnackBar(message: "Booking $status"));
       }
