@@ -12,6 +12,7 @@ import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../drivers/common_widgets/loading_widget.dart';
+import '../../drivers/dashboard/models/driver_user_model.dart';
 import '../../drivers/utils/common_widgets.dart';
 import '../../drivers/utils/styles.dart';
 import '../controllers/user_make_booking_controller.dart';
@@ -21,7 +22,8 @@ class UserMakeBookingPage extends GetView<UserMakeBookingController> {
   static const id = '/UserMakeBookingPage';
   static var vSpace = SizedBox(height: 20.h);
   static var hSpace = SizedBox(width: 50.w);
-  VehicleModel vehicleModel = Get.arguments;
+  VehicleModel vehicleModel = Get.arguments[0];
+  DriverUserModel? driverUserModel = Get.arguments[1];
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +266,9 @@ class UserMakeBookingPage extends GetView<UserMakeBookingController> {
                       onTap: () {
                         if (controller.formKey.currentState!.validate()) {
                           FocusScope.of(context).unfocus();
-                          controller.makeReservation(vehicleModel.id ?? '');
+                          controller.makeReservation(
+                              vehicleId: vehicleModel.id ?? '',
+                              driverUserModel: driverUserModel);
                         }
                       },
                       child: Container(

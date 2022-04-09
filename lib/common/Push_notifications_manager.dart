@@ -106,8 +106,11 @@ sendPushNotification(
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
+    printWrapped("sending notification");
+    printWrapped(response.toString());
 
     if (response.statusCode == 200) {
+      printWrapped("notification sent success");
       _saveNotificationToFirebase(model: notificationModel);
     } else {
       printWrapped("notification send failed");

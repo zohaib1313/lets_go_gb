@@ -8,10 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/common/models/chat_user_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:let_go_gb/utils/Utils.dart';
 
 import '../../modules/drivers/dashboard/models/chat_model.dart';
-import '../../modules/drivers/utils/app_popups.dart';
 import '../../modules/drivers/utils/common_widgets.dart';
 import '../../modules/drivers/utils/styles.dart';
 import '../../modules/drivers/utils/user_defaults.dart';
@@ -76,7 +75,7 @@ class ChatScreen extends GetView<DriverChatWithUserController> {
                       ),*/
                         InkWell(
                           onTap: () {
-                            dialNumber(
+                            AppUtils.dialNumber(
                                 context: context,
                                 phoneNumber:
                                     otherUserModel?.otherUserContact ?? '00');
@@ -317,19 +316,6 @@ class ChatScreen extends GetView<DriverChatWithUserController> {
       view.chatSendTextController.clear();
       setState(() {});*/
     }
-  }
-
-  Future<void> dialNumber(
-      {required String phoneNumber, required BuildContext context}) async {
-    final url = "tel:$phoneNumber";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      AppPopUps.showSnackvBar(
-          message: "Unable to call $phoneNumber", context: context);
-    }
-
-    return;
   }
 
   Widget textType(ChatModel chatModel, context) {

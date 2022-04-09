@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/common/models/chat_user_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/modules/users/pages/user_make_booking_page.dart';
+import 'package:let_go_gb/utils/Utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -59,13 +62,18 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
                           vehicleDetails(
                             vehicleModel: vehicleModel,
                           ),
-                          _slidingPanel(context),
+                          _slidingPanel(context, vehicleModel),
                           Align(
                             alignment: Alignment.bottomRight,
                             child: InkWell(
                               onTap: () {
-                                Get.toNamed(UserMakeBookingPage.id,
-                                    arguments: vehicleModel);
+                                if (controller.driverModel != null) {
+                                  Get.toNamed(UserMakeBookingPage.id,
+                                      arguments: [
+                                        vehicleModel,
+                                        controller.driverModel
+                                      ]);
+                                }
                               },
                               child: Container(
                                 padding: const EdgeInsets.only(
@@ -252,7 +260,8 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
     );
   }
 
-  SlidingUpPanel _slidingPanel(BuildContext context) {
+  SlidingUpPanel _slidingPanel(
+      BuildContext context, VehicleModel vehicleModel) {
     return SlidingUpPanel(
         color: Colors.transparent,
         minHeight: MediaQuery.of(context).size.height * (0.10),
@@ -290,9 +299,12 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           vSpace,
-                          _userDetails(),
+                          Text('Driver',
+                              style: AppTextStyles.textStyleBoldTitleLarge),
                           vSpace,
-                          _reviews()
+                          _userDetails(vehicleModel),
+                          vSpace,
+                          _reviews(vehicleModel)
                           // _reviews(),
                         ],
                       ),
@@ -306,51 +318,97 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
         onPanelOpened: () {});
   }
 
-  _userDetails() {
-    return Container(
-      padding: EdgeInsets.all(15.h),
-      decoration: BoxDecoration(
-          color: AppColor.blackColor, borderRadius: BorderRadius.circular(20)),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 35,
-            backgroundImage: AssetImage('assets/images/eclipse.jpg'),
-          ),
-          Expanded(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'User abc',
-                style: AppTextStyles.textStyleBoldBodyMedium
-                    .copyWith(color: AppColor.whiteColor),
+  _userDetails(VehicleModel vehicleModel) {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection(FirebasePathNodes.users)
+            .doc(vehicleModel.id ?? '') //vehicle id and driver id is same
+            .snapshots(),
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Something went wrong',
+                style: AppTextStyles.textStyleBoldBodyMedium,
               ),
-              Text(
-                '+92xxxxxxxx',
-                style: AppTextStyles.textStyleBoldBodySmall
-                    .copyWith(color: AppColor.whiteColor),
+            );
+          }
+
+          if (snapshot.data?.data() != null) {
+            DriverUserModel? userModel = DriverUserModel.fromMap(
+                snapshot.data!.data() as Map<String, dynamic>);
+            controller.driverModel = userModel;
+            return Container(
+              padding: EdgeInsets.all(15.h),
+              decoration: BoxDecoration(
+                  color: AppColor.blackColor,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Row(
+                children: [
+                  NetworkCircularImage(
+                    radius: 35,
+                    url: userModel.profileImage ?? '',
+                  ),
+                  Expanded(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        userModel.firstName ?? '',
+                        style: AppTextStyles.textStyleBoldBodyMedium
+                            .copyWith(color: AppColor.whiteColor),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          AppUtils.dialNumber(
+                              phoneNumber: userModel.phone ?? '00',
+                              context: context);
+                        },
+                        child: Text(
+                          userModel.phone ?? '',
+                          style: AppTextStyles.textStyleBoldBodySmall
+                              .copyWith(color: AppColor.whiteColor),
+                        ),
+                      ),
+                    ],
+                  )),
+                  hSpace,
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed(ChatScreen.id,
+                          arguments: ChatUserModel(
+                              otherUserId: userModel.id,
+                              otherUserProfileImage: userModel.profileImage,
+                              otherUserContact: userModel.phone,
+                              otherUserName: userModel.firstName));
+                    },
+                    child: const Icon(
+                      Icons.chat,
+                      color: AppColor.whiteColor,
+                    ),
+                  ),
+                  hSpace
+                ],
               ),
-            ],
-          )),
-          hSpace,
-          InkWell(
-            onTap: () {
-              Get.toNamed(ChatScreen.id);
-            },
-            child: const Icon(
-              Icons.chat,
-              color: AppColor.whiteColor,
-            ),
-          ),
-          hSpace
-        ],
-      ),
-    );
+            );
+          } else {
+            return Center(
+              child: Text(
+                'Something went wrong',
+                style: AppTextStyles.textStyleBoldBodyMedium,
+              ),
+            );
+          }
+        });
   }
 
-  Widget _reviews() {
+  Widget _reviews(VehicleModel vehicleModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

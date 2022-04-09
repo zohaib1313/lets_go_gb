@@ -6,7 +6,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:nanoid/nanoid.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
+
+import '../modules/drivers/utils/app_popups.dart';
 
 class AppUtils {
   static Future<String> getUniqueOrderId() async {
@@ -99,5 +102,18 @@ class AppUtils {
     } catch (e) {
       Get.log(e.toString(), isError: true);
     }
+  }
+
+  static Future<void> dialNumber(
+      {required String phoneNumber, required BuildContext context}) async {
+    final url = "tel:$phoneNumber";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      AppPopUps.showSnackvBar(
+          message: "Unable to call $phoneNumber", context: context);
+    }
+
+    return;
   }
 }

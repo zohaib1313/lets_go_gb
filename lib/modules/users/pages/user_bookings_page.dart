@@ -20,73 +20,84 @@ class UserBookingPage extends GetView<UserBookingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar(title: 'Bookings', goBack: false),
+      appBar: myAppBar(title: 'Bookings', goBack: false, actions: [
+        /*   MyAnimSearchBar(
+          width: MediaQuery.of(context).size.width,
+          onSuffixTap: () {},
+          closeSearchOnSuffixTap: true,
+          textController: controller.searchTextController,
+        ),*/
+      ]),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),
-          child: GetX<UserBookingController>(
-              initState: (state) {},
-              builder: (context) {
-                controller.temp.value;
-                return StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection(FirebasePathNodes.bookings)
-                        .where('userId',
-                            isEqualTo: UserDefaults.getUserSession()?.id ?? '')
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text(
-                          'Something went wrong',
-                          style: AppTextStyles.textStyleBoldBodyMedium,
-                        );
-                      }
+          child: GetX<UserBookingController>(initState: (state) {
+            controller.searchTextController.clear();
+            /*  controller.searchTextController.addListener(() {
+              controller.searchFromBookings();
+            });*/
+          }, builder: (context) {
+            controller.temp.value;
+            return StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebasePathNodes.bookings)
+                    .where('userId',
+                        isEqualTo: UserDefaults.getUserSession()?.id ?? '')
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(
+                      'Something went wrong',
+                      style: AppTextStyles.textStyleBoldBodyMedium,
+                    );
+                  }
 
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.data != null) {
-                        return ListView(
-                            children: snapshot.data!.docs
-                                .map((DocumentSnapshot document) {
-                          Map<String, dynamic> data =
-                              document.data()! as Map<String, dynamic>;
-                          BookingModel model = BookingModel.fromMap(data);
-                          return getRowItem(model);
-                        }).toList());
-                        /*ListView.builder(
-                            itemCount: 10,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Get.toNamed(UserVehicleDetailPage.id,
-                                      arguments:
-                                          'oDXXhEg91AOx57AVX0dWndHRK5j1');
-                                },
-                                child: const VehicleInfoCard(
-                                  carName: "Toyota Land Cruiser",
-                                  carPrice: "PKR 1000/",
-                                  carSeats: "4 Seats",
-                                  image: AssetImage("assets/images/redCar.png"),
-                                ),
-                              );
-                            });*/
-                      }
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'No Booking Found',
-                              style: AppTextStyles.textStyleBoldBodyMedium,
-                            ),
-                          ],
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data != null) {
+                    controller.showingBookingList.clear();
+                    controller.allBookingList.clear();
+                    for (var element in snapshot.data!.docs) {
+                      Map<String, dynamic> data =
+                          element.data()! as Map<String, dynamic>;
+                      BookingModel model = BookingModel.fromMap(data);
+                      controller.showingBookingList.add(model);
+                      controller.allBookingList.add(model);
+                    }
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: Obx(() => ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: controller.showingBookingList.length,
+                                itemBuilder: ((context, index) {
+                                  return getRowItem(
+                                      controller.showingBookingList[index]!);
+                                }),
+                              )),
                         ),
-                      );
-                    });
-              }),
+                        Container(
+                          height: 80.h,
+                          color: Colors.transparent,
+                        )
+                      ],
+                    );
+                  }
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No Booking Found',
+                          style: AppTextStyles.textStyleBoldBodyMedium,
+                        ),
+                      ],
+                    ),
+                  );
+                });
+          }),
         ),
       ),
     );
