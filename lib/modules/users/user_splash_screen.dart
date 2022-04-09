@@ -26,7 +26,7 @@ class _UserSplashScreenState extends State<UserSplashScreen> {
 
   void gotoRelevantScreenOnUserType() {
     if (UserDefaults.getUserSession() != null) {
-      Get.toNamed(UserHomeScreen.id);
+      Get.offAndToNamed(UserHomeScreen.id);
     } else {
       Get.to(() => const UserOnBoardingScreen());
     }

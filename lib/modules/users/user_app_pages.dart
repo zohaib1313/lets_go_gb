@@ -17,6 +17,8 @@ import 'package:let_go_gb/modules/users/pages/user_make_booking_page.dart';
 import 'package:let_go_gb/modules/users/pages/user_signup_screen.dart';
 import 'package:let_go_gb/modules/users/pages/user_vehicle_details_page.dart';
 
+import '../../common/controller/notification_controller.dart';
+import '../../common/pages/notifications_page.dart';
 import '../drivers/dashboard/controllers/about_us_controller.dart';
 import '../drivers/dashboard/controllers/contact_us_controller.dart';
 import '../drivers/dashboard/controllers/privacy_policy_controller.dart';
@@ -101,6 +103,14 @@ userAppPages() {
         binding: BindingsBuilder(() {
           Get.lazyPut<UserMakeBookingController>(
             () => UserMakeBookingController(),
+          );
+        })),
+    GetPage(
+        name: NotificationsPage.id,
+        page: () => NotificationsPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<NotificationsController>(
+            () => NotificationsController(),
           );
         })),
   ];

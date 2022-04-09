@@ -118,7 +118,6 @@ class UserModel {
       'emailAddress': this.emailAddress,
       'phone': this.phone,
       'address': this.address,
-      'password': this.password,
       'isActive': this.isActive,
       'profileImage': this.profileImage,
       'success': this.success,

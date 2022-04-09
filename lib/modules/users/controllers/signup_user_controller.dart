@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
@@ -24,12 +24,11 @@ class UserSignUpController extends GetxController {
 
   SignupRepository? _signupRepository;
 
-  File? profileImage;
+  Rxn<File?> profileImage = Rxn<File>();
 
   String password = "";
   RxBool hidePasswordOne = true.obs;
   RxBool hideConfirmPassword = true.obs;
-  RxBool haveProfileImage = false.obs;
 
   @override
   void onInit() {
@@ -48,32 +47,49 @@ class UserSignUpController extends GetxController {
   }
 
   /// save User
-  Future<void> saveUser() async {
+  Future<void> setUser({UserModel? userModel}) async {
     loading.value = true;
-    uploadImagesToFireStorage(complete: (user) {
-      _signupRepository!.saveUserUser(user).then((value) {
-        if (value == "Success") {
-          Get.back();
-          Get.showSnackbar(
-              Ui.SuccessSnackBar(message: "User Added successfully"));
-        } else {
-          Get.showSnackbar(Ui.ErrorSnackBar(message: value));
-        }
-      }).whenComplete(() {
-        loading.value = false;
-      });
-    });
+    uploadImagesToFireStorage(
+        userModel: userModel,
+        complete: (UserModel user) {
+          if (userModel != null) {
+            user.id = userModel.id ?? '';
+            _signupRepository!.updateDriverAndUser(user.toMap()).then((value) {
+              if (value == "Success") {
+                Get.back();
+                Get.showSnackbar(
+                    Ui.SuccessSnackBar(message: "User updated successfully"));
+              } else {
+                Get.showSnackbar(Ui.ErrorSnackBar(message: value));
+              }
+            }).whenComplete(() {
+              loading.value = false;
+            });
+          } else {
+            _signupRepository!.saveUserUser(user).then((value) {
+              if (value == "Success") {
+                Get.back();
+                Get.showSnackbar(
+                    Ui.SuccessSnackBar(message: "User added successfully"));
+              } else {
+                Get.showSnackbar(Ui.ErrorSnackBar(message: value));
+              }
+            }).whenComplete(() {
+              loading.value = false;
+            });
+          }
+        });
   }
 
-  void uploadImagesToFireStorage({complete}) async {
+  void uploadImagesToFireStorage({complete, UserModel? userModel}) async {
     String email = emailController.text.trim();
-
-    String profileImageUrl = await _signupRepository!.firebaseHelper
-        .uploadImage(
-            file: File(profileImage?.path ?? ''),
-            fileName: 'profilePic',
-            path: FirebasePathNodes.usersImages + email);
-
+    String profileImageUrl = userModel?.profileImage ?? '';
+    if (profileImage.value != null) {
+      profileImageUrl = await _signupRepository!.firebaseHelper.uploadImage(
+          file: File(profileImage.value?.path ?? ''),
+          fileName: 'profilePic',
+          path: FirebasePathNodes.usersImages + email);
+    }
     var user = UserModel(
       password: passwordController.text.trim(),
       address: addressController.text.trim(),
@@ -98,7 +114,7 @@ class UserSignUpController extends GetxController {
     var result = await _signupRepository!
         .checkUserIfExistsOnMail(emailController.text.trim());
     loading.value = false;
-    printWrapped('checking already exists= ${result}');
+    printWrapped('checking already exists= $result');
     if (result) {
       Get.showSnackbar(
           Ui.ErrorSnackBar(message: 'User with same email already exists'));
@@ -107,21 +123,54 @@ class UserSignUpController extends GetxController {
     }
   }
 
-  pickProfileImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: [
-          'jpg',
-          'png',
-        ],
-        allowMultiple: false);
-    haveProfileImage.value = false;
-    if (result != null) {
-      File file = File(result.files.single.path!);
-      profileImage = file;
-    } else {
-      // User canceled the picker
-    }
-    haveProfileImage.value = profileImage != null;
+  // void showPicker({required BuildContext context}) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (BuildContext x) {
+  //         return SafeArea(
+  //           child: Wrap(
+  //             children: <Widget>[
+  //               ListTile(
+  //                   leading: const Icon(Icons.photo_library),
+  //                   title: const Text('Photo Library'),
+  //                   onTap: () {
+  //                     _pickImage(source: 0);
+  //                     Navigator.of(context).pop();
+  //                   }),
+  //               ListTile(
+  //                 leading: const Icon(Icons.photo_camera),
+  //                 title: const Text('Camera'),
+  //                 onTap: () {
+  //                   _pickImage(source: 1);
+  //                   Navigator.of(context).pop();
+  //                 },
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
+  //
+  // void _pickImage({required int source}) async {
+  //   try {
+  //     final pickedFile = await ImagePicker().pickImage(
+  //         source: source == 1 ? ImageSource.camera : ImageSource.gallery);
+  //
+  //     if (pickedFile != null) {
+  //       profileImage = File(pickedFile.path);
+  //     } else {
+  //       Get.log('No image selected.');
+  //     }
+  //     haveProfileImage.value = profileImage != null;
+  //   } catch (e) {
+  //     Get.log(e.toString(), isError: true);
+  //   }
+  // }
+
+  void setValuesForUpdate(UserModel userModel) {
+    addressController.text = userModel.address ?? '';
+    firstNameController.text = userModel.firstName ?? '';
+    contactNumberController.text = userModel.phone ?? '';
+    emailController.text = userModel.emailAddress ?? '';
   }
 }

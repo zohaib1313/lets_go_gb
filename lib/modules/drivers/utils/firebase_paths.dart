@@ -11,4 +11,5 @@ class FirebasePathNodes {
   static String appConstants = 'AppConstants';
 
   static String notifications = 'Notifications';
+  static String promotedVehicles = 'PromotedVehicles';
 }

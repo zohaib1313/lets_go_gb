@@ -5,17 +5,18 @@ class NotificationModel {
   String? title;
   String? body;
   String? time;
+  bool? isRead;
 
 //<editor-fold desc="Data Methods">
 
-  NotificationModel({
-    this.id,
-    this.fromId,
-    this.toId,
-    this.title,
-    this.body,
-    this.time,
-  });
+  NotificationModel(
+      {required this.id,
+      required this.fromId,
+      required this.toId,
+      required this.title,
+      required this.body,
+      required this.time,
+      required this.isRead});
 
   @override
   bool operator ==(Object other) =>
@@ -27,7 +28,8 @@ class NotificationModel {
           toId == other.toId &&
           title == other.title &&
           body == other.body &&
-          time == other.time);
+          time == other.time &&
+          isRead == other.isRead);
 
   @override
   int get hashCode =>
@@ -36,7 +38,8 @@ class NotificationModel {
       toId.hashCode ^
       title.hashCode ^
       body.hashCode ^
-      time.hashCode;
+      time.hashCode ^
+      isRead.hashCode;
 
   @override
   String toString() {
@@ -47,6 +50,7 @@ class NotificationModel {
         ' title: $title,' +
         ' body: $body,' +
         ' time: $time,' +
+        ' isRead: $isRead,' +
         '}';
   }
 
@@ -57,6 +61,7 @@ class NotificationModel {
     String? title,
     String? body,
     String? time,
+    bool? isRead,
   }) {
     return NotificationModel(
       id: id ?? this.id,
@@ -65,6 +70,7 @@ class NotificationModel {
       title: title ?? this.title,
       body: body ?? this.body,
       time: time ?? this.time,
+      isRead: isRead ?? this.isRead,
     );
   }
 
@@ -76,6 +82,7 @@ class NotificationModel {
       'title': this.title,
       'body': this.body,
       'time': this.time,
+      'isRead': this.isRead,
     };
   }
 
@@ -87,6 +94,7 @@ class NotificationModel {
       title: map['title'] as String,
       body: map['body'] as String,
       time: map['time'] as String,
+      isRead: map['isRead'] as bool,
     );
   }
 

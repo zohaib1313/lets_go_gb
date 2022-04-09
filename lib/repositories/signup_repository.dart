@@ -85,11 +85,10 @@ class SignupRepository {
     return "";
   }
 
-  /// update driver users
-  Future<String> updateDriverUser(DriverUserModel userModel) async {
+  Future<String> updateDriverAndUser(Map<String, dynamic> userModel) async {
     try {
       final isSuccess = await firebaseHelper.updateDocument(
-          FirebasePathNodes.users, userModel.toMap());
+          FirebasePathNodes.users, userModel);
 
       if (isSuccess) {
         return "Success";

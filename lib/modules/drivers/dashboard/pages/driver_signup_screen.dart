@@ -8,6 +8,7 @@ import 'package:let_go_gb/modules/drivers/common_widgets/extension/extension.dar
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 
+import '../../../../utils/Utils.dart';
 import '../../common_widgets/choose_image_widget.dart';
 import '../../utils/common_widgets.dart';
 import '../../utils/styles.dart';
@@ -66,7 +67,15 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                                   space,
                                   GestureDetector(
                                     onTap: () async {
-                                      await controller.pickProfileImage();
+                                      AppUtils.showPicker(
+                                        context: context,
+                                        onComplete: (File? file) {
+                                          if (file != null) {
+                                            controller.profileImage.value =
+                                                file;
+                                          }
+                                        },
+                                      );
                                     },
                                     child: getImage(),
                                   ),
@@ -91,21 +100,20 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
                                           controller.contactNumberController,
                                       validate: (String? value) =>
                                           value!.toValidPhoneNumber()),
-                                  if (driverUserModel == null)
-                                    Column(
-                                      children: [
-                                        space,
-                                        getTextField(
-                                          title: "Email",
-                                          keyboardType:
-                                              TextInputType.emailAddress,
-                                          controller:
-                                              controller.emailController,
-                                          validate: (String? value) =>
-                                              value!.toValidEmail(),
-                                        ),
-                                      ],
-                                    ),
+                                  Column(
+                                    children: [
+                                      space,
+                                      getTextField(
+                                        title: "Email",
+                                        enabled: driverUserModel == null,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        controller: controller.emailController,
+                                        validate: (String? value) =>
+                                            value!.toValidEmail(),
+                                      ),
+                                    ],
+                                  ),
                                   space,
                                   getTextField(
                                     title: "Address",
@@ -279,11 +287,13 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
       required TextEditingController controller,
       keyboardType = TextInputType.text,
       validate,
+      bool enabled = true,
       inputFormatters}) {
     return MyTextField(
       fillColor: AppColor.alphaGrey,
       hintText: title,
       labelText: title,
+      enable: enabled,
       controller: controller,
       keyboardType: keyboardType,
       validator: validate,
@@ -298,10 +308,10 @@ class DriverSignUpScreen extends GetView<DriverSignUpController> {
   }
 
   Widget getImage() {
-    if (controller.haveProfileImage.value) {
+    if (controller.profileImage.value != null) {
       return CircleAvatar(
           radius: 80,
-          backgroundImage: Image.file(controller.profileImage!).image);
+          backgroundImage: Image.file(controller.profileImage.value!).image);
     } else if (driverUserModel?.profileImage != null) {
       return NetworkCircularImage(
         url: driverUserModel!.profileImage!,

@@ -1,11 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/common/pages/notifications_page.dart';
+import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
+import 'package:let_go_gb/modules/users/models/user_model.dart';
+import 'package:let_go_gb/modules/users/pages/user_signup_screen.dart';
 
 import '../../drivers/common_widgets/home_screen_card.dart';
+import '../../drivers/utils/app_popups.dart';
 import '../../drivers/utils/common_widgets.dart';
 import '../../drivers/utils/styles.dart';
 import '../controllers/home_screen_driver_controller.dart';
@@ -14,59 +21,106 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
   static const id = '/UserHomeScreen';
   final vSpace = SizedBox(height: 20.h);
 
-  final List<String> imagesList = [
-    'https://cdn.pixabay.com/photo/2015/10/03/06/04/porsche-969408__480.jpg',
-    'https://cdn.pixabay.com/photo/2012/11/02/13/02/car-63930__340.jpg',
-    'https://cdn.pixabay.com/photo/2015/05/21/12/56/car-777160__340.jpg',
-    'https://media.istockphoto.com/photos/generic-modern-suv-car-in-concrete-garage-picture-id1307086567?b=1&k=20&m=1307086567&s=170667a&w=0&h=NjcM6LIOkmfhyqH-zrbFU7pHCPxIABvNhWaOElm_P-E=',
-    'https://cdn.pixabay.com/photo/2018/04/07/16/30/auto-3298890__340.jpg',
-  ];
-
   UserHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppColor.alphaGrey,
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.only(
-              left: 50.w,
-              right: 50.w,
-            ),
-            child: GetX<HomeScreenUserController>(
-                initState: (state) {},
-                builder: (context) {
-                  controller.temp.value;
-                  return Stack(
-                    children: [
-                      animatedBackGround(),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const CircleAvatar(
-                                  radius: 18,
-                                  backgroundImage: AssetImage(
-                                    "assets/images/place_your_image.png",
-                                  ),
-                                ),
-
-                                //notification icon
-                                myAppBarIcon(),
-                              ],
-                            ),
-                          ),
-                          vSpace,
-
-                          Expanded(
-                              child: SingleChildScrollView(
-                            physics: BouncingScrollPhysics(),
-                            child: Container(
+    return WillPopScope(
+      onWillPop: () async {
+        return await AppPopUps.showConfirmDialog(
+          title: 'Confirm',
+          message: 'Are you sure to exit from the app',
+          onSubmit: () {
+            Navigator.pop(context, true);
+          },
+        );
+      },
+      child: Scaffold(
+          backgroundColor: AppColor.alphaGrey,
+          body: SafeArea(
+            child: Container(
+              padding: EdgeInsets.only(
+                left: 50.w,
+                right: 50.w,
+              ),
+              child: GetX<HomeScreenUserController>(
+                  initState: (state) {},
+                  builder: (context) {
+                    return Stack(
+                      children: [
+                        animatedBackGround(),
+                        Column(
+                          children: [
+                            StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection(FirebasePathNodes.users)
+                                    .doc(UserDefaults.getCurrentUserId())
+                                    .snapshots(),
+                                builder: (context,
+                                    AsyncSnapshot<DocumentSnapshot> snapShot) {
+                                  if (snapShot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: Text('Loading...'),
+                                    );
+                                  }
+                                  if (snapShot.hasError) {
+                                    return Center(
+                                      child: Text('An error occurred...'),
+                                    );
+                                  }
+                                  if (snapShot.data?.data() != null) {
+                                    UserModel user = UserModel.fromMap(
+                                        snapShot.data!.data()!
+                                            as Map<String, dynamic>);
+                                    UserDefaults.saveUserSession(user);
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(
+                                                      UserSignUpScreen.id,
+                                                      arguments: UserDefaults
+                                                          .getUserSession());
+                                                },
+                                                child: NetworkCircularImage(
+                                                  url: user.profileImage ?? '',
+                                                  radius: 18,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 50.w,
+                                              ),
+                                              Text(
+                                                'Hi, ${user.firstName ?? ''}',
+                                                style: AppTextStyles
+                                                    .textStyleBoldBodyXSmall,
+                                              )
+                                            ],
+                                          ),
+                                          //notification icon
+                                          myAppBarIcon(),
+                                        ],
+                                      ),
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: Text('An error occurred...'),
+                                    );
+                                  }
+                                }),
+                            vSpace,
+                            Expanded(
+                                child: SingleChildScrollView(
+                              physics: BouncingScrollPhysics(),
                               child: Column(
                                 children: [
                                   Row(
@@ -87,21 +141,7 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                     options: CarouselOptions(
                                         autoPlay: true,
                                         enlargeCenterPage: true),
-                                    items: imagesList
-                                        .map(
-                                          (item) => ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Center(
-                                              child: NetworkPlainImage(
-                                                url: item,
-                                                height: 200,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                        .toList(),
+                                    items: controller.imagesList(),
                                   ),
 
                                   vSpace,
@@ -143,52 +183,59 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                   )
                                 ],
                               ),
-                            ),
-                          ))
-                          //explore / homeScreenCard widgets
-                        ],
-                      ),
-                    ],
-                  );
-                }),
-          ),
-        ));
+                            ))
+                            //explore / homeScreenCard widgets
+                          ],
+                        ),
+                      ],
+                    );
+                  }),
+            ),
+          )),
+    );
   }
 
   Widget myAppBarIcon() {
-    return Center(
-      child: CircleAvatar(
-        backgroundColor: AppColor.primaryBlueColor.withAlpha(50),
-        child: Stack(
-          children: [
-            const Icon(
-              Icons.notifications,
-              color: Colors.black,
-              size: 30,
-            ),
-            Visibility(
-              visible: 0 == 1,
-              child: Container(
-                width: 30,
-                height: 30,
-                alignment: Alignment.topRight,
-                child: Container(
-                  width: 15,
-                  height: 15,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xffc32c37),
-                      border: Border.all(color: Colors.white, width: 1)),
-                  child: const Center(
-                    child: Text(
-                      "0",
-                      style: TextStyle(fontSize: 10),
+    return InkWell(
+      onTap: () {
+        Get.toNamed(NotificationsPage.id);
+      },
+      child: Obx(
+        () => Center(
+          child: CircleAvatar(
+            backgroundColor: AppColor.primaryBlueColor.withAlpha(50),
+            child: Stack(
+              children: [
+                const Icon(
+                  Icons.notifications,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                Visibility(
+                  visible: controller.notificationsCounts.value > 0,
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      width: 15,
+                      height: 15,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xffc32c37),
+                          border: Border.all(color: Colors.white, width: 1)),
+                      child: Center(
+                        child: Text(
+                          controller.notificationsCounts.value.toString(),
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

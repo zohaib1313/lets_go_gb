@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -29,13 +28,12 @@ class DriverSignUpController extends GetxController {
 
   File? cnicFrontFile;
   File? cnicBackFile;
-  File? profileImage;
 
   File? drivingLicenceFile;
   String password = "";
   RxBool hidePasswordOne = true.obs;
   RxBool hideConfirmPassword = true.obs;
-  RxBool haveProfileImage = false.obs;
+  Rxn<File?> profileImage = Rxn<File>();
 
   @override
   void onInit() {
@@ -89,7 +87,7 @@ class DriverSignUpController extends GetxController {
         complete: (DriverUserModel user) {
           if (driverUserModel != null) {
             user.id = driverUserModel.id ?? '';
-            _signupRepository!.updateDriverUser(user).then((value) {
+            _signupRepository!.updateDriverAndUser(user.toMap()).then((value) {
               if (value == "Success") {
                 Get.back();
                 Get.showSnackbar(
@@ -121,9 +119,9 @@ class DriverSignUpController extends GetxController {
     String email = emailController.text.trim();
 
     String profileImageUrl = driverUserModel?.profileImage ?? '';
-    if (profileImage != null) {
+    if (profileImage.value != null) {
       profileImageUrl = await _signupRepository!.firebaseHelper.uploadImage(
-          file: File(profileImage?.path ?? ''),
+          file: File(profileImage.value!.path ?? ''),
           fileName: 'profilePic',
           path: FirebasePathNodes.driverImages + email);
     }
@@ -185,24 +183,6 @@ class DriverSignUpController extends GetxController {
     } else {
       complete();
     }
-  }
-
-  Future<void> pickProfileImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: [
-          'jpg',
-          'png',
-        ],
-        allowMultiple: false);
-    haveProfileImage.value = false;
-    if (result != null) {
-      File file = File(result.files.single.path!);
-      profileImage = file;
-    } else {
-      // User canceled the picker
-    }
-    haveProfileImage.value = profileImage != null;
   }
 
   void setValuesWithUpdated(DriverUserModel driverUserModel) {

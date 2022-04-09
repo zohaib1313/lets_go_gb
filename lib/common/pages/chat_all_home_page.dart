@@ -9,7 +9,8 @@ import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
 import '../../modules/drivers/utils/my_app_bar.dart';
-import '../controller/driver_chat_home_controller.dart';
+import '../../utils/Utils.dart';
+import '../controller/chat_home_controller.dart';
 import '../models/chat_user_model.dart';
 import 'chat_screen.dart';
 
@@ -168,10 +169,13 @@ class ChatAllHomePage extends GetView<ChatHomeController> {
                                                   child: ListTile(
                                                     title:
                                                         Text(e.value['name']),
-                                                    trailing: Text(controller
-                                                        .readTimestamp(
-                                                            int.parse(e.value[
-                                                                'time']))),
+                                                    trailing: Text(
+                                                      AppUtils.readTimestamp(
+                                                        int.parse(
+                                                          e.value['time'],
+                                                        ),
+                                                      ),
+                                                    ),
                                                     subtitle: Text(
                                                         e.value['lastMessage']),
                                                     leading:

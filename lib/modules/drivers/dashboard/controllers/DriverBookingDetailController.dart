@@ -33,6 +33,7 @@ class DriverBookingDetailController extends GetxController {
           toDeviceId: user.deviceTokenId,
           notificationModel: NotificationModel(
               id: const Uuid().v1(),
+              isRead: false,
               fromId: UserDefaults.getCurrentUserId() ?? '',
               toId: user.id ?? '',
               time: DateTime.now().toString(),
@@ -48,7 +49,5 @@ class DriverBookingDetailController extends GetxController {
     }).whenComplete(() {
       isLoading.value = false;
     });
-
-    ;
   }
 }
