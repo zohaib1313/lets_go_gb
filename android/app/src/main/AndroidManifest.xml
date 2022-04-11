@@ -36,7 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
+       <activity
+           android:name=".PaymentActivity"
+           android:theme="@style/Theme.AppCompat.NoActionBar"
+           android:screenOrientation="portrait" />
        <service
            android:name="com.google.firebase.messaging.FirebaseMessagingService"
            android:exported="false">

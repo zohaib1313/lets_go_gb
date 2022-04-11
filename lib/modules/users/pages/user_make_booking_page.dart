@@ -264,6 +264,7 @@ class UserMakeBookingPage extends GetView<UserMakeBookingController> {
                     alignment: Alignment.bottomRight,
                     child: InkWell(
                       onTap: () {
+                        // Get.to(PaymentJazzCash());
                         if (controller.formKey.currentState!.validate()) {
                           FocusScope.of(context).unfocus();
                           controller.makeReservation(

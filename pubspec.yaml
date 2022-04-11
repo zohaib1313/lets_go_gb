@@ -77,6 +77,7 @@ dependencies:
   firebase_messaging:
   nanoid: ^1.0.0
   pay: ^1.0.8
+  crypto: ^3.0.1
 #  flutter_map: ^0.14.0
 #  firebase_core_web: ^1.6.1
 
