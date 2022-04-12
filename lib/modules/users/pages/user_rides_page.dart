@@ -21,7 +21,9 @@ class UserRidesPage extends GetView<UserRideController> {
       appBar: myAppBar(title: 'Rides For You', goBack: false, actions: [
         MyAnimSearchBar(
           width: MediaQuery.of(context).size.width,
-          onSuffixTap: () {},
+          onSuffixTap: () {
+            controller.searchController.clear();
+          },
           closeSearchOnSuffixTap: true,
           textController: controller.searchController,
         ),
@@ -29,76 +31,72 @@ class UserRidesPage extends GetView<UserRideController> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),
-          child: GetX<UserRideController>(
-              initState: (state) {},
-              builder: (context) {
-                controller.temp.value;
-                return StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection(FirebasePathNodes.vehicles)
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text(
-                          'Something went wrong',
-                          style: AppTextStyles.textStyleBoldBodyMedium,
-                        );
-                      }
+          child: GetX<UserRideController>(initState: (state) {
+            controller.searchController.clear();
+            controller.searchController.addListener(() {
+              controller.searchFromList();
+            });
+          }, builder: (context) {
+            controller.temp.value;
+            return StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebasePathNodes.vehicles)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(
+                      'Something went wrong',
+                      style: AppTextStyles.textStyleBoldBodyMedium,
+                    );
+                  }
 
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.data != null) {
-                        return ListView(
-                            children: snapshot.data!.docs
-                                .map((DocumentSnapshot document) {
-                          Map<String, dynamic> data =
-                              document.data()! as Map<String, dynamic>;
-                          VehicleModel vehicleModel =
-                              VehicleModel.fromMap(data);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data != null) {
+                    controller.filteredItemList.clear();
+
+                    for (var document in snapshot.data!.docs) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      VehicleModel vehicleModel = VehicleModel.fromMap(data);
+                      controller.filteredItemList.add(vehicleModel);
+                    }
+                    if (controller.allItemList.isEmpty) {
+                      controller.allItemList
+                          .addAll(controller.filteredItemList);
+                    }
+                    return Obx(() => ListView.builder(
+                        itemCount: controller.filteredItemList.length,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
                               Get.toNamed(UserVehicleDetailPage.id,
-                                  arguments: vehicleModel.id ?? '');
+                                  arguments:
+                                      controller.filteredItemList[index]?.id ??
+                                          '');
                             },
                             child: VehicleInfoCard(
-                              vehicleModel: vehicleModel,
+                              vehicleModel: controller.filteredItemList[index]!,
                             ),
                           );
-                        }).toList());
-                        /*ListView.builder(
-                            itemCount: 10,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Get.toNamed(UserVehicleDetailPage.id,
-                                      arguments:
-                                          'oDXXhEg91AOx57AVX0dWndHRK5j1');
-                                },
-                                child: const VehicleInfoCard(
-                                  carName: "Toyota Land Cruiser",
-                                  carPrice: "PKR 1000/",
-                                  carSeats: "4 Seats",
-                                  image: AssetImage("assets/images/redCar.png"),
-                                ),
-                              );
-                            });*/
-                      }
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'No Vehicle Found',
-                              style: AppTextStyles.textStyleBoldBodyMedium,
-                            ),
-                          ],
+                        }));
+                  }
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No Vehicle Found',
+                          style: AppTextStyles.textStyleBoldBodyMedium,
                         ),
-                      );
-                    });
-              }),
+                      ],
+                    ),
+                  );
+                });
+          }),
         ),
       ),
     );

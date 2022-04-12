@@ -29,7 +29,7 @@ class UserMakeBookingPage extends GetView<UserMakeBookingController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar(title: 'Book Your Ride', goBack: true, actions: [
-        /*   MyAnimSearchBar(
+        /*     MyAnimSearchBar(
           width: MediaQuery.of(context).size.width,
           onSuffixTap: () {},
           closeSearchOnSuffixTap: true,

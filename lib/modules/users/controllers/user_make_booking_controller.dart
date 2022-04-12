@@ -33,6 +33,8 @@ class UserMakeBookingController extends GetxController {
   var formKey = GlobalKey<FormState>();
   late BookingRepository _userBookingRepository;
 
+  TextEditingController searchController = TextEditingController();
+
   @override
   void onInit() {
     _userBookingRepository = BookingRepository();
@@ -120,6 +122,7 @@ class UserMakeBookingController extends GetxController {
 
     AppBottomSheets.showAppAlertBottomSheet(
         isDismissable: false,
+        title: "",
         child: Column(
           children: [
             ApplePayButton(

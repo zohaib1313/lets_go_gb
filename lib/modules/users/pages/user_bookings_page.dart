@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/common/models/booking_model.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_alert_bottom_sheet.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_constants.dart';
-import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/modules/users/controllers/user_booking_controller.dart';
+import 'package:let_go_gb/modules/users/pages/user_mark_booking_complete_review_add.dart';
 
 import '../../drivers/dashboard/models/driver_user_model.dart';
 import '../../drivers/utils/common_widgets.dart';
@@ -14,66 +15,153 @@ import '../../drivers/utils/firebase_paths.dart';
 import '../../drivers/utils/styles.dart';
 
 class UserBookingPage extends GetView<UserBookingController> {
-  const UserBookingPage({Key? key}) : super(key: key);
+  UserBookingPage({Key? key}) : super(key: key);
   static const id = '/UserBookingPage';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: myAppBar(title: 'Bookings', goBack: false, actions: [
-        /*   MyAnimSearchBar(
+        /* MyAnimSearchBar(
           width: MediaQuery.of(context).size.width,
-          onSuffixTap: () {},
+          onSuffixTap: () {
+            controller.searchController.clear();
+          },
           closeSearchOnSuffixTap: true,
-          textController: controller.searchTextController,
+          textController: controller.searchController,
         ),*/
       ]),
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: GetX<UserBookingController>(initState: (state) {
-            controller.searchTextController.clear();
-            /*  controller.searchTextController.addListener(() {
+        child: GetX<UserBookingController>(initState: (state) {
+          controller.loadData();
+          controller.searchController.clear();
+          controller.searchController.addListener(
+            () {
               controller.searchFromBookings();
-            });*/
-          }, builder: (context) {
-            controller.temp.value;
-            return StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection(FirebasePathNodes.bookings)
-                    .where('userId',
-                        isEqualTo: UserDefaults.getUserSession()?.id ?? '')
-                    .snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(
-                      'Something went wrong',
-                      style: AppTextStyles.textStyleBoldBodyMedium,
-                    );
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.data != null) {
-                    controller.showingBookingList.clear();
-                    controller.allBookingList.clear();
-                    for (var element in snapshot.data!.docs) {
-                      Map<String, dynamic> data =
-                          element.data()! as Map<String, dynamic>;
-                      BookingModel model = BookingModel.fromMap(data);
-                      controller.showingBookingList.add(model);
-                      controller.allBookingList.add(model);
-                    }
-                    return Column(
+            },
+          );
+        }, builder: (controll) {
+          controller.temp.value;
+          return Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: AppColor.whiteColor,
+                    borderRadius: BorderRadius.circular(50.r)),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 20, bottom: 20, left: 10, right: 10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  controller.filterOnDates();
+                                },
+                                child: Text(
+                                  "Recent",
+                                  style: AppTextStyles.textStyleBoldBodyMedium,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Icon(controller.isRecentFilterd.value
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 40.w, right: 40.w),
+                      color: AppColor.alphaGrey,
+                      width: 2,
+                      height: 50.h,
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          controller.isSortFiltered.value
+                              ? Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.arrow_upward,
+                                      size: 20,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_downward,
+                                      size: 20,
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.arrow_downward,
+                                      size: 20,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_upward,
+                                      size: 20,
+                                    ),
+                                  ],
+                                ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                controller.filterOnSort();
+                              },
+                              child: Text(
+                                "Sort",
+                                style: AppTextStyles.textStyleBoldBodyMedium,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 40.w, right: 40.w),
+                      color: AppColor.alphaGrey,
+                      width: 2,
+                      height: 50.h,
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const Icon(Icons.filter_alt_rounded),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                showBottom(context);
+                              },
+                              child: Text(
+                                "Filter",
+                                style: AppTextStyles.textStyleBoldBodyMedium,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
                       children: [
                         Expanded(
                           child: Obx(() => ListView.builder(
                                 physics: const BouncingScrollPhysics(),
-                                itemCount: controller.showingBookingList.length,
+                                itemCount:
+                                    controller.filteredBookingList.length,
                                 itemBuilder: ((context, index) {
                                   return getRowItem(
-                                      controller.showingBookingList[index]!);
+                                      controller.filteredBookingList[index]!);
                                 }),
                               )),
                         ),
@@ -82,23 +170,82 @@ class UserBookingPage extends GetView<UserBookingController> {
                           color: Colors.transparent,
                         )
                       ],
-                    );
-                  }
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'No Booking Found',
-                          style: AppTextStyles.textStyleBoldBodyMedium,
-                        ),
-                      ],
+                    )
+
+                    /*  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection(FirebasePathNodes.bookings)
+                          .where('userId',
+                              isEqualTo:
+                                  UserDefaults.getUserSession()?.id ?? '')
+                          .snapshots(),
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text(
+                            'Something went wrong',
+                            style: AppTextStyles.textStyleBoldBodyMedium,
+                          );
+                        }
+
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        if (snapshot.data != null) {
+                          controller.filteredBookingList.clear();
+
+                          for (var element in snapshot.data!.docs) {
+                            Map<String, dynamic> data =
+                                element.data()! as Map<String, dynamic>;
+                            BookingModel model = BookingModel.fromMap(data);
+                            controller.filteredBookingList.add(model);
+                          }
+                          if (controller.allBookingList.isEmpty) {
+                            controller.allBookingList
+                                .addAll(controller.filteredBookingList);
+                          }
+
+                          return
+                            Column(
+                            children: [
+                              Expanded(
+                                child: Obx(() => ListView.builder(
+                                      physics: const BouncingScrollPhysics(),
+                                      itemCount:
+                                          controller.filteredBookingList.length,
+                                      itemBuilder: ((context, index) {
+                                        return getRowItem(controller
+                                            .filteredBookingList[index]!);
+                                      }),
+                                    )),
+                              ),
+                              Container(
+                                height: 80.h,
+                                color: Colors.transparent,
+                              )
+                            ],
+                          );
+                        }
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'No Booking Found',
+                                style: AppTextStyles.textStyleBoldBodyMedium,
+                              ),
+                            ],
+                          ),
+                        );
+                      }),*/
                     ),
-                  );
-                });
-          }),
-        ),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -189,7 +336,7 @@ class UserBookingPage extends GetView<UserBookingController> {
                                     ),
                                     SizedBox(height: 5.h),
                                     Text(
-                                      "From: ${formatDateTime(model.bookingDateStart!)}",
+                                      "From:  ${formatDateTime(model.bookingDateStart)}",
                                       maxLines: 2,
                                       style: AppTextStyles
                                           .textStyleNormalBodySmall,
@@ -205,6 +352,28 @@ class UserBookingPage extends GetView<UserBookingController> {
                               ],
                             ),
                           )),
+                          (model.status ?? "") == BookingStatus.confirmed
+                              ? InkWell(
+                                  onTap: () {
+                                    Get.toNamed(
+                                        UserMarkBookingCompleteReviewAddPage.id,
+                                        arguments: model);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColor.primaryBlueColor),
+                                    padding: const EdgeInsets.all(8.0),
+                                    margin: EdgeInsets.only(right: 10.w),
+                                    child: Text(
+                                      "Mark Complete",
+                                      style: AppTextStyles
+                                          .textStyleBoldBodyXSmall
+                                          .copyWith(color: AppColor.whiteColor),
+                                    ),
+                                  ),
+                                )
+                              : const IgnorePointer()
                         ],
                       ),
                     ),
@@ -242,5 +411,67 @@ class UserBookingPage extends GetView<UserBookingController> {
             ),
           );
         });
+  }
+
+  final vSpace = SizedBox(height: 20.h);
+
+  void showBottom(BuildContext context) {
+    AppBottomSheets.showAppAlertBottomSheet(
+        context: context,
+        isFull: true,
+        title: "Apply Filters",
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Button(
+                buttonText: "Confirmed",
+                textColor: AppColor.whiteColor,
+                onTap: () {
+                  Get.back();
+                  controller.getFilteredList(status: BookingStatus.confirmed);
+                },
+              ),
+              vSpace,
+              Button(
+                buttonText: "Pending",
+                textColor: AppColor.whiteColor,
+                onTap: () {
+                  Get.back();
+                  controller.getFilteredList(status: BookingStatus.pending);
+                },
+              ),
+              vSpace,
+              Button(
+                buttonText: "Completed",
+                textColor: AppColor.whiteColor,
+                onTap: () {
+                  Get.back();
+                  controller.getFilteredList(status: BookingStatus.completed);
+                },
+              ),
+              vSpace,
+              Button(
+                buttonText: "Cancelled",
+                textColor: AppColor.whiteColor,
+                onTap: () {
+                  Get.back();
+                  controller.getFilteredList(status: BookingStatus.cancelled);
+                },
+              ),
+              vSpace,
+              Button(
+                buttonText: "Clear All Filters",
+                textColor: AppColor.whiteColor,
+                onTap: () {
+                  Get.back();
+                  controller.getFilteredList(status: "");
+                },
+              ),
+              vSpace
+            ],
+          ),
+        ));
   }
 }
