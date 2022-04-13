@@ -9,7 +9,9 @@ import 'package:let_go_gb/common/pages/notifications_page.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/users/models/user_model.dart';
+import 'package:let_go_gb/modules/users/pages/user_blog_detail_page.dart';
 import 'package:let_go_gb/modules/users/pages/user_signup_screen.dart';
+import 'package:let_go_gb/modules/users/pages/user_view_all_blogs_page.dart';
 
 import '../../drivers/common_widgets/home_screen_card.dart';
 import '../../drivers/utils/app_popups.dart';
@@ -157,10 +159,15 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                             .copyWith(
                                                 color: AppColor.blackColor),
                                       ),
-                                      Text(
-                                        "View all",
-                                        style: AppTextStyles
-                                            .textStyleBoldBodySmall,
+                                      InkWell(
+                                        onTap: () {
+                                          Get.toNamed(UserViewAllBlogsPage.id);
+                                        },
+                                        child: Text(
+                                          "View all",
+                                          style: AppTextStyles
+                                              .textStyleBoldBodySmall,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -173,11 +180,17 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                             const NeverScrollableScrollPhysics(),
                                         itemCount: 5,
                                         itemBuilder: (context, index) {
-                                          return HomeScreenCard(
-                                            text: "Skardu Valley",
-                                            btnText: "Explore",
-                                            image: const AssetImage(
-                                                'assets/images/sceneone.jpg'),
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.toNamed(
+                                                  UserViewBlogDetailsPage.id);
+                                            },
+                                            child: HomeScreenCard(
+                                              text: "Skardu Valley",
+                                              btnText: "Explore",
+                                              image: const AssetImage(
+                                                  'assets/images/sceneone.jpg'),
+                                            ),
                                           );
                                         }),
                                   )

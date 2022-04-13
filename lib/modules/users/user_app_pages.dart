@@ -7,6 +7,7 @@ import 'package:let_go_gb/modules/users/controllers/UserMarkBookingCompleteRevie
 import 'package:let_go_gb/modules/users/controllers/home_screen_driver_controller.dart';
 import 'package:let_go_gb/modules/users/controllers/login_user_controller.dart';
 import 'package:let_go_gb/modules/users/controllers/signup_user_controller.dart';
+import 'package:let_go_gb/modules/users/controllers/user_blog_detail_controller.dart';
 import 'package:let_go_gb/modules/users/controllers/user_booking_controller.dart';
 import 'package:let_go_gb/modules/users/controllers/user_make_booking_controller.dart';
 import 'package:let_go_gb/modules/users/controllers/user_more_controller.dart';
@@ -27,7 +28,10 @@ import '../drivers/dashboard/controllers/privacy_policy_controller.dart';
 import '../drivers/dashboard/pages/about_us_page.dart';
 import '../drivers/dashboard/pages/contact_us_page.dart';
 import '../drivers/dashboard/pages/privacy_policy_page.dart';
+import 'controllers/user_view_all_blogs_controller.dart';
+import 'pages/user_blog_detail_page.dart';
 import 'pages/user_dashboard_page.dart';
+import 'pages/user_view_all_blogs_page.dart';
 
 userAppPages() {
   return [
@@ -121,6 +125,22 @@ userAppPages() {
         binding: BindingsBuilder(() {
           Get.lazyPut<UserMarkBookingCompleteReviewAddController>(
             () => UserMarkBookingCompleteReviewAddController(),
+          );
+        })),
+    GetPage(
+        name: UserViewAllBlogsPage.id,
+        page: () => UserViewAllBlogsPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<UserViewAllBlogsController>(
+            () => UserViewAllBlogsController(),
+          );
+        })),
+    GetPage(
+        name: UserViewBlogDetailsPage.id,
+        page: () => UserViewBlogDetailsPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<UserBlogDetailController>(
+            () => UserBlogDetailController(),
           );
         })),
   ];

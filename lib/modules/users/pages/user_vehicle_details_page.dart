@@ -12,12 +12,14 @@ import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
+import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:let_go_gb/modules/users/pages/user_make_booking_page.dart';
 import 'package:let_go_gb/utils/Utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../common/pages/chat_screen.dart';
+import '../../../common/reviews_model.dart';
 import '../../drivers/utils/common_widgets.dart';
 import '../controllers/user_vehicle_details_controller.dart';
 
@@ -415,12 +417,41 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
       children: [
         Text('Reviews', style: AppTextStyles.textStyleBoldSubTitleLarge),
         vSpace,
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: 20,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return _reviewRowItem();
+        StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection(FirebasePathNodes.reviews)
+                .where("driverId", isEqualTo: vehicleModel.id)
+                .snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if ((snapshot.data?.docs ?? []).isNotEmpty) {
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children:
+                      snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data()! as Map<String, dynamic>;
+                    ReviewModel reviewModel = ReviewModel.fromMap(data);
+                    return _reviewRowItem(reviewModel);
+                  }).toList(),
+                );
+              } else {
+                return const Center(
+                  child: Text("No Review"),
+                );
+              }
+
+              /* return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 20,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return _reviewRowItem();
+                  });*/
             }),
         vSpace,
         vSpace,
@@ -439,87 +470,111 @@ class UserVehicleDetailPage extends GetView<UserVehicleDetailsController> {
     );
   }
 
-  Widget _reviewRowItem() {
+  Widget _reviewRowItem(ReviewModel reviewModel) {
     return InkWell(
-      onTap: () {},
-      child: Card(
-        margin: const EdgeInsets.only(left: 0, right: 0, top: 3, bottom: 3),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-          ),
-        ),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                radius: 27,
-                backgroundImage: Image.asset('assets/images/eclipse.jpg').image,
-              ),
-            ),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'John Doe',
-                    style: AppTextStyles.textStyleBoldBodyMedium,
+        onTap: () {},
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection(FirebasePathNodes.users)
+              .doc(reviewModel.userId)
+              .snapshots(),
+          builder: (contexxt, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return const Center(child: Text('Something went wrong..!'));
+            }
+
+            if (snapshot.data?.data() != null) {
+              UserModel? userModel = UserModel.fromMap(
+                  snapshot.data!.data() as Map<String, dynamic>);
+              return Card(
+                margin:
+                    const EdgeInsets.only(left: 0, right: 0, top: 3, bottom: 3),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 5.h),
-                      Row(
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: NetworkCircularImage(
+                        radius: 27,
+                        url: userModel.profileImage ?? '',
+                      ),
+                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Flexible(
-                            child: RatingBar.builder(
-                              initialRating: 4.5,
-                              minRating: 1,
-                              itemSize: 15,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              updateOnDrag: false,
-                              unratedColor: AppColor.alphaGrey,
-                              itemCount: 5,
-                              ignoreGestures: true,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 2.0),
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                            ),
+                          Text(
+                            userModel.firstName ?? '-',
+                            style: AppTextStyles.textStyleBoldBodyMedium,
                           ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 5.h),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: RatingBar.builder(
+                                      initialRating: reviewModel.ratings ?? 0.0,
+                                      minRating: 1,
+                                      itemSize: 15,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      updateOnDrag: false,
+                                      unratedColor: AppColor.alphaGrey,
+                                      itemCount: 5,
+                                      ignoreGestures: true,
+                                      itemPadding: const EdgeInsets.symmetric(
+                                          horizontal: 2.0),
+                                      itemBuilder: (context, _) => const Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print(rating);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5.h),
+                              Text(
+                                formatDateTime(DateTime.parse(
+                                    reviewModel.dateTime ??
+                                        DateTime.now().toString())),
+                                maxLines: 2,
+                                style: AppTextStyles.textStyleBoldBodyXSmall,
+                              ),
+                              Text(
+                                reviewModel.reviewMessage ?? '-',
+                                maxLines: 2,
+                                style: AppTextStyles.textStyleNormalBodySmall,
+                              ),
+                            ],
+                          )
                         ],
                       ),
-                      SizedBox(height: 5.h),
-                      Text(
-                        "22 January 2022",
-                        maxLines: 2,
-                        style: AppTextStyles.textStyleBoldBodyXSmall,
-                      ),
-                      Text(
-                        "That was nice ride , this driver has offered me and it was so nice",
-                        maxLines: 2,
-                        style: AppTextStyles.textStyleNormalBodySmall,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )),
-          ],
-        ),
-      ),
-    );
+                    )),
+                  ],
+                ),
+              );
+            } else {
+              return const Center(child: Text('No User Found..'));
+            }
+            return Container();
+          },
+        ));
   }
 }

@@ -17,6 +17,7 @@ class _OnBoarding1State extends State<OnBoarding1> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,13 +38,13 @@ class _OnBoarding1State extends State<OnBoarding1> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Plan a Trip",
+                        Text("Greetings...!",
                             style: AppTextStyles.textStyleBoldTitleLarge
                                 .copyWith(fontSize: 30)),
                         space,
                         Text(
-                          "You can plan a trip,or we can help you by suggesting you the set of good time and ride",
-                          style: AppTextStyles.textStyleNormalBodyMedium
+                          "Welcome to Explore Gilgit Baltistan. Your trip to Skardu at one click",
+                          style: AppTextStyles.textStyleBoldSubTitleLarge
                               .copyWith(),
                         ),
                       ],
@@ -71,9 +72,10 @@ class _OnBoarding2State extends State<OnBoarding2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
@@ -90,13 +92,14 @@ class _OnBoarding2State extends State<OnBoarding2> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     space,
-                    Text("Title 2",
+                    Text("Want to go for a tour..?",
                         style: AppTextStyles.textStyleBoldTitleLarge
                             .copyWith(fontSize: 30)),
                     space,
                     Text(
-                      "utpain was born and I will give you a co are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage ",
-                      style: AppTextStyles.textStyleNormalBodyMedium.copyWith(),
+                      "We offer our distinguished guests a safe and memorable tour.",
+                      style:
+                          AppTextStyles.textStyleBoldSubTitleLarge.copyWith(),
                     ),
                     space,
                   ],
@@ -123,6 +126,7 @@ class _OnBoarding3State extends State<OnBoarding3> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +138,7 @@ class _OnBoarding3State extends State<OnBoarding3> {
                 children: [
                   space,
                   Lottie.asset(
-                    'assets/animations/travel_car_anim.json',
+                    'assets/animations/car_rush.json',
                   ),
                   space,
                   Padding(
@@ -146,13 +150,13 @@ class _OnBoarding3State extends State<OnBoarding3> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Title 3",
+                        Text("We are here..!",
                             style: AppTextStyles.textStyleBoldTitleLarge
                                 .copyWith(fontSize: 30)),
                         space,
                         Text(
-                          "utpain was born and I will give you a co are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage ",
-                          style: AppTextStyles.textStyleNormalBodyMedium
+                          "Select the car of your choice and we will take wherever you want in GB.",
+                          style: AppTextStyles.textStyleBoldSubTitleLarge
                               .copyWith(),
                         ),
                       ],

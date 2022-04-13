@@ -13,7 +13,6 @@ class VehicleModel {
   List<dynamic>? vehicleImages;
   List<dynamic>? features;
   String? descriptionNote;
-  double? ratings;
 
 //<editor-fold desc="Data Methods">
 
@@ -32,7 +31,6 @@ class VehicleModel {
     this.vehicleImages,
     this.features,
     this.descriptionNote,
-    this.ratings,
   });
 
   @override
@@ -53,8 +51,7 @@ class VehicleModel {
           errorMessage == other.errorMessage &&
           vehicleImages == other.vehicleImages &&
           features == other.features &&
-          descriptionNote == other.descriptionNote &&
-          ratings == other.ratings);
+          descriptionNote == other.descriptionNote);
 
   @override
   int get hashCode =>
@@ -71,8 +68,7 @@ class VehicleModel {
       errorMessage.hashCode ^
       vehicleImages.hashCode ^
       features.hashCode ^
-      descriptionNote.hashCode ^
-      ratings.hashCode;
+      descriptionNote.hashCode;
 
   @override
   String toString() {
@@ -91,7 +87,6 @@ class VehicleModel {
         ' vehicleImages: $vehicleImages,' +
         ' features: $features,' +
         ' descriptionNote: $descriptionNote,' +
-        ' ratings: $ratings,' +
         '}';
   }
 
@@ -127,7 +122,6 @@ class VehicleModel {
       vehicleImages: vehicleImages ?? this.vehicleImages,
       features: features ?? this.features,
       descriptionNote: descriptionNote ?? this.descriptionNote,
-      ratings: ratings ?? this.ratings,
     );
   }
 
@@ -147,7 +141,6 @@ class VehicleModel {
       'vehicleImages': this.vehicleImages,
       'features': this.features,
       'descriptionNote': this.descriptionNote,
-      'ratings': this.ratings,
     };
   }
 
@@ -167,7 +160,6 @@ class VehicleModel {
       vehicleImages: map['vehicleImages'] as List<dynamic>,
       features: map['features'] as List<dynamic>,
       descriptionNote: map['descriptionNote'] as String,
-      ratings: map['ratings'],
     );
   }
 

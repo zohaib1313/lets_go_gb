@@ -63,7 +63,7 @@ class UserBookingController extends GetxController {
       filteredBookingList.addAll(allBookingList);
     } else {
       for (var element in allBookingList) {
-        if ((element?.status ?? "") == status) {
+        if ((element?.status ?? "x") == status) {
           filteredBookingList.add(element);
         }
       }
@@ -71,12 +71,16 @@ class UserBookingController extends GetxController {
   }
 
   void loadData() {
+    print("loadddinngg");
     filteredBookingList.clear();
+    allBookingList.clear();
     FirebaseFirestore.instance
         .collection(FirebasePathNodes.bookings)
         .where('userId', isEqualTo: UserDefaults.getUserSession()?.id ?? '')
         .snapshots()
         .listen((QuerySnapshot snapshot) {
+      filteredBookingList.clear();
+      allBookingList.clear();
       for (var doc in snapshot.docs) {
         Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
         BookingModel model = BookingModel.fromMap(data);

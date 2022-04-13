@@ -12,4 +12,6 @@ class FirebasePathNodes {
 
   static String notifications = 'Notifications';
   static String promotedVehicles = 'PromotedVehicles';
+
+  static const String reviews = 'Reviews';
 }

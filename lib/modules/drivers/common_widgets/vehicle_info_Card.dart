@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:let_go_gb/common/reviews_model.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
+import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 
 import '../../users/pages/user_vehicle_details_page.dart';
 import '../utils/styles.dart';
@@ -75,16 +78,34 @@ class VehicleInfoCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    RatingBarIndicator(
-                      rating: (vehicleModel.ratings ?? 0.0).toDouble(),
-                      itemBuilder: (context, index) => const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      itemCount: 5,
-                      itemSize: 20.0,
-                      direction: Axis.horizontal,
-                    ),
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection(FirebasePathNodes.reviews)
+                            .where("driverId", isEqualTo: vehicleModel.id)
+                            .snapshots(),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          double ratings = 0.0;
+                          if (snapshot.data?.docs != null) {
+                            if (snapshot.data!.docs.isNotEmpty) {
+                              for (var element in snapshot.data!.docs) {
+                                ReviewModel reviewModel = ReviewModel.fromMap(
+                                    element.data() as Map<String, dynamic>);
+                                ratings += reviewModel.ratings ?? 0.0;
+                              }
+                            }
+                          }
+                          return RatingBarIndicator(
+                            rating: ratings,
+                            itemBuilder: (context, index) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            itemCount: 5,
+                            itemSize: 20.0,
+                            direction: Axis.horizontal,
+                          );
+                        }),
                     Row(
                       children: [
                         Expanded(

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/common_widgets/hot_deals_card.dart';
+import 'package:let_go_gb/modules/drivers/common_widgets/vehicle_info_Card.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
