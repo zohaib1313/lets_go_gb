@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/admin/pages/admin_login_page/admin_login_page.dart';
 
+import '../drivers/utils/user_defaults.dart';
 import 'pages/admin_home_screen.dart';
 
 class AdminSplashScreen extends StatefulWidget {
@@ -23,12 +25,11 @@ class _AdminSplashScreenState extends State<AdminSplashScreen> {
   }
 
   void gotoRelevantScreenOnUserType() {
-    Get.toNamed(AdminHomeScreen.id);
-    /*  if (UserDefaults.getUserSession() != null) {
-      Get.toNamed(UserHomeScreen.id);
+    if (UserDefaults.getAdminSession() != null) {
+      Get.toNamed(AdminHomeScreen.id);
     } else {
-      Get.to(() => const UserOnBoardingScreen());
-    }*/
+      Get.toNamed(AdminLoginPage.id);
+    }
   }
 
   @override

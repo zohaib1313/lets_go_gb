@@ -34,7 +34,7 @@ class _AdminApplicationState extends State<AdminApplication>
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
-      builder: () => GetMaterialApp(
+      builder: (_) => GetMaterialApp(
         getPages: adminAppPages(),
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,

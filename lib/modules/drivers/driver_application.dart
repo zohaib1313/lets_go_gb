@@ -36,7 +36,7 @@ class _DriverApplicationState extends State<DriverApplication>
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
-      builder: () => GetMaterialApp(
+      builder: (_) => GetMaterialApp(
         getPages: driverAppPages(),
         localizationsDelegates: const [
           DefaultCupertinoLocalizations.delegate,

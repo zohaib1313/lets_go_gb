@@ -36,6 +36,16 @@
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/flutter_service_worker.js");
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
+      });
+    }
+  </script>
+
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
@@ -100,13 +110,14 @@
       loadMainDartJs();
     }
   </script>
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
+
+
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+
+
   const firebaseConfig = {
     apiKey: "AIzaSyBAfrEGDzwbA5ei1gnKDvH3XNWIqEJvITY",
     authDomain: "letsgogb-6eb5b.firebaseapp.com",
@@ -116,8 +127,19 @@
     appId: "1:756450874654:web:6775bbd6517870920ee50f"
   };
 
-  // Initialize Firebase
+
   const app = initializeApp(firebaseConfig);
 </script>
+
+
+  <script type="text/javascript">
+    let useHtml = true;
+    if(useHtml) {
+      window.flutterWebRenderer = "html";
+    } else {
+      window.flutterWebRenderer = "canvaskit";
+    }
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>

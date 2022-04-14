@@ -141,8 +141,8 @@ class MyTextField extends StatelessWidget {
                   padding: EdgeInsets.all(contentPadding ?? 100.w),
                   child: SvgViewer(
                     svgPath: prefixIcon!,
-                    width: 14,
-                    height: 14,
+                    width: 20.w,
+                    height: 20.h,
                   ),
                 )
               : null,
@@ -237,8 +237,8 @@ class Button extends StatelessWidget {
       onDoubleTap: () {},
       child: Padding(
         padding: EdgeInsets.only(
-            left: leftPadding == null ? 10.w : leftPadding!,
-            right: rightPading == null ? 10.w : rightPading!),
+            left: leftPadding == null ? 100.w : leftPadding!,
+            right: rightPading == null ? 100.w : rightPading!),
         child: Container(
           width: width,
           height: height,

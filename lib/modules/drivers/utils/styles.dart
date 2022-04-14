@@ -27,24 +27,20 @@ class AppTextStyles {
       textStyle: const TextStyle(
           fontWeight: FontWeight.normal, color: AppColor.blackColor));
 
-  static final TextStyle textStyleBoldTitleLarge =
-      _fontBold.copyWith(fontSize: 22);
+  static TextStyle textStyleBoldTitleLarge = _fontBold.copyWith(fontSize: 22);
 
-  static final TextStyle textStyleBoldSubTitleLarge =
+  static TextStyle textStyleBoldSubTitleLarge =
       _fontBold.copyWith(fontSize: 20);
 
-  static final TextStyle textStyleNormalLargeTitle =
+  static TextStyle textStyleNormalLargeTitle =
       _fontNormal.copyWith(fontSize: 20);
-  static final TextStyle textStyleBoldBodyMedium =
-      _fontBold.copyWith(fontSize: 16);
-  static final TextStyle textStyleNormalBodyMedium =
+  static TextStyle textStyleBoldBodyMedium = _fontBold.copyWith(fontSize: 16);
+  static TextStyle textStyleNormalBodyMedium =
       _fontNormal.copyWith(fontSize: 16);
-  static final TextStyle textStyleBoldBodySmall =
-      _fontBold.copyWith(fontSize: 14);
-  static final TextStyle textStyleNormalBodySmall =
+  static TextStyle textStyleBoldBodySmall = _fontBold.copyWith(fontSize: 14);
+  static TextStyle textStyleNormalBodySmall =
       _fontNormal.copyWith(fontSize: 14);
-  static final TextStyle textStyleBoldBodyXSmall =
-      _fontBold.copyWith(fontSize: 12);
-  static final TextStyle textStyleNormalBodyXSmall =
+  static TextStyle textStyleBoldBodyXSmall = _fontBold.copyWith(fontSize: 12);
+  static TextStyle textStyleNormalBodyXSmall =
       _fontNormal.copyWith(fontSize: 12);
 }

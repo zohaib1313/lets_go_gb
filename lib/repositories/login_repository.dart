@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/modules/admin/models/admin_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
 import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
@@ -108,6 +109,55 @@ class LoginRepository {
             success: false, errorMessage: "No user found for that email.");
       } else if (e.code == 'wrong-password') {
         _userModel = UserModel(
+            success: false,
+            errorMessage: "Wrong password provided for that user.");
+      }
+    }
+
+    return _userModel;
+  }
+
+  Future<AdminModel?> adminLogin(email, password) async {
+    AdminModel? _userModel;
+
+    try {
+      UserCredential userCredential = await _auth!
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      if (userCredential.user != null) {
+        try {
+          final userDocument = await _firebaseHelper.getDoc(
+              FirebasePathNodes.users, userCredential.user!.uid);
+
+          Map<String, dynamic> userMap =
+              userDocument.data() as Map<String, dynamic>;
+
+          if (userMap['userRole'] == AppUserRoles.admin) {
+            return AdminModel.fromMap(userMap);
+          }
+
+          _userModel =
+              AdminModel(success: false, errorMessage: "Failed to login");
+        } on FirebaseFirestore catch (onError) {
+          Get.log("$onError", isError: true);
+          _userModel =
+              AdminModel(success: false, errorMessage: "Failed to login");
+          return null;
+        } catch (onError) {
+          Get.log("$onError", isError: true);
+          _userModel =
+              AdminModel(success: false, errorMessage: "Failed to login");
+          return null;
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      Get.log("$e", isError: true);
+
+      if (e.code == 'user-not-found') {
+        _userModel = AdminModel(
+            success: false, errorMessage: "No user found for that email.");
+      } else if (e.code == 'wrong-password') {
+        _userModel = AdminModel(
             success: false,
             errorMessage: "Wrong password provided for that user.");
       }

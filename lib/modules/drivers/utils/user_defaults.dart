@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:let_go_gb/modules/admin/models/admin_model.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
 import 'package:let_go_gb/modules/users/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -98,6 +99,24 @@ class UserDefaults {
       user = UserModel.fromMap(json);
     }
 
+    return user;
+  }
+
+  ///admin///////////////////////////////////////////////////////////////
+  static void saveAdminSession(AdminModel signInModel) async {
+    String user = json.encode(signInModel.toMap());
+    setCurrentUserId(signInModel.id ?? "");
+    setUserType(AppUserRoles.admin);
+    getPref().then((value) => value..setString(AppUserRoles.admin, user));
+  }
+
+  static AdminModel? getAdminSession() {
+    AdminModel? user;
+    if (sharedPreferences!.getString(AppUserRoles.admin) != null) {
+      Map<String, dynamic> json =
+          jsonDecode(sharedPreferences!.getString(AppUserRoles.admin)!);
+      user = AdminModel.fromMap(json);
+    }
     return user;
   }
 

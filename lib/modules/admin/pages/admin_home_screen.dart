@@ -27,10 +27,8 @@ class AdminHomeScreen extends GetView<AdminHomeScreenController> {
                 initState: (state) {},
                 builder: (context) {
                   controller.temp.value;
-                  return Container(
-                    child: Center(
-                      child: Text('Admin'),
-                    ),
+                  return Center(
+                    child: Text('Admin'),
                   );
                 }),
           ),
