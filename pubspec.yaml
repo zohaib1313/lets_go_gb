@@ -82,7 +82,7 @@ dependencies:
   firebase_core_web: ^1.6.1
   build_context: ^3.0.0
   responsive_builder: ^0.4.2
-
+  flutter_zoom_drawer: ^3.0.1
 
 dev_dependencies:
   flutter_test:

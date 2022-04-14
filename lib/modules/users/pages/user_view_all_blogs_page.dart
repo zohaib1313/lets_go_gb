@@ -31,10 +31,11 @@ class UserViewAllBlogsPage extends GetView<UserViewAllBlogsController> {
                         onTap: () {
                           Get.toNamed(UserViewBlogDetailsPage.id);
                         },
-                        child: const HomeScreenCard(
+                        child: HomeScreenCard(
                           text: "Skardu Valley",
                           btnText: "Explore",
-                          image: AssetImage('assets/images/sceneone.jpg'),
+                          image:
+                              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg",
                         ),
                       );
                     }),

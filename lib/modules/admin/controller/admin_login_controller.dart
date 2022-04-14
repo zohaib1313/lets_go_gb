@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/admin/models/admin_model.dart';
+import 'package:let_go_gb/modules/admin/pages/home_page/admin_home_page.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 
 import '../../../repositories/login_repository.dart';
 import '../../drivers/common_widgets/ui.dart';
 import '../../drivers/utils/app_user_roles.dart';
 import '../../drivers/utils/user_defaults.dart';
-import '../pages/admin_home_screen.dart';
 
 class AdminLoginController extends GetxController {
   final loading = false.obs;
@@ -46,7 +46,7 @@ class AdminLoginController extends GetxController {
     if (value?.success ?? false) {
       if (value!.userRole == AppUserRoles.admin) {
         UserDefaults.saveAdminSession(value);
-        Get.offAndToNamed(AdminHomeScreen.id);
+        Get.offAndToNamed(AdminHomePage.id);
       }
     } else {
       Get.log("${value?.errorMessage}", isError: true);

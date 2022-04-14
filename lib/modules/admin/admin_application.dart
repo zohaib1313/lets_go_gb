@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,10 +38,20 @@ class _AdminApplicationState extends State<AdminApplication>
       designSize: const Size(1920, 1080),
       builder: (_) => GetMaterialApp(
         getPages: adminAppPages(),
+        scrollBehavior: MyScrollBehavior(),
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         home: const AdminSplashScreen(),
       ),
     );
   }
+}
+
+class MyScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.invertedStylus,
+      };
 }

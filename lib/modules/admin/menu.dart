@@ -1,19 +1,193 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:let_go_gb/modules/admin/controller/admin_home_controller.dart';
+import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
+import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
-class Menu extends StatelessWidget {
+import '../../common/spaces.dart';
+
+class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
   @override
-  Widget build(context) => ListView(children: [
-        FlatButton(
-            onPressed: () {},
-            child: const ListTile(
-              leading: Icon(Icons.looks_one),
-              title: Text("First Link"),
-            )),
-        FlatButton(
-            onPressed: () {},
-            child: const ListTile(
-              leading: Icon(Icons.looks_two),
-              title: Text("Second Link"),
-            ))
-      ]);
+  Widget build(context) => Container(
+        color: AppColor.greenColor.withOpacity(0.9),
+        child: ListView(children: [
+          _header(),
+          const Divider(),
+          ListTile(
+            onTap: () {
+              controller.selectedViewIndex.value = 0;
+            },
+            leading: const Icon(Icons.home, color: AppColor.whiteColor),
+            title: Text(
+              "Home",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              controller.selectedViewIndex.value = 1;
+            },
+            leading: const Icon(Icons.person_pin, color: AppColor.whiteColor),
+            title: Text(
+              "Drivers",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              controller.selectedViewIndex.value = 2;
+            },
+            leading: const Icon(Icons.where_to_vote_rounded,
+                color: AppColor.whiteColor),
+            title: Text(
+              "Blogs",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.person, color: AppColor.whiteColor),
+            title: Text(
+              "Users",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading:
+                const Icon(Icons.airplane_ticket, color: AppColor.whiteColor),
+            title: Text(
+              "Bookings",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading:
+                const Icon(Icons.notifications, color: AppColor.whiteColor),
+            title: Text(
+              "Notifications",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading:
+                const Icon(Icons.message_outlined, color: AppColor.whiteColor),
+            title: Text(
+              "Chats",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.car_rental, color: AppColor.whiteColor),
+            title: Text(
+              "Promoted Vehicles",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading:
+                const Icon(Icons.monetization_on, color: AppColor.whiteColor),
+            title: Text(
+              "Transactions",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.logout, color: AppColor.whiteColor),
+            title: Text(
+              "Logout",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(Icons.logout, color: AppColor.whiteColor),
+            title: Text(
+              "Logout",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.textStyleBoldBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            ),
+          ),
+          _footer(),
+        ]),
+      );
+
+  _header() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          vSpace,
+          NetworkCircularImage(
+            url: "",
+            radius: 44,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _footer() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          vSpace,
+          Row(
+            children: [
+              Icon(
+                Icons.copyright,
+                size: 10,
+              ),
+              Text(
+                "  All right reserved",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          ),
+          vSpace,
+        ],
+      ),
+    );
+  }
 }

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/admin/pages/admin_login_page/admin_login_page.dart';
+import 'package:let_go_gb/modules/admin/pages/home_page/admin_home_page.dart';
 
 import '../drivers/utils/user_defaults.dart';
-import 'pages/admin_home_screen.dart';
 
 class AdminSplashScreen extends StatefulWidget {
   static const id = "/AdminSplashScreen";
@@ -26,7 +26,7 @@ class _AdminSplashScreenState extends State<AdminSplashScreen> {
 
   void gotoRelevantScreenOnUserType() {
     if (UserDefaults.getAdminSession() != null) {
-      Get.toNamed(AdminHomeScreen.id);
+      Get.toNamed(AdminHomePage.id);
     } else {
       Get.toNamed(AdminLoginPage.id);
     }

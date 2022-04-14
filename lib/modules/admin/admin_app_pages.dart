@@ -2,21 +2,19 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:let_go_gb/modules/admin/controller/admin_dashboard_home_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_home_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_login_controller.dart';
-import 'package:let_go_gb/modules/admin/pages/admin_home_screen.dart';
+import 'package:let_go_gb/modules/admin/controller/admin_view_all_bookings_controller.dart';
+import 'package:let_go_gb/modules/admin/controller/admin_view_all_drivers_controller.dart';
+import 'package:let_go_gb/modules/admin/controller/admin_view_all_users_controller.dart';
 import 'package:let_go_gb/modules/admin/pages/admin_login_page/admin_login_page.dart';
+import 'package:let_go_gb/modules/admin/pages/home_page/admin_home_page.dart';
+
+import 'controller/admin_view_all_blogs_controller.dart';
 
 adminAppPages() {
   return [
-    GetPage(
-        name: AdminHomeScreen.id,
-        page: () => AdminHomeScreen(),
-        binding: BindingsBuilder(() {
-          Get.lazyPut<AdminHomeScreenController>(
-            () => AdminHomeScreenController(),
-          );
-        })),
     GetPage(
         name: AdminLoginPage.id,
         page: () => AdminLoginPage(),
@@ -24,6 +22,19 @@ adminAppPages() {
           Get.lazyPut<AdminLoginController>(
             () => AdminLoginController(),
           );
+        })),
+    GetPage(
+        name: AdminHomePage.id,
+        page: () => AdminHomePage(),
+        binding: BindingsBuilder(() {
+          /*     Get.lazyPut<AdminHomeScreenController>(
+              () => (AdminHomeScreenController));*/
+          Get.put(AdminHomeScreenController());
+          Get.put(AdminViewAllDriversController());
+          Get.put(AdminDashBoardHomeController());
+          Get.put(AdminViewAllUsersController());
+          Get.put(AdminViewAllBookingsController());
+          Get.put(AdminViewAllBlogsController());
         })),
   ];
 }
