@@ -9,8 +9,10 @@ import 'package:let_go_gb/modules/admin/controller/admin_view_all_bookings_contr
 import 'package:let_go_gb/modules/admin/controller/admin_view_all_drivers_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_view_all_users_controller.dart';
 import 'package:let_go_gb/modules/admin/pages/admin_login_page/admin_login_page.dart';
+import 'package:let_go_gb/modules/admin/pages/blogs_page/admin_add_new_blog_page.dart';
 import 'package:let_go_gb/modules/admin/pages/home_page/admin_home_page.dart';
 
+import 'controller/admin_add_new_blog_controller.dart';
 import 'controller/admin_view_all_blogs_controller.dart';
 
 adminAppPages() {
@@ -36,5 +38,21 @@ adminAppPages() {
           Get.put(AdminViewAllBookingsController());
           Get.put(AdminViewAllBlogsController());
         })),
+    GetPage(
+        name: AdminAddNewBlogPage.id,
+        page: () => AdminAddNewBlogPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<AdminAddNewBlogController>(
+            () => AdminAddNewBlogController(),
+          );
+        })),
+    /*  GetPage(
+        name: SyncMapShowPage.id,
+        page: () => SyncMapShowPage(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<SynMapController>(
+            () => SynMapController(),
+          );
+        })),*/
   ];
 }

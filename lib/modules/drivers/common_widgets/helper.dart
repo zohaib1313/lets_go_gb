@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +10,12 @@ import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 
 class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
+  FirebaseHelper._privateConstructor();
+  static final FirebaseHelper _instance = FirebaseHelper._privateConstructor();
+
+  factory FirebaseHelper() {
+    return _instance;
+  }
   @override
   Future<List<QueryDocumentSnapshot<Object?>>> getDocsList(
       String collectionPath) {
@@ -42,6 +49,14 @@ class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
       {required File file, required String path, required String fileName}) {
     return super.uploadImage(file: file, path: path, fileName: fileName);
   }
+
+  @override
+  Future<String> uploadImageWeb(
+      {required Uint8List file,
+      required String path,
+      required String fileName}) {
+    return super.uploadImageWeb(file: file, path: path, fileName: fileName);
+  }
 }
 
 class _FireStorage {
@@ -51,6 +66,16 @@ class _FireStorage {
       required String fileName}) async {
     Reference ref = FirebaseStorage.instance.ref(path).child("/" + fileName);
     await ref.putFile(file);
+    String url = await ref.getDownloadURL();
+    return Future.value(url);
+  }
+
+  Future<String> uploadImageWeb(
+      {required Uint8List file,
+      required String path,
+      required String fileName}) async {
+    Reference ref = FirebaseStorage.instance.ref(path).child("/" + fileName);
+    await ref.putData(file);
     String url = await ref.getDownloadURL();
     return Future.value(url);
   }

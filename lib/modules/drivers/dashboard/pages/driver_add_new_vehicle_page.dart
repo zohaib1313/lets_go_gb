@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/common/spaces.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/controllers/add_new_vehicle_controller.dart';
@@ -16,7 +17,7 @@ import '../../utils/common_widgets.dart';
 class DriverAddNewVehiclePage extends GetView<AddNewVehicleController> {
   DriverAddNewVehiclePage({Key? key}) : super(key: key);
   static const id = '/DriverAddNewVehiclePage';
-  final vSpace = SizedBox(height: 20.h);
+
   final _formKey = GlobalKey<FormState>();
   VehicleModel? vehicleModel = Get.arguments;
 

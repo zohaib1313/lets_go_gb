@@ -40,20 +40,23 @@ class MainScreen extends GetView<AdminHomeScreenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColor.greenColor,
-          leading: InkWell(
-              onTap: () {
-                controller.toggleDrawer();
-              },
-              child: Icon(Icons.menu)),
-        ),
-        body: Obx(() {
+      appBar: AppBar(
+        backgroundColor: AppColor.greenColor,
+        leading: InkWell(
+            onTap: () {
+              controller.toggleDrawer();
+            },
+            child: Icon(Icons.menu)),
+      ),
+      body: Obx(
+        () {
           controller.zoomDrawerController.close!();
           return IndexedStack(
               key: UniqueKey(),
               index: controller.selectedViewIndex.value,
               children: controller.indexedStack);
-        }));
+        },
+      ),
+    );
   }
 }

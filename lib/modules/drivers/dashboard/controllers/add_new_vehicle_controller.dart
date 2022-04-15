@@ -12,7 +12,7 @@ import 'package:let_go_gb/repositories/vehicle_repository.dart';
 import 'package:path/path.dart';
 
 class AddNewVehicleController extends GetxController {
-  var temp = 0.obs;
+  var temp = false.obs;
 
   RxList<File> picturesList = <File>[].obs;
   RxList<String> feature = <String>[].obs;

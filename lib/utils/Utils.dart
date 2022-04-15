@@ -116,4 +116,15 @@ class AppUtils {
 
     return;
   }
+
+  static void pickWebImage({required onCompleteWebUnit8List}) async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      var f = await image.readAsBytes();
+      onCompleteWebUnit8List(f);
+    } else {
+      Get.log('No image selected.');
+    }
+  }
 }

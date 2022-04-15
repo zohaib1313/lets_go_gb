@@ -3,15 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 
-class HomeScreenCard extends StatelessWidget {
+class BlogViewItemCard extends StatelessWidget {
   final String? image;
-  final String? text;
+  final String? name;
   final String? btnText;
   double? width;
   double? height;
 
-  HomeScreenCard(
-      {Key? key, this.image, this.text, this.btnText, this.width, this.height})
+  BlogViewItemCard(
+      {Key? key, this.image, this.name, this.btnText, this.width, this.height})
       : super(key: key);
 
   @override
@@ -42,7 +42,7 @@ class HomeScreenCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          text!,
+                          name!,
                           style: AppTextStyles.textStyleBoldBodyMedium
                               .copyWith(color: AppColor.whiteColor),
                         ),
