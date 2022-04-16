@@ -9,9 +9,16 @@ class BlogViewItemCard extends StatelessWidget {
   final String? btnText;
   double? width;
   double? height;
+  Function? onDelete;
 
   BlogViewItemCard(
-      {Key? key, this.image, this.name, this.btnText, this.width, this.height})
+      {Key? key,
+      this.image,
+      this.name,
+      this.btnText,
+      this.width,
+      this.height,
+      this.onDelete})
       : super(key: key);
 
   @override
@@ -55,6 +62,17 @@ class BlogViewItemCard extends StatelessWidget {
                   ),
                 ),
               ),
+              if (onDelete != null)
+                Align(
+                  alignment: Alignment.topRight,
+                  child: PopupMenuButton<int>(
+                    color: AppColor.whiteColor,
+                    onSelected: (item) => {onDelete!()},
+                    itemBuilder: (context) => [
+                      const PopupMenuItem<int>(value: 1, child: Text('Delete')),
+                    ],
+                  ),
+                )
             ],
           ),
         ),

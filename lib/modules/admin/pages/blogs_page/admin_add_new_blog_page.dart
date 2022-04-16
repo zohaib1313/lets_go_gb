@@ -110,8 +110,7 @@ class AdminAddNewBlogPage extends GetView<AdminAddNewBlogController> {
                                                     const EdgeInsets.all(8.0),
                                                 child: Center(
                                                     child: NetworkPlainImage(
-                                                  width: 200,
-                                                  height: 200,
+                                                  width: 150,
                                                   url: controller
                                                       .networkImageList[index],
                                                   fit: BoxFit.fill,
@@ -160,16 +159,13 @@ class AdminAddNewBlogPage extends GetView<AdminAddNewBlogController> {
                                                         controller
                                                                 .picturesListWeb[
                                                             index],
-                                                        width: 200,
-                                                        height: 200,
+                                                        fit: BoxFit.fill,
                                                       )
                                                     : Image.file(
                                                         controller
                                                                 .picturesListMobile[
                                                             index],
-                                                        fit: BoxFit.contain,
-                                                        width: 200,
-                                                        height: 200,
+                                                        fit: BoxFit.fill,
                                                       ),
                                               ),
                                             ),

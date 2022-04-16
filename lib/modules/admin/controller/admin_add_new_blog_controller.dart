@@ -71,7 +71,7 @@ class AdminAddNewBlogController extends GetxController {
         String url = await FirebaseHelper().uploadImageWeb(
             file: element as Uint8List,
             fileName: element.lengthInBytes.toString(),
-            path: FirebasePathNodes.vehicles +
+            path: FirebasePathNodes.blogs +
                 "/" +
                 element.lengthInBytes.toString() +
                 "/");
@@ -82,9 +82,8 @@ class AdminAddNewBlogController extends GetxController {
         String url = await FirebaseHelper().uploadImage(
             file: element as File,
             fileName: basename((element).path),
-            path: FirebasePathNodes.vehicles +
-                "/" +
-                basename((element).path + "/"));
+            path:
+                FirebasePathNodes.blogs + "/" + basename((element).path + "/"));
         imagesUrl.add(url);
       });
     }
