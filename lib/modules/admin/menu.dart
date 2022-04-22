@@ -10,7 +10,7 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
   @override
   Widget build(context) => Container(
         color: AppColor.greenColor.withOpacity(0.9),
-        child: ListView(children: [
+        child: ListView(controller: ScrollController(), children: [
           _header(),
           const Divider(),
           ListTile(
@@ -54,7 +54,9 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              controller.selectedViewIndex.value = 3;
+            },
             leading: const Icon(Icons.person, color: AppColor.whiteColor),
             title: Text(
               "Users",
@@ -65,7 +67,9 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              controller.selectedViewIndex.value = 4;
+            },
             leading:
                 const Icon(Icons.airplane_ticket, color: AppColor.whiteColor),
             title: Text(
@@ -77,7 +81,9 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              controller.selectedViewIndex.value = 5;
+            },
             leading:
                 const Icon(Icons.notifications, color: AppColor.whiteColor),
             title: Text(
@@ -89,7 +95,9 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              controller.selectedViewIndex.value = 6;
+            },
             leading:
                 const Icon(Icons.message_outlined, color: AppColor.whiteColor),
             title: Text(
@@ -101,7 +109,9 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              controller.selectedViewIndex.value = 7;
+            },
             leading: const Icon(Icons.car_rental, color: AppColor.whiteColor),
             title: Text(
               "Promoted Vehicles",

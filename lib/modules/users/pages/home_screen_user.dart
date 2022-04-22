@@ -125,7 +125,7 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                               physics: BouncingScrollPhysics(),
                               child: Column(
                                 children: [
-                                  Row(
+                                  /*     Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -137,7 +137,7 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                                 color: AppColor.blackColor),
                                       ),
                                     ],
-                                  ),
+                                  ),*/
                                   vSpace,
                                   CarouselSlider(
                                     options: CarouselOptions(

@@ -8,7 +8,6 @@ import 'package:let_go_gb/modules/admin/models/BlogsModel.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/helper.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/ui.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
-import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../drivers/utils/utils.dart';
@@ -65,25 +64,19 @@ class AdminAddNewBlogController extends GetxController {
 
   void uploadImagesToFireStorage({required onComplete}) async {
     List<String> imagesUrl = networkImageList;
-
+    String id = const Uuid().v1();
     if (kIsWeb) {
       await Future.forEach(picturesListWeb, (element) async {
         String url = await FirebaseHelper().uploadImageWeb(
             file: element as Uint8List,
-            fileName: element.lengthInBytes.toString(),
-            path: FirebasePathNodes.blogs +
-                "/" +
-                element.lengthInBytes.toString() +
-                "/");
+            fileName: id.toString(),
+            path: FirebasePathNodes.blogs);
         imagesUrl.add(url);
       });
     } else {
       await Future.forEach(picturesListMobile, (element) async {
         String url = await FirebaseHelper().uploadImage(
-            file: element as File,
-            fileName: basename((element).path),
-            path:
-                FirebasePathNodes.blogs + "/" + basename((element).path + "/"));
+            file: element as File, fileName: id, path: FirebasePathNodes.blogs);
         imagesUrl.add(url);
       });
     }

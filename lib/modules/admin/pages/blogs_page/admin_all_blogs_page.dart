@@ -68,16 +68,20 @@ class AdminViewAllBlogsPage extends GetView<AdminViewAllBlogsController> {
                       }
                       return Obx(() => Column(
                             children: [
-                              myAppBar(goBack: false, actions: [
-                                MyAnimSearchBar(
-                                  width: context.width * 0.8,
-                                  onSuffixTap: () {
-                                    controller.searchController.clear();
-                                  },
-                                  closeSearchOnSuffixTap: true,
-                                  textController: controller.searchController,
-                                ),
-                              ]),
+                              myAppBar(
+                                goBack: false,
+                                title: "Blogs",
+                                actions: [
+                                  MyAnimSearchBar(
+                                    width: context.width * 0.8,
+                                    onSuffixTap: () {
+                                      controller.searchController.clear();
+                                    },
+                                    closeSearchOnSuffixTap: true,
+                                    textController: controller.searchController,
+                                  ),
+                                ],
+                              ),
                               Expanded(
                                 child: controller.filteredItemList.isEmpty
                                     ? Center(

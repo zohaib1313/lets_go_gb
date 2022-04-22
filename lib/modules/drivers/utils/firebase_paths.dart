@@ -11,8 +11,7 @@ class FirebasePathNodes {
   static String appConstants = 'AppConstants';
 
   static String notifications = 'Notifications';
-  static String promotedVehicles = 'PromotedVehicles';
-
+  static String promotionAds = 'PromotionAds';
   static const String reviews = 'Reviews';
 
   static const String blogs = "Blogs";

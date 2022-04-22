@@ -7,6 +7,7 @@ class BlogViewItemCard extends StatelessWidget {
   final String? image;
   final String? name;
   final String? btnText;
+  bool? showBottomArrow = true;
   double? width;
   double? height;
   Function? onDelete;
@@ -14,6 +15,7 @@ class BlogViewItemCard extends StatelessWidget {
   BlogViewItemCard(
       {Key? key,
       this.image,
+      this.showBottomArrow = true,
       this.name,
       this.btnText,
       this.width,
@@ -49,15 +51,16 @@ class BlogViewItemCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          name!,
+                          name ?? '-',
                           style: AppTextStyles.textStyleBoldBodyMedium
                               .copyWith(color: AppColor.whiteColor),
                         ),
                       ),
-                      const Icon(
-                        Icons.arrow_forward,
-                        color: AppColor.whiteColor,
-                      )
+                      if ((showBottomArrow ?? true))
+                        const Icon(
+                          Icons.arrow_forward,
+                          color: AppColor.whiteColor,
+                        )
                     ],
                   ),
                 ),

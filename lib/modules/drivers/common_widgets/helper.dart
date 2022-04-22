@@ -8,14 +8,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
+import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
 class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
   FirebaseHelper._privateConstructor();
+
   static final FirebaseHelper _instance = FirebaseHelper._privateConstructor();
 
   factory FirebaseHelper() {
     return _instance;
   }
+
   @override
   Future<List<QueryDocumentSnapshot<Object?>>> getDocsList(
       String collectionPath) {
@@ -57,6 +60,11 @@ class FirebaseHelper with _FireStorage, _FireStore, _FirebaseAuth {
       required String fileName}) {
     return super.uploadImageWeb(file: file, path: path, fileName: fileName);
   }
+
+  @override
+  Future<void> deleteImage({required String id, required String fullPath}) {
+    return super.deleteImage(id: id, fullPath: fullPath);
+  }
 }
 
 class _FireStorage {
@@ -64,7 +72,8 @@ class _FireStorage {
       {required File file,
       required String path,
       required String fileName}) async {
-    Reference ref = FirebaseStorage.instance.ref(path).child("/" + fileName);
+    Reference ref =
+        FirebaseStorage.instance.ref(path).child("/" + fileName + ".jpg");
     await ref.putFile(file);
     String url = await ref.getDownloadURL();
     return Future.value(url);
@@ -74,10 +83,23 @@ class _FireStorage {
       {required Uint8List file,
       required String path,
       required String fileName}) async {
-    Reference ref = FirebaseStorage.instance.ref(path).child("/" + fileName);
+    Reference ref =
+        FirebaseStorage.instance.ref(path).child("/" + fileName + ".jpg");
+    printWrapped(ref.toString());
     await ref.putData(file);
     String url = await ref.getDownloadURL();
     return Future.value(url);
+  }
+
+  Future<void> deleteImage(
+      {required String id, required String fullPath}) async {
+    Reference ref =
+        FirebaseStorage.instance.ref(fullPath).child("/" + id + ".jpg");
+    printWrapped(ref.toString());
+    try {
+      ref.delete();
+      // ignore: empty_catches
+    } catch (e) {}
   }
 }
 

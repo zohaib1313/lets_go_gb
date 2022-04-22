@@ -143,7 +143,6 @@ class DriverUserModel {
       'cnicFrontImageUrl': this.cnicFrontImageUrl,
       'cnicBackImageUrl': this.cnicBackImageUrl,
       'driverLicenceImageUrl': this.driverLicenceImageUrl,
-      'password': this.password,
       'isActive': this.isActive,
       'deviceTokenId': this.deviceTokenId,
       'success': this.success,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/common/controller/notification_controller.dart';
@@ -18,7 +19,7 @@ class NotificationsPage extends GetView<NotificationsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar(title: 'Notifications', goBack: true),
+      appBar: myAppBar(title: 'Notifications', goBack: !kIsWeb),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),

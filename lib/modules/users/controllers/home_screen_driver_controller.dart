@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/drivers/dashboard/models/vehicle_model.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 
+import '../../admin/models/promoted_images_model.dart';
 import '../../drivers/utils/common_widgets.dart';
 import '../../drivers/utils/user_defaults.dart';
 import '../../drivers/utils/utils.dart';
@@ -16,7 +16,7 @@ class HomeScreenUserController extends GetxController
   AnimationController? motionController;
   var scale;
 
-  RxList<VehicleModel?> promotedVehicles = <VehicleModel?>[].obs;
+  RxList<Promotions?> promotionAdsList = <Promotions?>[].obs;
 
   HomeScreenUserController();
 
@@ -69,45 +69,46 @@ class HomeScreenUserController extends GetxController
   }
 
   void _loadPromotedVehicles() {
-    promotedVehicles.clear();
+    promotionAdsList.clear();
 
     FirebaseFirestore.instance
-        .collection(FirebasePathNodes.promotedVehicles)
-        .doc('ids')
+        .collection(FirebasePathNodes.promotionAds)
         .snapshots()
-        .listen((DocumentSnapshot snapshot) {
-      Map<String, dynamic>? map = snapshot.data() as Map<String, dynamic>;
-      printWrapped('promoted vehicles');
+        .listen((QuerySnapshot snapshot) {
+      promotionAdsList.clear();
+      for (var element in snapshot.docs) {
+        Promotions? promotion =
+            Promotions.fromMap(element.data() as Map<String, dynamic>);
+        promotionAdsList.add(promotion);
+      }
 
-      for (var element in map.keys) {
+      /*  for (var element in map.keys) {
         FirebaseFirestore.instance
-            .collection(FirebasePathNodes.vehicles)
+            .collection(FirebasePathNodes.promotionAds)
             .doc(element)
             .get()
             .then((DocumentSnapshot vehicleSnapshot) {
-          VehicleModel vehicleModel = VehicleModel.fromMap(
-              vehicleSnapshot.data() as Map<String, dynamic>);
-          promotedVehicles.add(vehicleModel);
+          Promotions model =
+              Promotions.fromMap(vehicleSnapshot.data() as Map<String, dynamic>);
+          promotionAds.add(model);
         });
-      }
+      }*/
     });
   }
 
   List<Widget> imagesList() {
     List<Widget> list = [];
-    for (var element in promotedVehicles) {
-      element?.vehicleImages?.forEach((images) {
-        list.add(ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Center(
-            child: NetworkPlainImage(
-              url: images,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
+    for (var element in promotionAdsList) {
+      list.add(ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Center(
+          child: NetworkPlainImage(
+            url: element?.imageUrl ?? '',
+            height: 200,
+            fit: BoxFit.cover,
           ),
-        ));
-      });
+        ),
+      ));
     }
     return list;
   }
