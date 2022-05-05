@@ -117,7 +117,7 @@ class LoginRepository {
     return _userModel;
   }
 
-  Future<AdminModel?> adminLogin(email, password) async {
+  Future<dynamic> adminLogin(email, password) async {
     AdminModel? _userModel;
 
     try {
@@ -134,6 +134,12 @@ class LoginRepository {
 
           if (userMap['userRole'] == AppUserRoles.admin) {
             return AdminModel.fromMap(userMap);
+          }
+          if (userMap['userRole'] == AppUserRoles.user) {
+            return UserModel.fromMap(userMap);
+          }
+          if (userMap['userRole'] == AppUserRoles.driver) {
+            return DriverUserModel.fromMap(userMap);
           }
 
           _userModel =

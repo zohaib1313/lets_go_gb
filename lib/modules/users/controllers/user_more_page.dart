@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:let_go_gb/common/pages/login_page.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/about_us_page.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/contact_us_page.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/pages/privacy_policy_page.dart';
@@ -8,7 +9,6 @@ import 'package:let_go_gb/modules/drivers/utils/app_popups.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/users/controllers/user_more_controller.dart';
-import 'package:let_go_gb/modules/users/pages/login_user_screen.dart';
 
 class UserMorePage extends GetView<UserMoreController> {
   const UserMorePage({Key? key}) : super(key: key);
@@ -52,10 +52,10 @@ class UserMorePage extends GetView<UserMoreController> {
                             icon: Icons.logout,
                             onTap: () {
                               AppPopUps.showAlertDialog(
-                                  message: 'Are you sure to exit?',
+                                  message: 'Are you sure to logout?',
                                   onSubmit: () {
                                     UserDefaults().clearAll();
-                                    Get.offAllNamed(UserLoginScreen.id);
+                                    Get.offAllNamed(LoginPage.id);
                                   });
                             }),
                       ],

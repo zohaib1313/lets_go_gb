@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_view_all_drivers_controller.dart';
 import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
-import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 
 import '../../../drivers/common_widgets/loading_widget.dart';
+import '../../../drivers/utils/app_user_roles.dart';
 import '../../../drivers/utils/firebase_paths.dart';
 import '../../../drivers/utils/my_app_bar.dart';
 import '../../../drivers/utils/styles.dart';
@@ -23,6 +23,7 @@ class AdminAllDriversPage extends GetView<AdminViewAllDriversController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: myAppBar(title: "Drivers", goBack: false, actions: [
         MyAnimSearchBar(
           width: context.width * 0.8,

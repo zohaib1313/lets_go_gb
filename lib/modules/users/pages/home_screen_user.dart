@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/common/pages/notifications_page.dart';
+import 'package:let_go_gb/modules/admin/models/BlogsModel.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 import 'package:let_go_gb/modules/users/models/user_model.dart';
@@ -174,26 +175,76 @@ class UserHomeScreen extends GetView<HomeScreenUserController> {
                                   vSpace,
                                   Padding(
                                     padding: EdgeInsets.only(bottom: 150.h),
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: 5,
-                                        itemBuilder: (context, index) {
-                                          return InkWell(
-                                            onTap: () {
-                                              Get.toNamed(
-                                                  UserViewBlogDetailsPage.id);
-                                            },
-                                            child: BlogViewItemCard(
-                                              name: "Skardu Valley",
-                                              btnText: "Explore",
-                                              image:
-                                                  "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg",
-                                            ),
+                                    child: StreamBuilder(
+                                        stream: FirebaseFirestore.instance
+                                            .collection(FirebasePathNodes.blogs)
+                                            .limit(5)
+                                            .snapshots(),
+                                        builder: (context,
+                                            AsyncSnapshot<QuerySnapshot>
+                                                snapShot) {
+                                          if (snapShot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          }
+                                          if (snapShot.hasError) {
+                                            return Center(
+                                              child:
+                                                  Text('An error occurred...'),
+                                            );
+                                          }
+                                          return ListView(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            children: snapShot.data!.docs.map(
+                                                (DocumentSnapshot document) {
+                                              Map<String, dynamic> data =
+                                                  document.data()!
+                                                      as Map<String, dynamic>;
+                                              BlogModel blog =
+                                                  BlogModel.fromMap(data);
+                                              return InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(
+                                                      UserViewBlogDetailsPage
+                                                          .id,
+                                                      arguments: blog);
+                                                },
+                                                child: BlogViewItemCard(
+                                                    name: blog.placeName ?? '-',
+                                                    image:
+                                                        blog.placeImages![0]),
+                                              );
+                                            }).toList(),
                                           );
+
+                                          /*   return  ListView(
+                                            shrinkWrap: true,
+                                            physics:
+                                            const NeverScrollableScrollPhysics(),
+                                         children:
+                                            itemBuilder: (context, index) {
+                                              return InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(
+                                                      UserViewBlogDetailsPage.id);
+                                                },
+                                                child: BlogViewItemCard(
+                                                    name: "Skardu Valley",
+                                                    btnText: "Explore",
+                                                    image:
+                                                    "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg"),
+                                              );
+                                            },
+                                          );*/
                                         }),
                                   )
+
+                                  /*,*/
                                 ],
                               ),
                             ))

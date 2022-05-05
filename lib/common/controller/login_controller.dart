@@ -3,14 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/admin/models/admin_model.dart';
 import 'package:let_go_gb/modules/admin/pages/home_page/admin_home_page.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/pages/driver_home_page.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
+import 'package:let_go_gb/modules/users/pages/home_screen_user.dart';
 
-import '../../../repositories/login_repository.dart';
-import '../../drivers/common_widgets/ui.dart';
-import '../../drivers/utils/app_user_roles.dart';
-import '../../drivers/utils/user_defaults.dart';
+import '../../modules/drivers/common_widgets/ui.dart';
+import '../../modules/drivers/utils/app_user_roles.dart';
+import '../../modules/drivers/utils/user_defaults.dart';
+import '../../repositories/login_repository.dart';
 
-class AdminLoginController extends GetxController {
+class LoginController extends GetxController {
   final loading = false.obs;
   LoginRepository? _loginRepository;
 
@@ -30,11 +32,10 @@ class AdminLoginController extends GetxController {
 
     _loginRepository!
         .adminLogin(emailController.text.trim(), passwordController.text.trim())
-        .then((AdminModel? value) {
+        .then((dynamic value) {
       _loginResponse(value);
     }).catchError((onError) {
       Get.log("$onError", isError: true);
-
       Get.showSnackbar(Ui.ErrorSnackBar(message: "$onError"));
     }).whenComplete(() {
       passwordController.clear();
@@ -42,11 +43,17 @@ class AdminLoginController extends GetxController {
     });
   }
 
-  void _loginResponse(AdminModel? value) {
+  void _loginResponse(dynamic value) {
     if (value?.success ?? false) {
       if (value!.userRole == AppUserRoles.admin) {
         UserDefaults.saveAdminSession(value);
         Get.offAndToNamed(AdminHomePage.id);
+      } else if (value!.userRole == AppUserRoles.user) {
+        UserDefaults.saveUserSession(value);
+        Get.offAndToNamed(UserHomeScreen.id);
+      } else if (value!.userRole == AppUserRoles.driver) {
+        UserDefaults.saveDriverSession(value);
+        Get.offAndToNamed(DriverHomePage.id);
       }
     } else {
       Get.log("${value?.errorMessage}", isError: true);

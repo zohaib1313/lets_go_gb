@@ -6,16 +6,17 @@ import 'package:get/get.dart';
 import 'package:let_go_gb/common/models/booking_model.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_view_all_bookings_controller.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
-import 'package:let_go_gb/modules/users/models/user_model.dart';
+import 'package:let_go_gb/modules/drivers/dashboard/models/driver_user_model.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../../common/spaces.dart';
-import '../../../drivers/dashboard/models/driver_user_model.dart';
 import '../../../drivers/utils/app_alert_bottom_sheet.dart';
 import '../../../drivers/utils/app_constants.dart';
 import '../../../drivers/utils/common_widgets.dart';
 import '../../../drivers/utils/firebase_paths.dart';
 import '../../../drivers/utils/styles.dart';
 import '../../../drivers/utils/utils.dart';
+import '../../../users/models/user_model.dart';
 
 class AdminViewAllBookingsPage extends GetView<AdminViewAllBookingsController> {
   static const id = '/AdminAllBookingsPage';
@@ -193,256 +194,39 @@ class AdminViewAllBookingsPage extends GetView<AdminViewAllBookingsController> {
 
   Widget getRowItem(BookingModel model) {
     return Card(
+      color: BookingStatus.getColor(model.status),
       elevation: 18,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            Container(
+                child: Text(
+              "Status: ${model.status ?? ""}",
+              style: AppTextStyles.textStyleNormalBodyMedium
+                  .copyWith(color: AppColor.whiteColor),
+            )),
+            getKeyValuePair(key: "Booking Id: ", value: model.bookingId ?? ''),
             Row(
               children: [
                 Flexible(
-                    child: getKeyValuePair(
-                        key: "Booking Id: ", value: model.bookingId ?? '')),
-                hSpace,
-                Flexible(
-                    child: getKeyValuePair(
-                        key: "Address: ", value: model.pickUpAddress ?? ''))
-              ],
-            ),
-            vSpace,
-            Row(
-              children: [
-                Flexible(
-                    child: getKeyValuePair(
+                    child: Column(
+                  children: [
+                    getKeyValuePair(
                         key: "Booking From: ",
-                        value: formatDateTime(model.bookingDateStart))),
-                hSpace,
-                Flexible(
-                    child: getKeyValuePair(
+                        value: formatDateTime(model.bookingDateStart)),
+                    hSpace,
+                    getKeyValuePair(
                         key: "Booking To: ",
-                        value: formatDateTime(model.bookingDateEnd))),
+                        value: formatDateTime(model.bookingDateEnd)),
+                  ],
+                )),
               ],
             ),
             vSpace,
-            Row(
-              children: [
-                Flexible(
-                    child: Column(
-                  children: [
-                    Text("User",
-                        style: AppTextStyles.textStyleNormalBodyMedium),
-                    StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection(FirebasePathNodes.users)
-                            .doc(model.userId ?? '')
-                            .snapshots(),
-                        builder: (context,
-                            AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text(
-                                'Something went wrong',
-                                style: AppTextStyles.textStyleBoldBodyMedium,
-                              ),
-                            );
-                          }
-
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                          if (snapshot.data != null) {
-                            UserModel userModel = UserModel.fromMap(
-                                (snapshot.data!.data()
-                                    as Map<String, dynamic>));
-
-                            return InkWell(
-                              onTap: () {
-                                // Get.toNamed(DriverBookingDetailsPage.id);
-                              },
-                              child: Card(
-                                margin: const EdgeInsets.only(
-                                    left: 0, right: 0, top: 3, bottom: 3),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: NetworkCircularImage(
-                                              url: userModel.profileImage ?? '',
-                                              radius: 30,
-                                            ),
-                                          ),
-                                          Expanded(
-                                              child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  userModel.firstName ?? '',
-                                                  style: AppTextStyles
-                                                      .textStyleBoldBodyMedium,
-                                                ),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    getKeyValuePair(
-                                                        key: "Phone:",
-                                                        value:
-                                                            userModel.phone ??
-                                                                '-'),
-                                                    getKeyValuePair(
-                                                        key: "Email:",
-                                                        value: userModel
-                                                                .emailAddress ??
-                                                            '-'),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                          return Center(
-                            child: Text(
-                              'Something went wrong',
-                              style: AppTextStyles.textStyleBoldBodyMedium,
-                            ),
-                          );
-                        }),
-                  ],
-                )),
-                hSpace,
-                Icon(
-                  Icons.arrow_forward,
-                  color: AppColor.greenColor,
-                ),
-                hSpace,
-                Flexible(
-                    child: Column(
-                  children: [
-                    Text("Driver",
-                        style: AppTextStyles.textStyleNormalBodyMedium),
-                    StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection(FirebasePathNodes.users)
-                            .doc(model.vehicleId ?? '')
-                            .snapshots(),
-                        builder: (context,
-                            AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text(
-                                'Something went wrong',
-                                style: AppTextStyles.textStyleBoldBodyMedium,
-                              ),
-                            );
-                          }
-
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                          if (snapshot.data != null) {
-                            DriverUserModel driverUserModel =
-                                DriverUserModel.fromMap((snapshot.data!.data()
-                                    as Map<String, dynamic>));
-
-                            return InkWell(
-                              onTap: () {
-                                // Get.toNamed(DriverBookingDetailsPage.id);
-                              },
-                              child: Card(
-                                margin: const EdgeInsets.only(
-                                    left: 0, right: 0, top: 3, bottom: 3),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: NetworkCircularImage(
-                                        url: driverUserModel.profileImage ?? '',
-                                        radius: 30,
-                                      ),
-                                    ),
-                                    Expanded(
-                                        child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            driverUserModel.firstName ?? '',
-                                            style: AppTextStyles
-                                                .textStyleBoldBodyMedium,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              getKeyValuePair(
-                                                  key: "Phone:",
-                                                  value:
-                                                      driverUserModel.phone ??
-                                                          '-'),
-                                              getKeyValuePair(
-                                                  key: "Email:",
-                                                  value: driverUserModel
-                                                          .emailAddress ??
-                                                      '-'),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                          return Center(
-                            child: Text(
-                              'Something went wrong',
-                              style: AppTextStyles.textStyleBoldBodyMedium,
-                            ),
-                          );
-                        }),
-                  ],
-                )),
-              ],
+            ScreenTypeLayout(
+              mobile: mobileViewItem(model),
+              tablet: webViewItem(model),
             ),
             vSpace,
           ],
@@ -660,6 +444,408 @@ class AdminViewAllBookingsPage extends GetView<AdminViewAllBookingsController> {
         Text(key, style: AppTextStyles.textStyleBoldBodyMedium),
         Flexible(
             child: Text(value, style: AppTextStyles.textStyleNormalBodySmall)),
+      ],
+    );
+  }
+
+  mobileViewItem(BookingModel model) {
+    return Column(
+      children: [
+        Column(
+          children: [
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebasePathNodes.users)
+                    .doc(model.vehicleId ?? '')
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Something went wrong',
+                        style: AppTextStyles.textStyleBoldBodyMedium,
+                      ),
+                    );
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data != null) {
+                    DriverUserModel driverUserModel = DriverUserModel.fromMap(
+                        (snapshot.data!.data() as Map<String, dynamic>));
+
+                    return InkWell(
+                      onTap: () {
+                        // Get.toNamed(DriverBookingDetailsPage.id);
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(
+                            left: 0, right: 0, top: 3, bottom: 3),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: NetworkCircularImage(
+                                url: driverUserModel.profileImage ?? '',
+                                radius: 30,
+                              ),
+                            ),
+                            Expanded(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      getKeyValuePair(
+                                          key: "Driver:",
+                                          value:
+                                              driverUserModel.firstName ?? ''),
+                                      getKeyValuePair(
+                                          key: "Phone:",
+                                          value: driverUserModel.phone ?? '-'),
+                                      getKeyValuePair(
+                                          key: "Email:",
+                                          value: driverUserModel.emailAddress ??
+                                              '-'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      'Something went wrong',
+                      style: AppTextStyles.textStyleBoldBodyMedium,
+                    ),
+                  );
+                }),
+          ],
+        ),
+        hSpace,
+        Icon(
+          Icons.arrow_downward,
+          color: AppColor.greenColor,
+        ),
+        hSpace,
+        Column(
+          children: [
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebasePathNodes.users)
+                    .doc(model.userId ?? '')
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Something went wrong',
+                        style: AppTextStyles.textStyleBoldBodyMedium,
+                      ),
+                    );
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data != null) {
+                    UserModel userModel = UserModel.fromMap(
+                        (snapshot.data!.data() as Map<String, dynamic>));
+
+                    return InkWell(
+                      onTap: () {
+                        // Get.toNamed(DriverBookingDetailsPage.id);
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(
+                            left: 0, right: 0, top: 3, bottom: 3),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: NetworkCircularImage(
+                                      url: userModel.profileImage ?? '',
+                                      radius: 30,
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            getKeyValuePair(
+                                                key: "User:",
+                                                value:
+                                                    userModel.firstName ?? '-'),
+                                            getKeyValuePair(
+                                                key: "Phone:",
+                                                value: userModel.phone ?? '-'),
+                                            getKeyValuePair(
+                                                key: "Email:",
+                                                value: userModel.emailAddress ??
+                                                    '-'),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      'Something went wrong',
+                      style: AppTextStyles.textStyleBoldBodyMedium,
+                    ),
+                  );
+                }),
+          ],
+        ),
+      ],
+    );
+  }
+
+  webViewItem(BookingModel model) {
+    return Row(
+      children: [
+        Flexible(
+            child: Column(
+          children: [
+            Text("User", style: AppTextStyles.textStyleNormalBodyMedium),
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebasePathNodes.users)
+                    .doc(model.userId ?? '')
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Something went wrong',
+                        style: AppTextStyles.textStyleBoldBodyMedium,
+                      ),
+                    );
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data != null) {
+                    UserModel userModel = UserModel.fromMap(
+                        (snapshot.data!.data() as Map<String, dynamic>));
+
+                    return InkWell(
+                      onTap: () {
+                        // Get.toNamed(DriverBookingDetailsPage.id);
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(
+                            left: 0, right: 0, top: 3, bottom: 3),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: NetworkCircularImage(
+                                      url: userModel.profileImage ?? '',
+                                      radius: 30,
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          userModel.firstName ?? '',
+                                          style: AppTextStyles
+                                              .textStyleBoldBodyMedium,
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            getKeyValuePair(
+                                                key: "Phone:",
+                                                value: userModel.phone ?? '-'),
+                                            getKeyValuePair(
+                                                key: "Email:",
+                                                value: userModel.emailAddress ??
+                                                    '-'),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      'Something went wrong',
+                      style: AppTextStyles.textStyleBoldBodyMedium,
+                    ),
+                  );
+                }),
+          ],
+        )),
+        hSpace,
+        Icon(
+          Icons.arrow_forward,
+          color: AppColor.greenColor,
+        ),
+        hSpace,
+        Flexible(
+            child: Column(
+          children: [
+            Text("Driver", style: AppTextStyles.textStyleNormalBodyMedium),
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(FirebasePathNodes.users)
+                    .doc(model.vehicleId ?? '')
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Something went wrong',
+                        style: AppTextStyles.textStyleBoldBodyMedium,
+                      ),
+                    );
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.data != null) {
+                    DriverUserModel driverUserModel = DriverUserModel.fromMap(
+                        (snapshot.data!.data() as Map<String, dynamic>));
+
+                    return InkWell(
+                      onTap: () {
+                        // Get.toNamed(DriverBookingDetailsPage.id);
+                      },
+                      child: Card(
+                        margin: const EdgeInsets.only(
+                            left: 0, right: 0, top: 3, bottom: 3),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: NetworkCircularImage(
+                                url: driverUserModel.profileImage ?? '',
+                                radius: 30,
+                              ),
+                            ),
+                            Expanded(
+                                child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    driverUserModel.firstName ?? '',
+                                    style:
+                                        AppTextStyles.textStyleBoldBodyMedium,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      getKeyValuePair(
+                                          key: "Phone:",
+                                          value: driverUserModel.phone ?? '-'),
+                                      getKeyValuePair(
+                                          key: "Email:",
+                                          value: driverUserModel.emailAddress ??
+                                              '-'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(
+                    child: Text(
+                      'Something went wrong',
+                      style: AppTextStyles.textStyleBoldBodyMedium,
+                    ),
+                  );
+                }),
+          ],
+        )),
       ],
     );
   }

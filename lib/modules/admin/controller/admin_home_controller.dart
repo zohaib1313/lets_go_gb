@@ -8,6 +8,7 @@ import 'package:let_go_gb/modules/admin/pages/dash_board_home/admin_dashboard_ho
 import 'package:let_go_gb/modules/admin/pages/drivers_page/admin_all_driver_page.dart';
 import 'package:let_go_gb/modules/admin/pages/promoted_vehicles/promoted_vehicles_page.dart';
 import 'package:let_go_gb/modules/admin/pages/users_page/admin_all_users_page.dart';
+import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
 import '../pages/blogs_page/admin_all_blogs_page.dart';
 
@@ -28,8 +29,7 @@ class AdminHomeScreenController extends GetxController {
   ];
 
   void toggleDrawer() {
-    print("Toggle drawer");
-
+    printWrapped("Toggle drawer");
     zoomDrawerController.toggle?.call();
   }
 }

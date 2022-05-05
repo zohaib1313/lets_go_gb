@@ -87,6 +87,7 @@ class DriverSignUpController extends GetxController {
         complete: (DriverUserModel user) {
           if (driverUserModel != null) {
             user.id = driverUserModel.id ?? '';
+
             _signupRepository!.updateDriverAndUser(user.toMap()).then((value) {
               if (value == "Success") {
                 Get.back();
@@ -121,7 +122,7 @@ class DriverSignUpController extends GetxController {
     String profileImageUrl = driverUserModel?.profileImage ?? '';
     if (profileImage.value != null) {
       profileImageUrl = await _signupRepository!.firebaseHelper.uploadImage(
-          file: File(profileImage.value!.path ?? ''),
+          file: File(profileImage.value!.path),
           fileName: 'profilePic',
           path: FirebasePathNodes.driverImages + email);
     }
@@ -160,7 +161,7 @@ class DriverSignUpController extends GetxController {
       firstName: firstNameController.text.trim(),
       phone: contactNumberController.text.trim(),
       userRole: AppUserRoles.driver,
-      isActive: false,
+      isActive: driverUserModel?.isActive ?? false,
       cnicFrontImageUrl: cnincFrontUrl,
       cnicBackImageUrl: cnincBackUrl,
       driverLicenceImageUrl: drivingLicenseUrl,

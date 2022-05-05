@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 import 'package:let_go_gb/modules/users/pages/user_blog_detail_page.dart';
 
+import '../../admin/models/BlogsModel.dart';
 import '../../drivers/common_widgets/home_screen_card.dart';
+import '../../drivers/utils/firebase_paths.dart';
 import '../controllers/user_view_all_blogs_controller.dart';
 
 class UserViewAllBlogsPage extends GetView<UserViewAllBlogsController> {
@@ -22,59 +25,42 @@ class UserViewAllBlogsPage extends GetView<UserViewAllBlogsController> {
               controller.temp.value;
               return Padding(
                 padding: EdgeInsets.all(10.h),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 20,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Get.toNamed(UserViewBlogDetailsPage.id);
-                        },
-                        child: BlogViewItemCard(
-                          name: "Skardu Valley",
-                          btnText: "Explore",
-                          image:
-                              "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__480.jpg",
-                        ),
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(FirebasePathNodes.blogs)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapShot) {
+                      if (snapShot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapShot.hasError) {
+                        return const Center(
+                          child: Text('An error occurred...'),
+                        );
+                      }
+                      return ListView(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        children: snapShot.data!.docs
+                            .map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data()! as Map<String, dynamic>;
+                          BlogModel blog = BlogModel.fromMap(data);
+                          return InkWell(
+                            onTap: () {
+                              Get.toNamed(UserViewBlogDetailsPage.id,
+                                  arguments: blog);
+                            },
+                            child: BlogViewItemCard(
+                                name: blog.placeName ?? '-',
+                                image: blog.placeImages![0]),
+                          );
+                        }).toList(),
                       );
                     }),
               );
-              /*SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Container(
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child:
-                    StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection(FirebasePathNodes.appConstants)
-                          .doc('PrivacyPolicy')
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return LoadingWidget();
-                        }
-                        if (snapshot.hasError) {
-                          return const Center(
-                            child: Text('Something went wrong'),
-                          );
-                        }
-                        if (snapshot.data!.data() == null) {
-                          return const Center(
-                            child: Text('Something went wrong'),
-                          );
-                        }
-                        var s = snapshot.data!.data() as Map<String, dynamic>;
-                        return SimpleRichText(
-                          s['PrivacyPolicy'],
-                          style: AppTextStyles.textStyleNormalBodySmall,
-                        );
-                      },
-                    ),
-                  ));*/
             }),
       ),
     );

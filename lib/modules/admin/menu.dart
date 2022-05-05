@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:let_go_gb/common/pages/login_page.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_home_controller.dart';
 import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
+import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
 
 import '../../common/spaces.dart';
 
@@ -134,18 +137,10 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
             ),
           ),
           ListTile(
-            onTap: () {},
-            leading: const Icon(Icons.logout, color: AppColor.whiteColor),
-            title: Text(
-              "Logout",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.textStyleBoldBodyMedium
-                  .copyWith(color: AppColor.whiteColor),
-            ),
-          ),
-          ListTile(
-            onTap: () {},
+            onTap: () {
+              UserDefaults().clearAll();
+              Get.toNamed(LoginPage.id);
+            },
             leading: const Icon(Icons.logout, color: AppColor.whiteColor),
             title: Text(
               "Logout",

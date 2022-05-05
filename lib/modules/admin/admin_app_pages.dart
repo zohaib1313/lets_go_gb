@@ -3,15 +3,15 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:let_go_gb/common/controller/chat_home_controller.dart';
+import 'package:let_go_gb/common/controller/login_controller.dart';
 import 'package:let_go_gb/common/controller/notification_controller.dart';
+import 'package:let_go_gb/common/pages/login_page.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_dashboard_home_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_home_controller.dart';
-import 'package:let_go_gb/modules/admin/controller/admin_login_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_view_all_bookings_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_view_all_drivers_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_view_all_users_controller.dart';
 import 'package:let_go_gb/modules/admin/controller/promoted_vehicles_controller.dart';
-import 'package:let_go_gb/modules/admin/pages/admin_login_page/admin_login_page.dart';
 import 'package:let_go_gb/modules/admin/pages/blogs_page/admin_add_new_blog_page.dart';
 import 'package:let_go_gb/modules/admin/pages/home_page/admin_home_page.dart';
 
@@ -21,11 +21,11 @@ import 'controller/admin_view_all_blogs_controller.dart';
 adminAppPages() {
   return [
     GetPage(
-        name: AdminLoginPage.id,
-        page: () => AdminLoginPage(),
+        name: LoginPage.id,
+        page: () => LoginPage(),
         binding: BindingsBuilder(() {
-          Get.lazyPut<AdminLoginController>(
-            () => AdminLoginController(),
+          Get.lazyPut<LoginController>(
+            () => LoginController(),
           );
         })),
     GetPage(

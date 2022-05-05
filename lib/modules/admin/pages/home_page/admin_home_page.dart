@@ -23,17 +23,11 @@ class AdminHomePage extends GetView<AdminHomeScreenController> {
         body: SafeArea(
           child: GetX<AdminHomeScreenController>(
               initState: (state) {},
-              builder: (context) {
+              builder: (cc) {
                 controller.temp.value;
-                return ResponsiveBuilder(
-                  builder: (context, sizingInformation) {
-                    if (sizingInformation.deviceScreenType ==
-                        DeviceScreenType.mobile) {
-                      return AdminHomeScreenMobileView();
-                    } else {
-                      return AdminHomeScreenWeb();
-                    }
-                  },
+                return ScreenTypeLayout(
+                  mobile: AdminHomeScreenMobileView(),
+                  tablet: AdminHomeScreenWeb(),
                 );
               }),
         ));

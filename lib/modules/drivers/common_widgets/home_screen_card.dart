@@ -6,7 +6,7 @@ import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 class BlogViewItemCard extends StatelessWidget {
   final String? image;
   final String? name;
-  final String? btnText;
+
   bool? showBottomArrow = true;
   double? width;
   double? height;
@@ -17,7 +17,6 @@ class BlogViewItemCard extends StatelessWidget {
       this.image,
       this.showBottomArrow = true,
       this.name,
-      this.btnText,
       this.width,
       this.height,
       this.onDelete})

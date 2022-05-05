@@ -1,22 +1,24 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:let_go_gb/common/pages/splash_screen.dart';
 import 'package:let_go_gb/routes.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
-import 'admin_app_pages.dart';
+import 'app_routes.dart';
 
-class AdminApplication extends StatefulWidget {
-  const AdminApplication({Key? key}) : super(key: key);
+class MyApplication extends StatefulWidget {
+  const MyApplication({Key? key}) : super(key: key);
 
   @override
-  _AdminApplicationState createState() => _AdminApplicationState();
+  _MyApplicationState createState() => _MyApplicationState();
 }
 
-class _AdminApplicationState extends State<AdminApplication>
+class _MyApplicationState extends State<MyApplication>
     with WidgetsBindingObserver {
   @override
   void initState() {
@@ -36,7 +38,12 @@ class _AdminApplicationState extends State<AdminApplication>
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       builder: (_) => GetMaterialApp(
-        getPages: adminAppPages(),
+        getPages: appRoutes(),
+        localizationsDelegates: const [
+          DefaultCupertinoLocalizations.delegate,
+          DefaultMaterialLocalizations.delegate,
+          MonthYearPickerLocalizations.delegate
+        ],
         scrollBehavior: MyScrollBehavior(),
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
@@ -51,6 +58,7 @@ class MyScrollBehavior extends MaterialScrollBehavior {
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
+        PointerDeviceKind.unknown,
         PointerDeviceKind.invertedStylus,
       };
 }

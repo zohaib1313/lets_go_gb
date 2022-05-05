@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:let_go_gb/common/controller/notification_controller.dart';
 import 'package:let_go_gb/common/models/notification_model.dart';
 import 'package:let_go_gb/modules/drivers/common_widgets/loading_widget.dart';
+import 'package:let_go_gb/modules/drivers/utils/app_user_roles.dart';
 import 'package:let_go_gb/modules/drivers/utils/firebase_paths.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
@@ -19,7 +20,9 @@ class NotificationsPage extends GetView<NotificationsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar(title: 'Notifications', goBack: !kIsWeb),
+      appBar: myAppBar(
+          title: 'Notifications',
+          goBack: !kIsWeb && UserDefaults.getUserType() != AppUserRoles.admin),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),

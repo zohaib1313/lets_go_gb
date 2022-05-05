@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:let_go_gb/modules/admin/models/BlogsModel.dart';
+import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 
 import '../../drivers/utils/utils.dart';
 
 class UserViewAllPicturesBlogPage extends StatelessWidget {
-  const UserViewAllPicturesBlogPage({Key? key}) : super(key: key);
   static const id = '/UserViewAllPicturesBlog';
+  BlogModel blogModel;
+
+  UserViewAllPicturesBlogPage({Key? key, required this.blogModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +22,14 @@ class UserViewAllPicturesBlogPage extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              itemCount: 10,
+              itemCount: blogModel.placeImages?.length ?? 0,
               itemBuilder: (context, index) {
                 return Container(
                   margin: const EdgeInsets.all(10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      "assets/images/bg4.png",
+                    child: NetworkPlainImage(
+                      url: blogModel.placeImages![index],
                       fit: BoxFit.fill,
                       height: 300.h,
                     ),

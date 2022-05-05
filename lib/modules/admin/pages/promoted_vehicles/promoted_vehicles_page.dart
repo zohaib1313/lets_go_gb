@@ -18,6 +18,7 @@ class PromotedAdsPage extends GetView<PromotedAdsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         child: Icon(Icons.add),
         backgroundColor: AppColor.greenColor,
         onPressed: () {

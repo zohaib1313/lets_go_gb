@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:let_go_gb/modules/admin/pages/dash_board_home/admin_dashboard_home_mobile.dart';
-import 'package:let_go_gb/modules/admin/pages/dash_board_home/admin_dashboard_home_web.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../drivers/utils/styles.dart';
 import '../../controller/admin_dashboard_home_controller.dart';
+import 'admin_dashboard_home_mobile.dart';
+import 'admin_dashboard_home_web.dart';
 
 class AdminDashboardHome extends GetView<AdminDashBoardHomeController> {
   static const id = '/AdminDashboardHome';
