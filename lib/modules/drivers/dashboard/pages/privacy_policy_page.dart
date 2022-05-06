@@ -50,7 +50,7 @@ class PrivacyPolicyPage extends GetView<PrivacyPolicyController> {
                         }
                         var s = snapshot.data!.data() as Map<String, dynamic>;
                         return SimpleRichText(
-                          s['PrivacyPolicy'],
+                          s['PrivacyPolicy'] ?? "",
                           style: AppTextStyles.textStyleNormalBodySmall,
                         );
                       },

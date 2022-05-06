@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:let_go_gb/common/pages/login_page.dart';
 import 'package:let_go_gb/modules/admin/controller/admin_home_controller.dart';
-import 'package:let_go_gb/modules/drivers/utils/common_widgets.dart';
 import 'package:let_go_gb/modules/drivers/utils/styles.dart';
 import 'package:let_go_gb/modules/drivers/utils/user_defaults.dart';
+import 'package:let_go_gb/modules/drivers/utils/utils.dart';
 
 import '../../common/spaces.dart';
 
@@ -117,7 +117,7 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
             },
             leading: const Icon(Icons.car_rental, color: AppColor.whiteColor),
             title: Text(
-              "Promoted Vehicles",
+              "Promoted Ads",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.textStyleBoldBodyMedium
@@ -155,37 +155,44 @@ class MenuWidgetAdmin extends GetView<AdminHomeScreenController> {
       );
 
   _header() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          vSpace,
-          NetworkCircularImage(
-            url: "",
-            radius: 44,
-          ),
-        ],
-      ),
+    print("pcccccc");
+    printWrapped(UserDefaults.getAdminSession()?.profileImage ?? "");
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        vSpace,
+        /* NetworkCircularImage(
+          url: UserDefaults.getAdminSession()?.profileImage ?? "",
+          radius: 44,
+        ),*/
+        Text(
+          "Welcome\n ${UserDefaults.getAdminSession()?.firstName ?? ''}",
+          style: AppTextStyles.textStyleBoldBodyMedium
+              .copyWith(color: AppColor.whiteColor),
+        )
+      ],
     );
   }
 
   _footer() {
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           vSpace,
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.copyright,
                 size: 10,
               ),
               Text(
                 "  All right reserved",
                 maxLines: 1,
+                style: AppTextStyles.textStyleBoldBodyMedium
+                    .copyWith(color: AppColor.whiteColor),
                 overflow: TextOverflow.ellipsis,
               )
             ],

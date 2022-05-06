@@ -154,7 +154,7 @@ class DriverBookingDetailsPage extends GetView<DriverBookingDetailController> {
                               )),
                               Expanded(
                                   child: Button(
-                                buttonText: 'Confirm Confirm',
+                                buttonText: 'Confirm Booking',
                                 color: AppColor.greenColor,
                                 textColor: AppColor.whiteColor,
                                 onTap: () {

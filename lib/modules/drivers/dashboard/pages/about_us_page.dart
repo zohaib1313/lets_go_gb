@@ -52,7 +52,7 @@ class AboutUsPage extends GetView<AboutUsController> {
                           }
                           var s = snapshot.data!.data() as Map<String, dynamic>;
                           return SimpleRichText(
-                            s['AboutUs'],
+                            s['AboutUs'] ?? "",
                             style: AppTextStyles.textStyleNormalBodySmall,
                           );
                         },

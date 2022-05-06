@@ -47,6 +47,7 @@ class LoginController extends GetxController {
     if (value?.success ?? false) {
       if (value!.userRole == AppUserRoles.admin) {
         UserDefaults.saveAdminSession(value);
+
         Get.offAndToNamed(AdminHomePage.id);
       } else if (value!.userRole == AppUserRoles.user) {
         UserDefaults.saveUserSession(value);

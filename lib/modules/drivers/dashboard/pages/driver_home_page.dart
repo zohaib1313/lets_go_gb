@@ -275,13 +275,23 @@ class DriverHomePage extends GetView<DriverDashBoardHomeController> {
                                                         .selecetedDateTime
                                                         .value);
                                               },
-                                              child: Text(
-                                                'Bookings\n${DateFormat.yMMMM().format(controller.selecetedDateTime.value).toString()}',
-                                                style: AppTextStyles
-                                                    .textStyleBoldSubTitleLarge
-                                                    .copyWith(
-                                                        color: AppColor
-                                                            .blackColor),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    'Bookings\n${DateFormat.yMMMM().format(controller.selecetedDateTime.value).toString()}',
+                                                    style: AppTextStyles
+                                                        .textStyleBoldSubTitleLarge
+                                                        .copyWith(
+                                                            color: AppColor
+                                                                .blackColor),
+                                                  ),
+                                                  const Icon(
+                                                    Icons.edit,
+                                                    size: 15,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
