@@ -13,7 +13,7 @@ import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
 
 public class MainActivity extends FlutterActivity {
-    private static final String CHANNEL = "com.flutter.khadijadev";
+    private static final String CHANNEL = "com.flutter.letsgogb";
  MethodChannel.Result result;
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {

@@ -16,6 +16,7 @@ import '../../drivers/dashboard/models/driver_user_model.dart';
 import '../../drivers/utils/common_widgets.dart';
 import '../../drivers/utils/styles.dart';
 import '../controllers/user_make_booking_controller.dart';
+import 'jazz_cash_page.dart';
 
 class UserMakeBookingPage extends GetView<UserMakeBookingController> {
   UserMakeBookingPage({Key? key}) : super(key: key);
@@ -264,13 +265,13 @@ class UserMakeBookingPage extends GetView<UserMakeBookingController> {
                     alignment: Alignment.bottomRight,
                     child: InkWell(
                       onTap: () {
-                        // Get.to(PaymentJazzCash());
-                        if (controller.formKey.currentState!.validate()) {
+                        Get.to(PaymentJazzCash());
+                        /*   if (controller.formKey.currentState!.validate()) {
                           FocusScope.of(context).unfocus();
                           controller.makeReservation(
                               vehicleId: vehicleModel.id ?? '',
                               driverUserModel: driverUserModel);
-                        }
+                        }*/
                       },
                       child: Container(
                         padding: const EdgeInsets.only(
