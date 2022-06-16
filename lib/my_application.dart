@@ -22,14 +22,14 @@ class _MyApplicationState extends State<MyApplication>
     with WidgetsBindingObserver {
   @override
   void initState() {
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.initState();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -37,7 +37,7 @@ class _MyApplicationState extends State<MyApplication>
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
-      builder: (_) => GetMaterialApp(
+      builder: (_, __) => GetMaterialApp(
         getPages: appRoutes(),
         localizationsDelegates: const [
           DefaultCupertinoLocalizations.delegate,

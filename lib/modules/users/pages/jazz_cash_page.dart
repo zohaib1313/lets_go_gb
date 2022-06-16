@@ -29,9 +29,9 @@ class PaymentJazzCash extends StatelessWidget {
       "Jazz_IntegritySalt": "1y4d9s9v5c",
       "paymentReturnUrl": "https://localhost:2020/"*/
 
-      "Jazz_MerchantID": "MC23528",
-      "Jazz_Password": "ye2t64auzz",
-      "Jazz_IntegritySalt": "2z134uey1s",
+      "Jazz_MerchantID": "MC37891",
+      "Jazz_Password": "0u92fwz8t8",
+      "Jazz_IntegritySalt": "1y4d9s9v5c",
       "paymentReturnUrl":
           "https://sandbox.jazzcash.com.pk/ApplicationAPI/API/Payment/DoTransaction"
     };

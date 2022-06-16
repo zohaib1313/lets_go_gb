@@ -33,7 +33,7 @@ class _UserApplicationState extends State<UserApplication>
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
-      builder: (_) => GetMaterialApp(
+      builder: (_, __) => GetMaterialApp(
         getPages: userAppPages(),
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,

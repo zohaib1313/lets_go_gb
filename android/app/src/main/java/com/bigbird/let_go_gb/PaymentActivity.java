@@ -233,7 +233,7 @@ public class PaymentActivity extends AppCompatActivity {
             Log.d("loooggg",url);
             Log.d("loooggg",formData);
 
-           /* Intent i = new Intent(PaymentActivity.this, MainActivity.class);
+            Intent i = new Intent(PaymentActivity.this, MainActivity.class);
 
 
             if (url.equals(paymentReturnUrl)) {
@@ -250,7 +250,7 @@ public class PaymentActivity extends AppCompatActivity {
                 finish();
 
                 return;
-            }*/
+            }
         }
     }
 

@@ -25,7 +25,7 @@ class AdminAddNewBlogPage extends GetView<AdminAddNewBlogController> {
   @override
   Widget build(BuildContext context) {
     return GetX<AdminAddNewBlogController>(initState: (state) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.resetState();
         if (blogModel != null) {
           controller.setValuesWithUpdate(blogModel!);
